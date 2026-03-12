@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rm335/dumpert/refs/heads/main/Dumpert/Assets.xcassets/App%20Icon%20%26%20Top%20Shelf%20Image.brandassets/Top%20Shelf%20Image.imageset/top-shelf.png?token=GHSAT0AAAAAADTE7EUS3PT72O7JNZUZZP2G2NSWHKQ" alt="DumpertTV" width=“100%">
+  <img src="https://raw.githubusercontent.com/rm335/dumpert/refs/heads/main/Dumpert/Assets.xcassets/App%20Icon%20%26%20Top%20Shelf%20Image.brandassets/Top%20Shelf%20Image.imageset/top-shelf.png" alt="DumpertTV" width=“100%">
 </p>
 
 # DumpertTV
