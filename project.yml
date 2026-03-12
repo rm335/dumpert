@@ -58,6 +58,7 @@ targets:
     entitlements:
       path: Dumpert/Dumpert.entitlements
       properties:
+        aps-environment: production
         com.apple.developer.icloud-container-identifiers:
           - iCloud.nl.dumpert.tvos
         com.apple.developer.icloud-services:
@@ -77,6 +78,9 @@ targets:
     info:
       path: DumpertTopShelf/Info.plist
       properties:
+        CFBundleDisplayName: DumpertTopShelf
+        UIRequiredDeviceCapabilities:
+          - arm64
         NSExtension:
           NSExtensionPointIdentifier: com.apple.tv-top-shelf
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ContentProvider
