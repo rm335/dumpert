@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/rm335/dumpert/refs/heads/main/Dumpert/Assets.xcassets/App%20Icon%20%26%20Top%20Shelf%20Image.brandassets/Top%20Shelf%20Image.imageset/top-shelf.png?token=GHSAT0AAAAAADTE7EUS3PT72O7JNZUZZP2G2NSWHKQ" alt="DumpertTV" width=“100%">
+</p>
+
 # DumpertTV
 
 An unofficial [Dumpert](https://www.dumpert.nl) client for Apple TV, built with Swift 6.0 and SwiftUI.
