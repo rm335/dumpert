@@ -1,0 +1,110 @@
+name: Dumpert
+options:
+  bundleIdPrefix: nl.dumpert
+  deploymentTarget:
+    tvOS: "18.0"
+  xcodeVersion: "26.3"
+  generateEmptyDirectories: true
+  developmentLanguage: nl
+  knownRegions: [nl, en, Base]
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: "YES"
+    SWIFT_EMIT_LOC_STRINGS: "YES"
+    LOCALIZATION_PREFERS_STRING_CATALOGS: "YES"
+
+schemes:
+  Dumpert:
+    build:
+      targets:
+        Dumpert: all
+        DumpertTopShelf: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - DumpertTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+  DumpertTopShelf:
+    build:
+      targets:
+        DumpertTopShelf: all
+
+targets:
+  Dumpert:
+    type: application
+    platform: tvOS
+    sources:
+      - path: Dumpert
+      - path: Shared
+    info:
+      path: Dumpert/Info.plist
+      properties:
+        UILaunchScreen: {}
+        CFBundleURLTypes:
+          - CFBundleURLSchemes:
+              - dumpert
+            CFBundleURLName: nl.dumpert.tvos
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: nl.dumpert.tvos
+        SWIFT_STRICT_CONCURRENCY: complete
+    entitlements:
+      path: Dumpert/Dumpert.entitlements
+      properties:
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.nl.dumpert.tvos
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.ubiquity-kvstore-identifier: $(TeamIdentifierPrefix)nl.dumpert.tvos
+        com.apple.security.application-groups:
+          - group.nl.dumpert.tvos
+    dependencies:
+      - target: DumpertTopShelf
+
+  DumpertTopShelf:
+    type: app-extension
+    platform: tvOS
+    sources:
+      - path: DumpertTopShelf
+      - path: Shared
+    info:
+      path: DumpertTopShelf/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.tv-top-shelf
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ContentProvider
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: nl.dumpert.tvos.topshelf
+        SWIFT_STRICT_CONCURRENCY: complete
+        APPLICATION_EXTENSION_API_ONLY: "YES"
+    entitlements:
+      path: DumpertTopShelf/DumpertTopShelf.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.nl.dumpert.tvos
+
+  DumpertTests:
+    type: bundle.unit-test
+    platform: tvOS
+    sources:
+      - path: DumpertTests
+        excludes:
+          - "Fixtures"
+      - path: DumpertTests/Fixtures
+        buildPhase: resources
+        type: folder
+    dependencies:
+      - target: Dumpert
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: nl.dumpert.tvos.tests
+        GENERATE_INFOPLIST_FILE: "YES"
+        SWIFT_STRICT_CONCURRENCY: complete

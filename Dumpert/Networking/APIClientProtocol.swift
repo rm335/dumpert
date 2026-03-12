@@ -1,0 +1,13 @@
+import Foundation
+
+/// Protocol for the API client, enabling test mocking.
+protocol APIClientProtocol: Sendable {
+    func fetchHotshiz() async throws -> [MediaItem]
+    func fetchTopWeek(date: Date) async throws -> [MediaItem]
+    func fetchTopMonth(date: Date) async throws -> [MediaItem]
+    func fetchLatest(page: Int) async throws -> [MediaItem]
+    func fetchSearch(query: String, page: Int) async throws -> [MediaItem]
+    func fetchClassics(page: Int) async throws -> [MediaItem]
+}
+
+extension DumpertAPIClient: @preconcurrency APIClientProtocol {}

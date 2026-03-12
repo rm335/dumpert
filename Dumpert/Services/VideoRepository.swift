@@ -1,0 +1,543 @@
+import Foundation
+import TVServices
+import os
+
+@Observable
+@MainActor
+final class VideoRepository {
+    // Data
+    private(set) var hotshiz: [MediaItem] = []
+    private(set) var topWeek: [MediaItem] = []
+    private(set) var topMonth: [MediaItem] = []
+    private(set) var categoryVideos: [VideoCategory: [MediaItem]] = [:]
+    private(set) var watchProgress: [String: WatchProgress] = [:]
+    private(set) var curationEntries: [CurationEntry] = []
+    private(set) var classics: [MediaItem] = []
+    private(set) var searchHistory: [SearchHistoryEntry] = []
+
+    // Pagination
+    private(set) var categoryPages: [VideoCategory: Int] = [:]
+    private(set) var categoryHasMore: [VideoCategory: Bool] = [:]
+    private(set) var isCategoryLoadingMore: [VideoCategory: Bool] = [:]
+    private(set) var classicsPage = 0
+    private(set) var classicsHasMore = true
+    private(set) var isClassicsLoadingMore = false
+
+    // State
+    private(set) var isLoading = true
+    private(set) var error: String?
+    private(set) var lastRefreshDate: Date?
+
+    // Dependencies
+    let apiClient: DumpertAPIClient
+    private let cacheService: CacheService
+    private let cloudKitService: CloudKitService
+    private let categoryService: CategoryService
+    let refreshScheduler = RefreshScheduler()
+    var networkMonitor: NetworkMonitor?
+    private var cloudKitAvailable = false
+
+    var settings: UserSettings {
+        didSet {
+            Task { await saveSettings() }
+        }
+    }
+
+    init(
+        apiClient: DumpertAPIClient = DumpertAPIClient(),
+        cacheService: CacheService = CacheService(),
+        cloudKitService: CloudKitService = CloudKitService()
+    ) {
+        self.apiClient = apiClient
+        self.cacheService = cacheService
+        self.cloudKitService = cloudKitService
+        self.categoryService = CategoryService(apiClient: apiClient, cacheService: cacheService)
+        self.settings = UserSettings()
+        for category in VideoCategory.allCases {
+            categoryPages[category] = 0
+            categoryHasMore[category] = true
+            isCategoryLoadingMore[category] = false
+        }
+        refreshScheduler.onRefresh = { [weak self] in
+            await self?.refreshAll()
+        }
+        Task {
+            await loadFromCache()
+            await setupCloudKit()
+            await refreshAll()
+            refreshScheduler.start()
+        }
+    }
+
+    // MARK: - Initial Load
+
+    private func loadFromCache() async {
+        settings.apply(await cacheService.loadSettings())
+        watchProgress = await cacheService.loadWatchProgress()
+        curationEntries = await cacheService.loadCurationEntries()
+        searchHistory = await cacheService.loadSearchHistory()
+
+        for category in VideoCategory.allCases {
+            let cached = await categoryService.loadCachedItems(
+                for: category,
+                curationEntries: curationEntries,
+                minimumKudos: settings.minimumKudos,
+                reetenMinimumMinutes: settings.reetenMinimumMinutes
+            )
+            if !cached.isEmpty {
+                categoryVideos[category] = cached
+            }
+        }
+
+        if let cachedClassics = await cacheService.loadCachedMediaItems(for: "classics") {
+            classics = cachedClassics
+        }
+    }
+
+    private func setupCloudKit() async {
+        do {
+            try await cloudKitService.setupZone()
+            cloudKitAvailable = true
+            let remoteProgress = try await cloudKitService.fetchAllWatchProgress()
+            mergeWatchProgress(remote: remoteProgress)
+            if let remoteSettings = try await cloudKitService.fetchSettings() {
+                if remoteSettings.lastModified > settings.lastModified {
+                    settings.apply(remoteSettings)
+                }
+            }
+            let remoteCuration = try await cloudKitService.fetchAllCurationEntries()
+            mergeCurationEntries(remote: remoteCuration)
+            let remoteSearchHistory = try await cloudKitService.fetchAllSearchHistory()
+            mergeSearchHistory(remote: remoteSearchHistory)
+        } catch {
+            cloudKitAvailable = false
+            Logger.cloudKit.info("CloudKit not available: \(error.localizedDescription). Using local data only.")
+        }
+    }
+
+    // MARK: - Refresh
+
+    func refreshAll() async {
+        if let networkMonitor, !networkMonitor.isConnected {
+            isLoading = false
+            return
+        }
+
+        isLoading = true
+        error = nil
+
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { await self.refreshToppers() }
+            group.addTask { await self.refreshCategories() }
+            group.addTask { await self.refreshClassics() }
+        }
+
+        isLoading = false
+        lastRefreshDate = Date()
+
+        // Delta sync CloudKit changes in background
+        if cloudKitAvailable {
+            Task {
+                do {
+                    let changes = try await cloudKitService.fetchChanges()
+                    applyCloudKitChanges(changes)
+                } catch {
+                    Logger.cloudKit.warning("Delta sync failed: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    private func applyCloudKitChanges(_ changes: CloudKitChanges) {
+        for record in changes.changedRecords {
+            switch record.recordType {
+            case "WatchProgress":
+                if let videoId = record["videoId"] as? String {
+                    var remote = WatchProgress(
+                        videoId: videoId,
+                        watchedSeconds: record["watchedSeconds"] as? Double ?? 0,
+                        totalSeconds: record["totalSeconds"] as? Double ?? 0
+                    )
+                    // Preserve the remote date
+                    if let remoteDate = record["lastWatchedDate"] as? Date {
+                        remote.lastWatchedDate = remoteDate
+                    }
+                    if let local = watchProgress[videoId] {
+                        if remote.lastWatchedDate > local.lastWatchedDate {
+                            watchProgress[videoId] = remote
+                        }
+                    } else {
+                        watchProgress[videoId] = remote
+                    }
+                }
+            case "CurationEntry":
+                if let videoId = record["videoId"] as? String,
+                   let categoryRaw = record["category"] as? String,
+                   let category = VideoCategory(rawValue: categoryRaw),
+                   let actionRaw = record["action"] as? String,
+                   let action = CurationAction(rawValue: actionRaw) {
+                    let entry = CurationEntry(videoId: videoId, category: category, action: action)
+                    if !curationEntries.contains(where: { $0.videoId == videoId && $0.category == category && $0.action == action }) {
+                        curationEntries.append(entry)
+                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    private func refreshToppers() async {
+        do {
+            async let h = apiClient.fetchHotshiz()
+            async let w = apiClient.fetchTopWeek()
+            async let m = apiClient.fetchTopMonth()
+
+            let (hotshizResult, weekResult, monthResult) = try await (h, w, m)
+
+            hotshiz = filterByKudos(hotshizResult)
+            topWeek = filterByKudos(weekResult)
+            topMonth = filterByKudos(monthResult)
+
+            recomputePopularTags()
+            updateTopShelf()
+
+            await cacheService.cacheMediaItems(hotshizResult, for: "hotshiz")
+            await cacheService.cacheMediaItems(weekResult, for: "topweek")
+            await cacheService.cacheMediaItems(monthResult, for: "topmonth")
+        } catch {
+            self.error = error.localizedDescription
+        }
+    }
+
+    private func refreshCategories() async {
+        for category in VideoCategory.allCases {
+            categoryPages[category] = 0
+            categoryHasMore[category] = true
+            do {
+                let videos = try await categoryService.fetchItems(
+                    for: category,
+                    curationEntries: curationEntries,
+                    minimumKudos: settings.minimumKudos,
+                    reetenMinimumMinutes: settings.reetenMinimumMinutes
+                )
+                categoryVideos[category] = videos
+                categoryHasMore[category] = !videos.isEmpty
+            } catch {
+                self.error = error.localizedDescription
+            }
+        }
+    }
+
+    private func refreshClassics() async {
+        classicsPage = 0
+        classicsHasMore = true
+        do {
+            let items = try await apiClient.fetchClassics()
+            classics = filterByKudos(items)
+            classicsHasMore = !items.isEmpty
+            await cacheService.cacheMediaItems(items, for: "classics")
+        } catch {
+            self.error = error.localizedDescription
+        }
+    }
+
+    // MARK: - Pagination
+
+    func loadMoreForCategory(_ category: VideoCategory) async {
+        guard isCategoryLoadingMore[category] != true,
+              categoryHasMore[category] == true else { return }
+
+        isCategoryLoadingMore[category] = true
+        let nextPage = (categoryPages[category] ?? 0) + 1
+
+        do {
+            let newVideos = try await categoryService.fetchItems(
+                for: category,
+                page: nextPage,
+                curationEntries: curationEntries,
+                minimumKudos: settings.minimumKudos,
+                reetenMinimumMinutes: settings.reetenMinimumMinutes
+            )
+            if newVideos.isEmpty {
+                categoryHasMore[category] = false
+            } else {
+                var existing = categoryVideos[category] ?? []
+                let existingIds = Set(existing.map(\.id))
+                let unique = newVideos.filter { !existingIds.contains($0.id) }
+                existing.append(contentsOf: unique)
+                categoryVideos[category] = existing
+                categoryPages[category] = nextPage
+            }
+        } catch {
+            self.error = error.localizedDescription
+        }
+
+        isCategoryLoadingMore[category] = false
+    }
+
+    func loadMoreClassics() async {
+        guard !isClassicsLoadingMore, classicsHasMore else { return }
+
+        isClassicsLoadingMore = true
+        let nextPage = classicsPage + 1
+
+        do {
+            let newItems = try await apiClient.fetchClassics(page: nextPage)
+            if newItems.isEmpty {
+                classicsHasMore = false
+            } else {
+                let existingIds = Set(classics.map(\.id))
+                let unique = filterByKudos(newItems).filter { !existingIds.contains($0.id) }
+                classics.append(contentsOf: unique)
+                classicsPage = nextPage
+            }
+        } catch {
+            self.error = error.localizedDescription
+        }
+
+        isClassicsLoadingMore = false
+    }
+
+    // MARK: - Filtering
+
+    func filterByKudos(_ items: [MediaItem]) -> [MediaItem] {
+        items.filter { item in
+            if settings.showNegativeKudos && item.kudosTotal < 0 {
+                return true
+            }
+            return item.kudosTotal >= settings.minimumKudos
+        }
+    }
+
+    func filteredItems(_ items: [MediaItem]) -> [MediaItem] {
+        var result = filterByKudos(items)
+        if settings.hideWatched {
+            result = result.filter { item in
+                !(watchProgress[item.id]?.isCompleted ?? false)
+            }
+        }
+        return result
+    }
+
+    // MARK: - Watch Progress
+
+    func updateWatchProgress(videoId: String, watchedSeconds: Double, totalSeconds: Double) {
+        var progress = watchProgress[videoId] ?? WatchProgress(videoId: videoId)
+        progress.update(watchedSeconds: watchedSeconds, totalSeconds: totalSeconds)
+        watchProgress[videoId] = progress
+
+        Task {
+            await cacheService.saveWatchProgress(watchProgress)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.saveWatchProgress(progress)
+            } catch {
+                Logger.cloudKit.warning("Failed to save watch progress: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func isWatched(_ videoId: String) -> Bool {
+        watchProgress[videoId]?.isCompleted ?? false
+    }
+
+    func progressFor(_ videoId: String) -> Double {
+        watchProgress[videoId]?.progress ?? 0
+    }
+
+    func toggleWatched(videoId: String) {
+        var progress = watchProgress[videoId] ?? WatchProgress(videoId: videoId)
+        progress.isCompleted = !progress.isCompleted
+        progress.lastWatchedDate = Date()
+        watchProgress[videoId] = progress
+
+        Task {
+            await cacheService.saveWatchProgress(watchProgress)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.saveWatchProgress(progress)
+            } catch {
+                Logger.cloudKit.warning("Failed to save watch toggle: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func clearWatchHistory() async {
+        watchProgress = [:]
+        await cacheService.saveWatchProgress(watchProgress)
+    }
+
+    // MARK: - Curation
+
+    func addToCategory(videoId: String, category: VideoCategory) {
+        let entry = CurationEntry(videoId: videoId, category: category, action: .add)
+        curationEntries.append(entry)
+        Task {
+            await cacheService.saveCurationEntries(curationEntries)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.saveCurationEntry(entry)
+            } catch {
+                Logger.cloudKit.warning("Failed to save curation entry: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func removeFromCategory(videoId: String, category: VideoCategory) {
+        let entry = CurationEntry(videoId: videoId, category: category, action: .remove)
+        curationEntries.append(entry)
+        Task {
+            await cacheService.saveCurationEntries(curationEntries)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.saveCurationEntry(entry)
+            } catch {
+                Logger.cloudKit.warning("Failed to save curation removal: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    // MARK: - Search History
+
+    func recordSearch(_ query: String) {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !trimmed.isEmpty else { return }
+
+        // Remove duplicate if same query exists
+        searchHistory.removeAll { $0.query.lowercased() == trimmed }
+
+        let entry = SearchHistoryEntry(query: query.trimmingCharacters(in: .whitespacesAndNewlines))
+        searchHistory.insert(entry, at: 0)
+
+        // Keep max 20 entries
+        if searchHistory.count > 20 {
+            searchHistory = Array(searchHistory.prefix(20))
+        }
+
+        Task {
+            await cacheService.saveSearchHistory(searchHistory)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.saveSearchEntry(entry)
+            } catch {
+                Logger.cloudKit.warning("Failed to save search entry: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func deleteSearchEntry(_ entry: SearchHistoryEntry) {
+        searchHistory.removeAll { $0.id == entry.id }
+        Task {
+            await cacheService.saveSearchHistory(searchHistory)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.deleteSearchEntry(entry)
+            } catch {
+                Logger.cloudKit.warning("Failed to delete search entry: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func clearSearchHistory() {
+        let entriesToDelete = searchHistory
+        searchHistory = []
+        Task {
+            await cacheService.saveSearchHistory(searchHistory)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.deleteAllSearchHistory(entriesToDelete)
+            } catch {
+                Logger.cloudKit.warning("Failed to clear search history: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private(set) var popularTags: [String] = []
+
+    private func recomputePopularTags() {
+        let allItems = hotshiz + topWeek + topMonth
+        var tagCounts: [String: Int] = [:]
+        for item in allItems {
+            for tag in item.tags {
+                let normalized = tag.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !normalized.isEmpty, normalized.count > 2 else { continue }
+                tagCounts[normalized, default: 0] += 1
+            }
+        }
+        popularTags = tagCounts
+            .sorted { $0.value > $1.value }
+            .prefix(12)
+            .map(\.key)
+    }
+
+    // MARK: - Settings
+
+    private func saveSettings() async {
+        settings.lastModified = Date()
+        let snapshot = settings.snapshot
+        await cacheService.saveSettings(snapshot)
+        guard cloudKitAvailable else { return }
+        do {
+            try await cloudKitService.saveSettings(snapshot)
+        } catch {
+            Logger.cloudKit.warning("Failed to save settings: \(error.localizedDescription)")
+        }
+    }
+
+    // MARK: - Top Shelf
+
+    private func updateTopShelf() {
+        let items = hotshiz.prefix(10).map { TopShelfItem(id: $0.id, title: $0.title, thumbnailURL: $0.thumbnailURL, streamURL: $0.streamURL) }
+        Logger.cache.info("updateTopShelf: saving \(items.count) items (hotshiz has \(self.hotshiz.count) total)")
+        TopShelfDataStore.diagnose()
+        TopShelfDataStore.save(hotshiz: Array(items))
+        TVTopShelfContentProvider.topShelfContentDidChange()
+    }
+
+    // MARK: - Cache Helpers
+
+    func clearAllCaches() async {
+        await cacheService.clearCache()
+        await ImageCacheService.shared.clearAll()
+    }
+
+    func totalCacheSize() async -> Int {
+        let apiCacheBytes = await cacheService.cacheSize()
+        let imageCacheBytes = await ImageCacheService.shared.diskSize()
+        return apiCacheBytes + imageCacheBytes
+    }
+
+    // MARK: - Sync Helpers
+
+    private func mergeWatchProgress(remote: [String: WatchProgress]) {
+        for (videoId, remoteProgress) in remote {
+            if let local = watchProgress[videoId] {
+                if remoteProgress.lastWatchedDate > local.lastWatchedDate {
+                    watchProgress[videoId] = remoteProgress
+                }
+            } else {
+                watchProgress[videoId] = remoteProgress
+            }
+        }
+        Task { await cacheService.saveWatchProgress(watchProgress) }
+    }
+
+    private func mergeSearchHistory(remote: [SearchHistoryEntry]) {
+        let existingIds = Set(searchHistory.map(\.id))
+        let newEntries = remote.filter { !existingIds.contains($0.id) }
+        searchHistory.append(contentsOf: newEntries)
+        searchHistory.sort { $0.timestamp > $1.timestamp }
+        if searchHistory.count > 20 {
+            searchHistory = Array(searchHistory.prefix(20))
+        }
+        Task { await cacheService.saveSearchHistory(searchHistory) }
+    }
+
+    private func mergeCurationEntries(remote: [CurationEntry]) {
+        let existingIds = Set(curationEntries.map(\.id))
+        let newEntries = remote.filter { !existingIds.contains($0.id) }
+        curationEntries.append(contentsOf: newEntries)
+        Task { await cacheService.saveCurationEntries(curationEntries) }
+    }
+}

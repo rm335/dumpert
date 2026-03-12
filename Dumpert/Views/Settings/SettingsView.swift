@@ -1,0 +1,347 @@
+import SwiftUI
+
+struct SettingsView: View {
+    @Environment(VideoRepository.self) private var repository
+    @State private var showClearCacheConfirmation = false
+    @State private var showCacheClearedFeedback = false
+    @State private var showClearHistoryConfirmation = false
+    @State private var showHistoryClearedFeedback = false
+    @State private var showClearSearchHistoryConfirmation = false
+    @State private var showSearchHistoryClearedFeedback = false
+    @State private var showResetConfirmation = false
+    @State private var showResetFeedback = false
+    @State private var isRefreshing = false
+    @State private var showRefreshFeedback = false
+    @State private var cacheSize: String?
+
+    var body: some View {
+        @Bindable var settings = repository.settings
+
+        NavigationStack {
+        List {
+            // MARK: - Weergave & content
+
+            Section {
+                settingsNavigationPicker(
+                    "Minimale kudos",
+                    icon: "arrow.up.heart.fill",
+                    description: "Verberg video's onder dit aantal",
+                    selection: $settings.minimumKudos,
+                    options: [
+                        ("Alles tonen", 0),
+                        ("10+ kudos", 10),
+                        ("25+ kudos", 25),
+                        ("50+ kudos", 50),
+                        ("100+ kudos", 100),
+                        ("250+ kudos", 250),
+                        ("500+ kudos", 500),
+                    ]
+                )
+
+                settingsToggle(
+                    "Negatieve kudos tonen",
+                    icon: "hand.thumbsdown",
+                    description: "Toon video's met meer downvotes dan upvotes",
+                    isOn: $settings.showNegativeKudos
+                )
+
+                settingsToggle(
+                    "Bekeken verbergen",
+                    icon: "eye.slash",
+                    description: "Verberg video's die je al hebt gezien",
+                    isOn: $settings.hideWatched
+                )
+
+                settingsNavigationPicker(
+                    "Kaartgrootte",
+                    icon: "square.grid.2x2",
+                    description: "Aantal kolommen in de video-overzichten",
+                    selection: $settings.tileSize,
+                    options: [
+                        ("Klein", TileSize.small),
+                        ("Normaal", TileSize.normal),
+                        ("Groot", TileSize.large),
+                    ]
+                )
+
+                tilePreview(columnCount: settings.tileSize.gridColumnCount, tileSize: settings.tileSize)
+            } header: {
+                sectionHeader("Weergave & content")
+            }
+
+            // MARK: - Afspelen
+
+            Section {
+                settingsToggle(
+                    "Autoplay",
+                    icon: "play.circle",
+                    description: "Speel automatisch de volgende video af",
+                    isOn: $settings.autoplayEnabled
+                )
+
+                settingsToggle(
+                    "Video voorvertoning",
+                    icon: "film",
+                    description: "Speel een preview bij focus op een video",
+                    isOn: $settings.thumbnailPreviewEnabled
+                )
+
+                NavigationLink {
+                    UpNextSettingsView()
+                } label: {
+                    settingsLabel(
+                        "Volgende video",
+                        icon: "forward.end",
+                        description: "Overlay, aftelling en minimale videolengte"
+                    )
+                }
+
+                settingsNavigationPicker(
+                    "Minimale reeten-duur",
+                    icon: "timer",
+                    description: "Alleen in de Reeten-tab: verberg korte video's",
+                    selection: $settings.reetenMinimumMinutes,
+                    options: [
+                        ("Geen minimum", 0),
+                        ("5 minuten", 5),
+                        ("10 minuten", 10),
+                        ("15 minuten", 15),
+                        ("20 minuten", 20),
+                    ]
+                )
+            } header: {
+                sectionHeader("Afspelen")
+            }
+
+            // MARK: - Data & opslag
+
+            Section {
+                Button {
+                    guard !isRefreshing else { return }
+                    isRefreshing = true
+                    Task {
+                        await repository.refreshAll()
+                        isRefreshing = false
+                        showRefreshFeedback = true
+                    }
+                } label: {
+                    HStack {
+                        settingsLabel(
+                            "Nu verversen",
+                            icon: "arrow.clockwise",
+                            description: "Haal de nieuwste content op"
+                        )
+                        Spacer()
+                        if isRefreshing {
+                            ProgressView()
+                        } else if showRefreshFeedback {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.dumpiGreen)
+                                .transition(.scale.combined(with: .opacity))
+                        } else if let lastRefresh = repository.lastRefreshDate {
+                            Text("Laatst: \(lastRefresh, style: .relative)")
+                                .foregroundStyle(.tertiary)
+                                .font(.caption)
+                        }
+                    }
+                }
+                .disabled(isRefreshing)
+
+                Button {
+                    showClearCacheConfirmation = true
+                } label: {
+                    HStack {
+                        destructiveLabel(
+                            "Cache wissen",
+                            icon: "trash",
+                            description: "Verwijder opgeslagen afbeeldingen en API-data"
+                        )
+                        Spacer()
+                        if showCacheClearedFeedback {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.dumpiGreen)
+                                .transition(.scale.combined(with: .opacity))
+                        } else if let size = cacheSize {
+                            Text(size)
+                                .font(.callout)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.secondary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 4)
+                                .background(.ultraThinMaterial, in: Capsule())
+                        }
+                    }
+                }
+                .confirmationDialog("Cache wissen", isPresented: $showClearCacheConfirmation) {
+                    Button("Cache wissen", role: .destructive) {
+                        Task {
+                            await repository.clearAllCaches()
+                            showCacheClearedFeedback = true
+                            cacheSize = nil
+                        }
+                    }
+                    Button("Annuleer", role: .cancel) {}
+                } message: {
+                    Text("Alle opgeslagen afbeeldingen en API-responses worden verwijderd.")
+                }
+
+                Button {
+                    showClearHistoryConfirmation = true
+                } label: {
+                    HStack {
+                        destructiveLabel(
+                            "Kijkgeschiedenis wissen",
+                            icon: "clock.arrow.circlepath",
+                            description: "Alle video's worden weer als onbekeken getoond"
+                        )
+                        Spacer()
+                        if showHistoryClearedFeedback {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.dumpiGreen)
+                                .transition(.scale.combined(with: .opacity))
+                        }
+                    }
+                }
+                .confirmationDialog("Kijkgeschiedenis wissen", isPresented: $showClearHistoryConfirmation) {
+                    Button("Wis geschiedenis", role: .destructive) {
+                        Task {
+                            await repository.clearWatchHistory()
+                            showHistoryClearedFeedback = true
+                        }
+                    }
+                    Button("Annuleer", role: .cancel) {}
+                } message: {
+                    Text("Alle bekeken video's worden weer als onbekeken getoond.")
+                }
+                Button {
+                    showClearSearchHistoryConfirmation = true
+                } label: {
+                    HStack {
+                        destructiveLabel(
+                            "Zoekgeschiedenis wissen",
+                            icon: "magnifyingglass",
+                            description: "Alle recente zoekopdrachten worden verwijderd"
+                        )
+                        Spacer()
+                        if showSearchHistoryClearedFeedback {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.dumpiGreen)
+                                .transition(.scale.combined(with: .opacity))
+                        }
+                    }
+                }
+                .confirmationDialog("Zoekgeschiedenis wissen", isPresented: $showClearSearchHistoryConfirmation) {
+                    Button("Wis zoekgeschiedenis", role: .destructive) {
+                        repository.clearSearchHistory()
+                        showSearchHistoryClearedFeedback = true
+                    }
+                    Button("Annuleer", role: .cancel) {}
+                } message: {
+                    Text("Alle opgeslagen zoekopdrachten worden verwijderd.")
+                }
+            } header: {
+                sectionHeader("Data & opslag")
+            }
+
+            // MARK: - Over
+
+            Section {
+                infoRow("Versie", icon: "info.circle", value: "\(appVersion)")
+                infoRow("Automatisch verversen", icon: "clock", value: "Elke 15 minuten")
+
+                HStack(spacing: 28) {
+                    Image(systemName: "icloud")
+                        .frame(width: 28)
+                    Text("iCloud sync")
+                    Spacer()
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(.dumpiGreen)
+                            .frame(width: 8, height: 8)
+                        Text(settings.lastModified, style: .relative)
+                            .foregroundStyle(.secondary)
+                            .font(.callout)
+                    }
+                }
+
+                Button {
+                    showResetConfirmation = true
+                } label: {
+                    destructiveLabel(
+                        "Herstel standaardwaarden",
+                        icon: "arrow.counterclockwise",
+                        description: "Zet alle instellingen terug naar fabrieksinstellingen"
+                    )
+                }
+                .confirmationDialog("Standaardwaarden herstellen", isPresented: $showResetConfirmation) {
+                    Button("Herstel standaardwaarden", role: .destructive) {
+                        withAnimation(.smooth) {
+                            settings.minimumKudos = 0
+                            settings.autoplayEnabled = true
+                            settings.hideWatched = true
+                            settings.reetenMinimumMinutes = 10
+                            settings.showNegativeKudos = false
+                            settings.thumbnailPreviewEnabled = true
+                            settings.tileSize = .normal
+                            settings.upNextOverlayEnabled = true
+                            settings.upNextCountdownSeconds = 5
+                            settings.upNextMinimumVideoSeconds = 60
+                        }
+                        showResetFeedback = true
+                    }
+                    Button("Annuleer", role: .cancel) {}
+                } message: {
+                    Text("Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt.")
+                }
+            } header: {
+                sectionHeader("Over")
+            }
+        }
+        .navigationTitle("Instellingen")
+        } // NavigationStack
+        .task {
+            await loadCacheSize()
+        }
+        .onChange(of: showRefreshFeedback) {
+            if showRefreshFeedback {
+                Task {
+                    try? await Task.sleep(for: .seconds(4))
+                    withAnimation(.smooth) { showRefreshFeedback = false }
+                }
+            }
+        }
+        .onChange(of: showCacheClearedFeedback) {
+            if showCacheClearedFeedback {
+                Task {
+                    try? await Task.sleep(for: .seconds(4))
+                    withAnimation(.smooth) { showCacheClearedFeedback = false }
+                    await loadCacheSize()
+                }
+            }
+        }
+        .onChange(of: showHistoryClearedFeedback) {
+            if showHistoryClearedFeedback {
+                Task {
+                    try? await Task.sleep(for: .seconds(4))
+                    withAnimation(.smooth) { showHistoryClearedFeedback = false }
+                }
+            }
+        }
+        .onChange(of: showResetFeedback) {
+            if showResetFeedback {
+                Task {
+                    try? await Task.sleep(for: .seconds(4))
+                    withAnimation(.smooth) { showResetFeedback = false }
+                }
+            }
+        }
+    }
+
+    private func loadCacheSize() async {
+        let totalBytes = await repository.totalCacheSize()
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = [.useMB, .useKB]
+        formatter.countStyle = .file
+        cacheSize = formatter.string(fromByteCount: Int64(totalBytes))
+    }
+}

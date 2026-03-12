@@ -1,0 +1,9 @@
+import os
+
+extension Logger {
+    private static let subsystem = "nl.dumpert.tvos"
+
+    static let cloudKit = Logger(subsystem: subsystem, category: "CloudKit")
+    static let cache = Logger(subsystem: subsystem, category: "Cache")
+    static let network = Logger(subsystem: subsystem, category: "Network")
+}

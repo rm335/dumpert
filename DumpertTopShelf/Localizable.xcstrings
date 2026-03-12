@@ -1,0 +1,23 @@
+{
+  "sourceLanguage" : "nl",
+  "strings" : {
+    "Trending Nu" : {
+      "comment" : "Top Shelf section title for currently trending videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending Now"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending Nu"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
