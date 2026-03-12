@@ -59,9 +59,11 @@ An unofficial [Dumpert](https://www.dumpert.nl) client for Apple TV, built with 
 
 ---
 
-## Screenshots
+## Demo
 
-*Screenshots coming soon.*
+<p align="center">
+  <img src="https://raw.githubusercontent.com/rm335/dumpert/refs/heads/main/demo.gif?token=GHSAT0AAAAAADTE7EUS3TAXZD6PD5E33RXK2NSWZQA" alt="DumpertTV demo" width="100%">
+</p>
 
 ---
 
