@@ -86,16 +86,32 @@ private struct UpNextOverlayContainer: View {
     let viewModel: VideoPlayerViewModel
 
     var body: some View {
-        if viewModel.showUpNext, let next = viewModel.nextVideo {
-            UpNextOverlayView(
-                nextVideo: next,
-                countdown: viewModel.countdown,
-                totalCountdown: viewModel.upNextCountdownSeconds,
-                onPlayNow: { viewModel.skipToNext() },
-                onCancel: { viewModel.cancelUpNext() }
+        ZStack {
+            // Resume overlay (top-left)
+            ResumeOverlayView(
+                formattedTime: viewModel.resumeTimeFormatted,
+                isVisible: viewModel.showResumeOverlay,
+                onPlayFromBeginning: { viewModel.playFromBeginning() }
             )
-            .transition(.move(edge: .bottom).combined(with: .opacity))
-            .animation(.spring(duration: 0.5, bounce: 0.2), value: viewModel.showUpNext)
+
+            // Top comment overlay (bottom-left)
+            TopCommentOverlayView(
+                comment: viewModel.topComment,
+                isVisible: viewModel.showTopComment
+            )
+
+            // Up next overlay (bottom-right)
+            if viewModel.showUpNext, let next = viewModel.nextVideo {
+                UpNextOverlayView(
+                    nextVideo: next,
+                    countdown: viewModel.countdown,
+                    totalCountdown: viewModel.upNextCountdownSeconds,
+                    onPlayNow: { viewModel.skipToNext() },
+                    onCancel: { viewModel.cancelUpNext() }
+                )
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.spring(duration: 0.5, bounce: 0.2), value: viewModel.showUpNext)
+            }
         }
     }
 }

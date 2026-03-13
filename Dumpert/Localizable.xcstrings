@@ -21,8 +21,38 @@
         }
       }
     },
+    "@%@" : {
+      "comment" : "Username display format (e.g. @username)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "@%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "@%@"
+          }
+        }
+      }
+    },
     "%@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
     },
     "%@ kudos" : {
       "comment" : "Kudos count label",
@@ -76,10 +106,17 @@
       }
     },
     "%lld / %lld" : {
+      "comment" : "Page indicator showing current position (e.g. 1 / 5)",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld / %2$lld"
+          }
+        },
         "nl" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "%1$lld / %2$lld"
           }
         }
@@ -1055,7 +1092,21 @@
       }
     },
     "Dumpert TV" : {
-
+      "comment" : "Section header for Dumpert TV episodes tab",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dumpert TV"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dumpert TV"
+          }
+        }
+      }
     },
     "Elke 15 minuten" : {
       "comment" : "Description of auto-refresh interval",
@@ -1194,7 +1245,21 @@
       }
     },
     "Geen Dumpert TV afleveringen gevonden" : {
-
+      "comment" : "Empty state description when no Dumpert TV episodes are available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Dumpert TV episodes found"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen Dumpert TV afleveringen gevonden"
+          }
+        }
+      }
     },
     "Geen internetverbinding" : {
       "comment" : "Offline banner message",
@@ -1226,6 +1291,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geen minimum"
+          }
+        }
+      }
+    },
+    "Geen reaguursels" : {
+      "comment" : "Shown when no comments are available for a video/photo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No comments"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen reaguursels"
           }
         }
       }
@@ -1396,6 +1478,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Herstel standaardwaarden"
+          }
+        }
+      }
+    },
+    "Hervat op %@" : {
+      "comment" : "Resume overlay showing the timestamp where playback resumes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumed at %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hervat op %@"
+          }
+        }
+      }
+    },
+    "Hervat-melding" : {
+      "comment" : "Settings toggle title for showing resume overlay",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume notification"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hervat-melding"
           }
         }
       }
@@ -1945,7 +2061,7 @@
       }
     },
     "Normaal" : {
-      "comment" : "Tile size option - normal",
+      "comment" : "Playback speed label for normal (1x) speed\nTile size option - normal",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2217,7 +2333,21 @@
       }
     },
     "Slimme thumbnails" : {
-
+      "comment" : "Settings toggle title for smart thumbnail feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smart thumbnails"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slimme thumbnails"
+          }
+        }
+      }
     },
     "Speel automatisch de volgende video af" : {
       "comment" : "Description for autoplay toggle",
@@ -2270,6 +2400,40 @@
         }
       }
     },
+    "Speel vanaf begin" : {
+      "comment" : "Button label to play video from the beginning instead of resuming",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play from beginning"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speel vanaf begin"
+          }
+        }
+      }
+    },
+    "Speel video vanaf het begin" : {
+      "comment" : "Accessibility label for play from beginning button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play video from the beginning"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speel video vanaf het begin"
+          }
+        }
+      }
+    },
     "Standaardwaarden herstellen" : {
       "comment" : "Confirmation dialog title for resetting settings",
       "localizations" : {
@@ -2283,24 +2447,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standaardwaarden herstellen"
-          }
-        }
-      }
-    },
-    "Suggesties" : {
-      "comment" : "Section title for search suggestions",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggestions"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggesties"
           }
         }
       }
@@ -2339,6 +2485,23 @@
         }
       }
     },
+    "Toon de populairste reactie als overlay" : {
+      "comment" : "Settings description for top comment overlay feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the most popular comment as overlay"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon de populairste reactie als overlay"
+          }
+        }
+      }
+    },
     "Toon een aftelling met de volgende video" : {
       "comment" : "Description for show overlay toggle",
       "localizations" : {
@@ -2352,6 +2515,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toon een aftelling met de volgende video"
+          }
+        }
+      }
+    },
+    "Toon een melding wanneer een video wordt hervat" : {
+      "comment" : "Settings description for resume overlay feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show a notification when resuming a video"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon een melding wanneer een video wordt hervat"
+          }
+        }
+      }
+    },
+    "Toon top reaguursel" : {
+      "comment" : "Settings toggle title for showing top comment overlay",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show top comment"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon top reaguursel"
           }
         }
       }
@@ -2403,6 +2600,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Top Deze Week"
+          }
+        }
+      }
+    },
+    "Top reaguursel van %@: %@" : {
+      "comment" : "Accessibility label for top comment overlay with author and content",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top comment by %1$@: %2$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top reaguursel van %1$@: %2$@"
           }
         }
       }
@@ -2510,7 +2724,21 @@
       }
     },
     "Verbeter thumbnails automatisch met een beter videoframe" : {
-
+      "comment" : "Settings description for smart thumbnail feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically improve thumbnails with a better video frame"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbeter thumbnails automatisch met een beter videoframe"
+          }
+        }
+      }
     },
     "Versie" : {
       "comment" : "Label for app version number",
@@ -2865,24 +3093,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoeken"
-          }
-        }
-      }
-    },
-    "Zoeken..." : {
-      "comment" : "Loading indicator during search",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Searching..."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zoeken..."
           }
         }
       }

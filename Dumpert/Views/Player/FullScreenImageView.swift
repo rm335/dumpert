@@ -15,6 +15,10 @@ struct FullScreenImageView: View {
     @State private var offsetY: CGFloat = 0
     @State var showOverlay = true
 
+    // Top comment state
+    @State private var topComment: DumpertComment?
+    @State private var showTopComment = false
+
     @FocusState private var isFocused: Bool
 
     let zoomStep: CGFloat = 0.5
@@ -45,6 +49,12 @@ struct FullScreenImageView: View {
                 overlay
             }
 
+            // Top comment overlay
+            TopCommentOverlayView(
+                comment: topComment,
+                isVisible: showTopComment
+            )
+
             // Zoom controls overlay (bottom right)
             if !isLoading && !loadFailed && image != nil {
                 zoomControls
@@ -53,6 +63,7 @@ struct FullScreenImageView: View {
         .task {
             await loadImage()
             markAsWatched()
+            await fetchAndShowTopComment()
         }
         .onExitCommand {
             if currentScale > minScale {
@@ -127,6 +138,24 @@ struct FullScreenImageView: View {
             watchedSeconds: 1,
             totalSeconds: 1
         )
+    }
+
+    private func fetchAndShowTopComment() async {
+        guard repository.settings.showTopComment else { return }
+        do {
+            let comment = try await repository.fetchTopComment(for: photo.id)
+            self.topComment = comment
+        } catch {
+            self.topComment = nil
+        }
+
+        // Wait 10 seconds before showing
+        try? await Task.sleep(for: .seconds(10))
+        withAnimation { showTopComment = true }
+
+        // Dismiss after 5 seconds
+        try? await Task.sleep(for: .seconds(5))
+        withAnimation { showTopComment = false }
     }
 
     func resetZoom() {

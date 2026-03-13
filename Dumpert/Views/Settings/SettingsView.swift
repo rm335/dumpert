@@ -103,6 +103,20 @@ struct SettingsView: View {
                     )
                 }
 
+                settingsToggle(
+                    "Toon top reaguursel",
+                    icon: "text.bubble",
+                    description: "Toon de populairste reactie als overlay",
+                    isOn: $settings.showTopComment
+                )
+
+                settingsToggle(
+                    "Hervat-melding",
+                    icon: "arrow.counterclockwise",
+                    description: "Toon een melding wanneer een video wordt hervat",
+                    isOn: $settings.showResumeOverlay
+                )
+
                 settingsNavigationPicker(
                     "Minimale reeten-duur",
                     icon: "timer",
@@ -294,6 +308,8 @@ struct SettingsView: View {
                             settings.upNextOverlayEnabled = true
                             settings.upNextCountdownSeconds = 5
                             settings.upNextMinimumVideoSeconds = 60
+                            settings.showTopComment = true
+                            settings.showResumeOverlay = true
                         }
                         showResetFeedback = true
                     }

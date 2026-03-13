@@ -22,7 +22,6 @@ struct ToppersSectionView: View {
                         // Skeleton hero — matches heroCarousel layout
                         ZStack(alignment: .bottomLeading) {
                             Color.white.opacity(0.05)
-                                .frame(height: 460)
                                 .shimmering()
 
                             // Info overlay placeholder
@@ -62,6 +61,7 @@ struct ToppersSectionView: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                             .padding(20)
                         }
+                        .aspectRatio(16/6, contentMode: .fit)
                         .clipShape(RoundedRectangle(cornerRadius: 24))
 
                         SkeletonRowView(cardWidth: repository.settings.tileSize.horizontalCardWidth)
@@ -177,7 +177,6 @@ struct ToppersSectionView: View {
                             url: item.thumbnailURL,
                             useIntrinsicAspectRatio: false
                         )
-                        .frame(height: 460)
                         .clipped()
                         .opacity(index == heroIndex ? 1 : 0)
                     }
@@ -196,6 +195,7 @@ struct ToppersSectionView: View {
                     pageIndicators
                 }
             }
+            .aspectRatio(16/6, contentMode: .fit)
             .cornerRadius(24)
             .animation(.spring(duration: 0.7, bounce: 0.15), value: heroIndex)
         }
