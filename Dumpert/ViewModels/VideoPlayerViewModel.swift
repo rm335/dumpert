@@ -304,7 +304,7 @@ final class VideoPlayerViewModel {
                     }
                 case .all:
                     // All comments with >= 50 kudos
-                    self.topComments = allComments.filter { $0.kudosCount >= 50 }
+                    self.topComments = allComments.filter { $0.kudosCount >= 20 }
                 }
             } catch {
                 self.topComments = []

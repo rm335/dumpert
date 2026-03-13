@@ -153,7 +153,7 @@ struct FullScreenImageView: View {
             case .single:
                 topComments = allComments.isEmpty ? [] : [allComments[0]]
             case .all:
-                topComments = allComments.filter { $0.kudosCount >= 50 }
+                topComments = allComments.filter { $0.kudosCount >= 20 }
             }
         } catch {
             topComments = []
