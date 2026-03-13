@@ -16,8 +16,10 @@ struct FullScreenImageView: View {
     @State var showOverlay = true
 
     // Top comment state
-    @State private var topComment: DumpertComment?
+    @State private var topComments: [DumpertComment] = []
+    @State private var currentCommentIndex = 0
     @State private var showTopComment = false
+    @State private var topCommentCarouselTask: Task<Void, Never>?
 
     @FocusState private var isFocused: Bool
 
@@ -51,7 +53,7 @@ struct FullScreenImageView: View {
 
             // Top comment overlay
             TopCommentOverlayView(
-                comment: topComment,
+                comment: topComments.isEmpty ? nil : topComments[currentCommentIndex],
                 isVisible: showTopComment
             )
 
@@ -63,7 +65,7 @@ struct FullScreenImageView: View {
         .task {
             await loadImage()
             markAsWatched()
-            await fetchAndShowTopComment()
+            await fetchAndShowTopComments()
         }
         .onExitCommand {
             if currentScale > minScale {
@@ -140,22 +142,41 @@ struct FullScreenImageView: View {
         )
     }
 
-    private func fetchAndShowTopComment() async {
-        guard repository.settings.showTopComment else { return }
+    private func fetchAndShowTopComments() async {
+        let mode = repository.settings.topCommentMode
+        guard mode != .off else { return }
         do {
-            let comment = try await repository.fetchTopComment(for: photo.id)
-            self.topComment = comment
+            let allComments = try await repository.fetchTopComments(for: photo.id)
+            switch mode {
+            case .off:
+                topComments = []
+            case .single:
+                topComments = allComments.isEmpty ? [] : [allComments[0]]
+            case .all:
+                topComments = allComments.filter { $0.kudosCount >= 50 }
+            }
         } catch {
-            self.topComment = nil
+            topComments = []
         }
 
-        // Wait 10 seconds before showing
-        try? await Task.sleep(for: .seconds(10))
+        guard !topComments.isEmpty else { return }
+
+        currentCommentIndex = 0
         withAnimation { showTopComment = true }
 
-        // Dismiss after 5 seconds
-        try? await Task.sleep(for: .seconds(5))
-        withAnimation { showTopComment = false }
+        // Carousel: show each comment for 5 seconds
+        topCommentCarouselTask = Task {
+            try? await Task.sleep(for: .seconds(5))
+
+            var index = 1
+            while index < topComments.count {
+                withAnimation { currentCommentIndex = index }
+                try? await Task.sleep(for: .seconds(5))
+                index += 1
+            }
+
+            withAnimation { showTopComment = false }
+        }
     }
 
     func resetZoom() {

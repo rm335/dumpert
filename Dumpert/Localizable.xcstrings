@@ -751,6 +751,40 @@
         }
       }
     },
+    "Alle reaguursels" : {
+      "comment" : "Top comment mode - all top comments carousel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All comments"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle reaguursels"
+          }
+        }
+      }
+    },
+    "Alleen het top reaguursel" : {
+      "comment" : "Top comment mode - single top comment",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only the top comment"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen het top reaguursel"
+          }
+        }
+      }
+    },
     "Altijd" : {
       "comment" : "Period filter option - all time",
       "localizations" : {
@@ -2485,19 +2519,36 @@
         }
       }
     },
-    "Toon de populairste reactie als overlay" : {
-      "comment" : "Settings description for top comment overlay feature",
+    "Toon populaire reacties als overlay tijdens afspelen" : {
+      "comment" : "Settings description for top comment overlay mode picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show the most popular comment as overlay"
+            "value" : "Show popular comments as overlay during playback"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon de populairste reactie als overlay"
+            "value" : "Toon populaire reacties als overlay tijdens afspelen"
+          }
+        }
+      }
+    },
+    "Uit" : {
+      "comment" : "Top comment mode - off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uit"
           }
         }
       }
@@ -2536,19 +2587,19 @@
         }
       }
     },
-    "Toon top reaguursel" : {
-      "comment" : "Settings toggle title for showing top comment overlay",
+    "Reaguursels" : {
+      "comment" : "Settings picker title for top comment overlay mode",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show top comment"
+            "value" : "Comments"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon top reaguursel"
+            "value" : "Reaguursels"
           }
         }
       }

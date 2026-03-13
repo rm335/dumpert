@@ -38,11 +38,17 @@ final class VideoPlayerViewModel {
 
     // MARK: - Top Comment State
 
-    private(set) var topComment: DumpertComment?
+    private(set) var topComments: [DumpertComment] = []
+    private(set) var currentCommentIndex = 0
     private(set) var showTopComment = false
-    private var topCommentFetched = false
-    private var topCommentDismissTask: Task<Void, Never>?
+    private var topCommentsFetched = false
+    private var topCommentCarouselTask: Task<Void, Never>?
 
+
+    var currentTopComment: DumpertComment? {
+        guard !topComments.isEmpty, currentCommentIndex < topComments.count else { return nil }
+        return topComments[currentCommentIndex]
+    }
 
     var autoplayEnabled: Bool { repository.settings.autoplayEnabled }
     private var upNextOverlayEnabled: Bool { repository.settings.upNextOverlayEnabled }
@@ -78,7 +84,7 @@ final class VideoPlayerViewModel {
 
         addTimeObserver()
         addEndObserver()
-        fetchTopCommentIfNeeded(for: video.id)
+        fetchTopCommentsIfNeeded(for: video.id)
     }
 
     func configureTransportBar() {
@@ -108,8 +114,8 @@ final class VideoPlayerViewModel {
         showControlsTask = nil
         resumeDismissTask?.cancel()
         resumeDismissTask = nil
-        topCommentDismissTask?.cancel()
-        topCommentDismissTask = nil
+        topCommentCarouselTask?.cancel()
+        topCommentCarouselTask = nil
         saveProgress(force: true)
         removeTimeObserver()
         removeEndObserver()
@@ -255,7 +261,7 @@ final class VideoPlayerViewModel {
         showUpNext = false
         resetResume()
         resetTopComment()
-        fetchTopCommentIfNeeded(for: video.id)
+        fetchTopCommentsIfNeeded(for: video.id)
 
         playerViewController?.showsPlaybackControls = false
 
@@ -279,40 +285,73 @@ final class VideoPlayerViewModel {
 
     // MARK: - Top Comment
 
-    private func fetchTopCommentIfNeeded(for itemId: String) {
-        guard repository.settings.showTopComment else { return }
-        topCommentFetched = false
+    private func fetchTopCommentsIfNeeded(for itemId: String) {
+        guard repository.settings.topCommentMode != .off else { return }
+        topCommentsFetched = false
         Task {
             do {
-                let comment = try await repository.fetchTopComment(for: itemId)
-                self.topComment = comment
+                let allComments = try await repository.fetchTopComments(for: itemId)
+                let mode = repository.settings.topCommentMode
+                switch mode {
+                case .off:
+                    self.topComments = []
+                case .single:
+                    // Highest kudos, no minimum
+                    if let top = allComments.first {
+                        self.topComments = [top]
+                    } else {
+                        self.topComments = []
+                    }
+                case .all:
+                    // All comments with >= 50 kudos
+                    self.topComments = allComments.filter { $0.kudosCount >= 50 }
+                }
             } catch {
-                self.topComment = nil
+                self.topComments = []
             }
-            self.topCommentFetched = true
+            self.topCommentsFetched = true
         }
     }
 
     private func checkTopCommentTiming() {
-        guard repository.settings.showTopComment,
-              topCommentFetched,
+        guard repository.settings.topCommentMode != .off,
+              topCommentsFetched,
               !showTopComment,
-              topCommentDismissTask == nil,
+              topCommentCarouselTask == nil,
               currentTime >= 10 && currentTime < 15 else { return }
 
+        startTopCommentCarousel()
+    }
+
+    private func startTopCommentCarousel() {
+        guard !topComments.isEmpty else { return }
+        currentCommentIndex = 0
         showTopComment = true
-        topCommentDismissTask = Task { [weak self] in
+
+        topCommentCarouselTask = Task { [weak self] in
+            guard let self else { return }
+            // Show first comment for 5 seconds
             try? await Task.sleep(for: .seconds(5))
-            self?.showTopComment = false
+
+            // Cycle through remaining comments
+            var index = 1
+            while index < self.topComments.count {
+                self.currentCommentIndex = index
+                try? await Task.sleep(for: .seconds(5))
+                index += 1
+            }
+
+            self.showTopComment = false
         }
     }
 
     private func resetTopComment() {
-        topCommentDismissTask?.cancel()
-        topCommentDismissTask = nil
-        topComment = nil
+        topCommentCarouselTask?.cancel()
+        topCommentCarouselTask = nil
+        topComments = []
+        currentCommentIndex = 0
         showTopComment = false
-        topCommentFetched = false
+        topCommentsFetched = false
     }
 
     // MARK: - Resume Playback

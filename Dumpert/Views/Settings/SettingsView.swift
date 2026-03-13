@@ -103,11 +103,16 @@ struct SettingsView: View {
                     )
                 }
 
-                settingsToggle(
-                    "Toon top reaguursel",
+                settingsNavigationPicker(
+                    "Reaguursels",
                     icon: "text.bubble",
-                    description: "Toon de populairste reactie als overlay",
-                    isOn: $settings.showTopComment
+                    description: "Toon populaire reacties als overlay tijdens afspelen",
+                    selection: $settings.topCommentMode,
+                    options: [
+                        ("Uit", TopCommentMode.off),
+                        ("Alleen het top reaguursel", TopCommentMode.single),
+                        ("Alle reaguursels", TopCommentMode.all),
+                    ]
                 )
 
                 settingsToggle(
@@ -308,7 +313,7 @@ struct SettingsView: View {
                             settings.upNextOverlayEnabled = true
                             settings.upNextCountdownSeconds = 5
                             settings.upNextMinimumVideoSeconds = 60
-                            settings.showTopComment = true
+                            settings.topCommentMode = .all
                             settings.showResumeOverlay = true
                         }
                         showResetFeedback = true

@@ -96,7 +96,7 @@ private struct UpNextOverlayContainer: View {
 
             // Top comment overlay (bottom-left)
             TopCommentOverlayView(
-                comment: viewModel.topComment,
+                comment: viewModel.currentTopComment,
                 isVisible: viewModel.showTopComment
             )
 

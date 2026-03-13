@@ -90,7 +90,7 @@ actor CloudKitService {
         record["upNextOverlayEnabled"] = (settings.upNextOverlayEnabled ? 1 : 0) as CKRecordValue
         record["upNextCountdownSeconds"] = settings.upNextCountdownSeconds as CKRecordValue
         record["upNextMinimumVideoSeconds"] = settings.upNextMinimumVideoSeconds as CKRecordValue
-        record["showTopComment"] = (settings.showTopComment ? 1 : 0) as CKRecordValue
+        record["topCommentMode"] = settings.topCommentMode.rawValue as CKRecordValue
         record["lastModified"] = settings.lastModified as CKRecordValue
 
         _ = try await privateDB.modifyRecords(saving: [record], deleting: [], savePolicy: .changedKeys)
@@ -110,7 +110,13 @@ actor CloudKitService {
                 upNextOverlayEnabled: (record["upNextOverlayEnabled"] as? Int ?? 1) == 1,
                 upNextCountdownSeconds: record["upNextCountdownSeconds"] as? Int ?? 5,
                 upNextMinimumVideoSeconds: record["upNextMinimumVideoSeconds"] as? Int ?? 60,
-                showTopComment: (record["showTopComment"] as? Int ?? 1) == 1,
+                topCommentMode: (record["topCommentMode"] as? String).flatMap(TopCommentMode.init(rawValue:)) ?? {
+                    // Migration: old CloudKit records stored Bool as Int
+                    if let oldValue = record["showTopComment"] as? Int {
+                        return oldValue == 1 ? .all : .off
+                    }
+                    return .all
+                }(),
                 lastModified: record["lastModified"] as? Date ?? Date()
             )
         } catch let error as CKError where error.code == .unknownItem {

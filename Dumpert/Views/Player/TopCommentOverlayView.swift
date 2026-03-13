@@ -19,6 +19,7 @@ struct TopCommentOverlayView: View {
             }
         }
         .animation(.easeInOut(duration: 0.6), value: isVisible)
+        .animation(.easeInOut(duration: 0.4), value: comment?.id)
         .allowsHitTesting(false)
         .accessibilityElement(children: .combine)
     }
@@ -66,6 +67,8 @@ struct TopCommentOverlayView: View {
                             .strokeBorder(.white.opacity(0.1), lineWidth: 1)
                     )
             )
+            .id(comment.id)
+            .transition(.opacity)
             .accessibilityLabel("Top reaguursel van \(comment.authorUsername): \(comment.displayContent)")
         } else {
             HStack(spacing: 12) {

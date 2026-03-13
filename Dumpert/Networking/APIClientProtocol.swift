@@ -10,7 +10,7 @@ protocol APIClientProtocol: Sendable {
     func fetchClassics(page: Int) async throws -> [MediaItem]
     func fetchRelated(id: String) async throws -> [MediaItem]
     func fetchDumpertTV() async throws -> [MediaItem]
-    func fetchTopComment(for itemId: String) async throws -> DumpertComment?
+    func fetchTopComments(for itemId: String) async throws -> [DumpertComment]
 }
 
 extension DumpertAPIClient: @preconcurrency APIClientProtocol {}

@@ -135,7 +135,7 @@ actor DumpertAPIClient {
 
     private static let commentsBaseURL = "https://comments.dumpert.nl/api/v1.0"
 
-    func fetchTopComment(for itemId: String) async throws -> DumpertComment? {
+    func fetchTopComments(for itemId: String) async throws -> [DumpertComment] {
         // Convert underscore ID (100146773_1e4d8897) to slash format (100146773/1e4d8897)
         let slashId = itemId.replacingOccurrences(of: "_", with: "/")
         guard let url = URL(string: "\(Self.commentsBaseURL)/articles/\(slashId)/comments/?includeitems=1") else {
@@ -156,9 +156,9 @@ actor DumpertAPIClient {
         let commentsResponse = try decoder.decode(CommentsAPIResponse.self, from: data)
         let comments = commentsResponse.data?.comments ?? []
 
-        // Return the top-level comment with the highest kudos
+        // Return all non-banned comments sorted by kudos descending
         return comments
             .filter { $0.banned != true }
-            .max(by: { $0.kudosCount < $1.kudosCount })
+            .sorted { $0.kudosCount > $1.kudosCount }
     }
 }

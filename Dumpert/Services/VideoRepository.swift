@@ -270,8 +270,8 @@ final class VideoRepository {
         }
     }
 
-    func fetchTopComment(for itemId: String) async throws -> DumpertComment? {
-        try await apiClient.fetchTopComment(for: itemId)
+    func fetchTopComments(for itemId: String) async throws -> [DumpertComment] {
+        try await apiClient.fetchTopComments(for: itemId)
     }
 
     // MARK: - Pagination
