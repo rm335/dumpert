@@ -1,2899 +1,2926 @@
 {
-  "sourceLanguage": "nl",
-  "strings": {
-    "": {},
-    "·": {
-      "comment": "Bullet separator between metadata items",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "·"
+  "sourceLanguage" : "nl",
+  "strings" : {
+    "" : {
+
+    },
+    "·" : {
+      "comment" : "Bullet separator between metadata items",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "·"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "·"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "·"
           }
         }
       }
+    },
+    "%@" : {
+
     },
-    "%@": {},
-    "%@ kudos": {
-      "comment": "Kudos count label",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ kudos"
+    "%@ kudos" : {
+      "comment" : "Kudos count label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kudos"
           }
         }
       }
     },
-    "%@, item %lld van %lld": {
-      "comment": "Accessibility label for hero carousel item position",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@, item %2$lld of %3$lld"
+    "%@, item %lld van %lld" : {
+      "comment" : "Accessibility label for hero carousel item position",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, item %2$lld of %3$lld"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@, item %2$lld van %3$lld"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, item %2$lld van %3$lld"
           }
         }
       }
     },
-    "%lld": {
-      "comment": "Numeric format string",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
+    "%lld" : {
+      "comment" : "Numeric format string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%lld / %lld" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld / %2$lld"
           }
         }
       }
     },
-    "%lld seconden": {
-      "comment": "Format string showing number of seconds",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld seconds"
+    "%lld seconden" : {
+      "comment" : "Format string showing number of seconds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld seconds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld seconden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld seconden"
           }
         }
       }
     },
-    "%lld%%": {
-      "comment": "Percentage format string",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld%%"
+    "%lld%%" : {
+      "comment" : "Percentage format string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld%%"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
           }
         }
       }
     },
-    "%lld%% bekeken": {
-      "comment": "Accessibility: percentage of video watched",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld%% watched"
+    "%lld%% bekeken" : {
+      "comment" : "Accessibility: percentage of video watched",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% watched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld%% bekeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%% bekeken"
           }
         }
       }
     },
-    "%llds": {
-      "comment": "Compact duration format in seconds",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%llds"
+    "%llds" : {
+      "comment" : "Compact duration format in seconds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%llds"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llds"
           }
         }
       }
     },
-    "1 minuut": {
-      "comment": "Duration option - 1 minute",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 minute"
+    "1 minuut" : {
+      "comment" : "Duration option - 1 minute",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 minute"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "1 minuut"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 minuut"
           }
         }
       }
     },
-    "2 minuten": {
-      "comment": "Duration option - 2 minutes",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "2 minutes"
+    "2 minuten" : {
+      "comment" : "Duration option - 2 minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 minutes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "2 minuten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 minuten"
           }
         }
       }
     },
-    "3 seconden": {
-      "comment": "Countdown option - 3 seconds",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "3 seconds"
+    "3 seconden" : {
+      "comment" : "Countdown option - 3 seconds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 seconds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "3 seconden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 seconden"
           }
         }
       }
     },
-    "5 minuten": {
-      "comment": "Duration filter option - 5 minutes",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 minutes"
+    "5 minuten" : {
+      "comment" : "Duration filter option - 5 minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 minutes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 minuten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 minuten"
           }
         }
       }
     },
-    "5 seconden": {
-      "comment": "Countdown option - 5 seconds",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 seconds"
+    "5 seconden" : {
+      "comment" : "Countdown option - 5 seconds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 seconds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "5 seconden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 seconden"
           }
         }
       }
     },
-    "10 minuten": {
-      "comment": "Duration filter option - 10 minutes",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 minutes"
+    "10 minuten" : {
+      "comment" : "Duration filter option - 10 minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 minutes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 minuten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 minuten"
           }
         }
       }
     },
-    "10 seconden": {
-      "comment": "Countdown option - 10 seconds",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 seconds"
+    "10 seconden" : {
+      "comment" : "Countdown option - 10 seconds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 seconds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10 seconden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 seconden"
           }
         }
       }
     },
-    "10+ kudos": {
-      "comment": "Kudos filter option - 10 or more kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10+ kudos"
+    "10+ kudos" : {
+      "comment" : "Kudos filter option - 10 or more kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10+ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "10+ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10+ kudos"
           }
         }
       }
     },
-    "15 minuten": {
-      "comment": "Duration filter option - 15 minutes",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15 minutes"
+    "15 minuten" : {
+      "comment" : "Duration filter option - 15 minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15 minutes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "15 minuten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15 minuten"
           }
         }
       }
     },
-    "20 minuten": {
-      "comment": "Duration filter option - 20 minutes",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "20 minutes"
+    "20 minuten" : {
+      "comment" : "Duration filter option - 20 minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20 minutes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "20 minuten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20 minuten"
           }
         }
       }
     },
-    "25+ kudos": {
-      "comment": "Kudos filter option - 25 or more kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "25+ kudos"
+    "25+ kudos" : {
+      "comment" : "Kudos filter option - 25 or more kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "25+ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "25+ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "25+ kudos"
           }
         }
       }
     },
-    "30 seconden": {
-      "comment": "Duration option - 30 seconds",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 seconds"
+    "30 seconden" : {
+      "comment" : "Duration option - 30 seconds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 seconds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 seconden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 seconden"
           }
         }
       }
     },
-    "50+ kudos": {
-      "comment": "Kudos filter option - 50 or more kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "50+ kudos"
+    "50+ kudos" : {
+      "comment" : "Kudos filter option - 50 or more kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50+ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "50+ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50+ kudos"
           }
         }
       }
     },
-    "100+ kudos": {
-      "comment": "Kudos filter option - 100 or more kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "100+ kudos"
+    "100+ kudos" : {
+      "comment" : "Kudos filter option - 100 or more kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100+ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "100+ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100+ kudos"
           }
         }
       }
     },
-    "250+ kudos": {
-      "comment": "Kudos filter option - 250 or more kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "250+ kudos"
+    "250+ kudos" : {
+      "comment" : "Kudos filter option - 250 or more kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "250+ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "250+ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "250+ kudos"
           }
         }
       }
     },
-    "500+ kudos": {
-      "comment": "Kudos filter option - 500 or more kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "500+ kudos"
+    "500+ kudos" : {
+      "comment" : "Kudos filter option - 500 or more kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "500+ kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "500+ kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "500+ kudos"
           }
         }
       }
     },
-    "Aantal kolommen in de video-overzichten": {
-      "comment": "Description for card size setting",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Number of columns in video lists"
+    "Aantal kolommen in de video-overzichten" : {
+      "comment" : "Description for card size setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number of columns in video lists"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aantal kolommen in de video-overzichten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aantal kolommen in de video-overzichten"
           }
         }
       }
     },
-    "Aantal seconden voordat de volgende video start": {
-      "comment": "Description for countdown seconds setting",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seconds before the next video starts"
+    "Aantal seconden voordat de volgende video start" : {
+      "comment" : "Description for countdown seconds setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seconds before the next video starts"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aantal seconden voordat de volgende video start"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aantal seconden voordat de volgende video start"
           }
         }
       }
     },
-    "Actief": {
-      "comment": "iCloud sync status - active",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Active"
+    "Actief" : {
+      "comment" : "iCloud sync status - active",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Actief"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
           }
         }
       }
     },
-    "Afspelen": {
-      "comment": "Section header for playback settings; also button label to play next video",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Playback"
+    "Afspelen" : {
+      "comment" : "Section header for playback settings; also button label to play next video",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playback"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afspelen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afspelen"
           }
         }
       }
     },
-    "Aftelling": {
-      "comment": "Navigation title and label for countdown timer setting",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Countdown"
+    "Aftelling" : {
+      "comment" : "Navigation title and label for countdown timer setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Countdown"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aftelling"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aftelling"
           }
         }
       }
     },
-    "Aftelling: %lld seconden": {
-      "comment": "Accessibility label for up-next countdown timer",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Countdown: %lld seconds"
+    "Aftelling: %lld seconden" : {
+      "comment" : "Accessibility label for up-next countdown timer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Countdown: %lld seconds"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aftelling: %lld seconden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aftelling: %lld seconden"
           }
         }
       }
     },
-    "Alle bekeken video's worden weer als onbekeken getoond.": {
-      "comment": "Confirmation message when clearing watch history",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All watched videos will be shown as unwatched again."
+    "Alle bekeken video's worden weer als onbekeken getoond." : {
+      "comment" : "Confirmation message when clearing watch history",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All watched videos will be shown as unwatched again."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle bekeken video's worden weer als onbekeken getoond."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle bekeken video's worden weer als onbekeken getoond."
           }
         }
       }
     },
-    "Alle duur": {
-      "comment": "Duration filter option - show all durations",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Any duration"
+    "Alle duur" : {
+      "comment" : "Duration filter option - show all durations",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any duration"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle duur"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle duur"
           }
         }
       }
     },
-    "Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt.": {
-      "comment": "Confirmation message when resetting all settings",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All settings will be reset. This cannot be undone."
+    "Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt." : {
+      "comment" : "Confirmation message when resetting all settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All settings will be reset. This cannot be undone."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt."
           }
         }
       }
     },
-    "Alle kudos": {
-      "comment": "Kudos filter option - show all kudos levels",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Any kudos"
+    "Alle kudos" : {
+      "comment" : "Kudos filter option - show all kudos levels",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle kudos"
           }
         }
       }
     },
-    "Alle opgeslagen afbeeldingen en API-responses worden verwijderd.": {
-      "comment": "Confirmation message when clearing cache",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All saved images and API responses will be deleted."
+    "Alle opgeslagen afbeeldingen en API-responses worden verwijderd." : {
+      "comment" : "Confirmation message when clearing cache",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All saved images and API responses will be deleted."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle opgeslagen afbeeldingen en API-responses worden verwijderd."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle opgeslagen afbeeldingen en API-responses worden verwijderd."
           }
         }
       }
     },
-    "Alle opgeslagen zoekopdrachten worden verwijderd.": {
-      "comment": "Confirmation dialog message for clearing search history",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All saved search queries will be deleted."
+    "Alle opgeslagen zoekopdrachten worden verwijderd." : {
+      "comment" : "Confirmation dialog message for clearing search history",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All saved search queries will be deleted."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle opgeslagen zoekopdrachten worden verwijderd."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle opgeslagen zoekopdrachten worden verwijderd."
           }
         }
       }
     },
-    "Alle recente zoekopdrachten worden verwijderd": {
-      "comment": "Description for clear search history button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All recent searches will be deleted"
+    "Alle recente zoekopdrachten worden verwijderd" : {
+      "comment" : "Description for clear search history button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All recent searches will be deleted"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle recente zoekopdrachten worden verwijderd"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle recente zoekopdrachten worden verwijderd"
           }
         }
       }
     },
-    "Alle video's worden weer als onbekeken getoond": {
-      "comment": "Description for clear watch history button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All videos will be shown as unwatched"
+    "Alle video's worden weer als onbekeken getoond" : {
+      "comment" : "Description for clear watch history button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All videos will be shown as unwatched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle video's worden weer als onbekeken getoond"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle video's worden weer als onbekeken getoond"
           }
         }
       }
     },
-    "Alleen in de Reeten-tab: verberg korte video's": {
-      "comment": "Description for minimum reeten duration setting",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reeten tab only: hide short videos"
+    "Alleen in de Reeten-tab: verberg korte video's" : {
+      "comment" : "Description for minimum reeten duration setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reeten tab only: hide short videos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alleen in de Reeten-tab: verberg korte video's"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen in de Reeten-tab: verberg korte video's"
           }
         }
       }
     },
-    "Alles": {
-      "comment": "Filter option - show all",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All"
+    "Alles" : {
+      "comment" : "Filter option - show all",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alles"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles"
           }
         }
       }
     },
-    "Alles tonen": {
-      "comment": "Kudos filter option - show all videos regardless of kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show all"
+    "Alles tonen" : {
+      "comment" : "Kudos filter option - show all videos regardless of kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show all"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alles tonen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles tonen"
           }
         }
       }
     },
-    "Altijd": {
-      "comment": "Period filter option - all time",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Always"
+    "Altijd" : {
+      "comment" : "Period filter option - all time",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Altijd"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altijd"
           }
         }
       }
     },
-    "Annuleer": {
-      "comment": "Cancel button in confirmation dialogs",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "Annuleer" : {
+      "comment" : "Cancel button in confirmation dialogs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Annuleer"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleer"
           }
         }
       }
     },
-    "Annuleer volgende video": {
-      "comment": "Accessibility label for cancel up-next button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel next video"
+    "Annuleer volgende video" : {
+      "comment" : "Accessibility label for cancel up-next button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel next video"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Annuleer volgende video"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleer volgende video"
           }
         }
       }
     },
-    "Annuleren": {
-      "comment": "Cancel button in up-next overlay",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "Annuleren" : {
+      "comment" : "Cancel button in up-next overlay",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Annuleren"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleren"
           }
         }
       }
     },
-    "Automatisch verversen": {
-      "comment": "Info row label for auto-refresh interval",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Auto-refresh"
+    "Automatisch verversen" : {
+      "comment" : "Info row label for auto-refresh interval",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-refresh"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Automatisch verversen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisch verversen"
           }
         }
       }
     },
-    "Autoplay": {
-      "comment": "Toggle for automatic video playback",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Autoplay"
+    "Autoplay" : {
+      "comment" : "Toggle for automatic video playback",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoplay"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Autoplay"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoplay"
           }
         }
       }
     },
-    "Bekeken": {
-      "comment": "Accessibility: video has been watched",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Watched"
+    "Bekeken" : {
+      "comment" : "Accessibility: video has been watched",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bekeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekeken"
           }
         }
       }
     },
-    "Bekeken verbergen": {
-      "comment": "Toggle to hide already watched videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide watched"
+    "Bekeken verbergen" : {
+      "comment" : "Toggle to hide already watched videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide watched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bekeken verbergen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekeken verbergen"
           }
         }
       }
     },
-    "Cache wissen": {
-      "comment": "Destructive button to clear cached data",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear cache"
+    "Cache wissen" : {
+      "comment" : "Destructive button to clear cached data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear cache"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cache wissen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache wissen"
           }
         }
       }
     },
-    "Categorieën": {
-      "comment": "Search suggestions section header",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Categories"
+    "Categorieën" : {
+      "comment" : "Search suggestions section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Categorieën"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorieën"
           }
         }
       }
     },
-    "Classics": {
-      "comment": "Tab label and section title for classic videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Classics"
+    "Classics" : {
+      "comment" : "Tab label and section title for classic videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classics"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Classics"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classics"
           }
         }
       }
     },
-    "Compilatie": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compilation"
+    "Compilatie" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compilation"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compilatie"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compilatie"
           }
         }
       }
     },
-    "Dashcam": {
-      "comment": "Category name for dashcam videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dashcam"
+    "Dashcam" : {
+      "comment" : "Category name for dashcam videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashcam"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dashcam"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashcam"
           }
         }
       }
     },
-    "Data & opslag": {
-      "comment": "Settings section header for data and storage options",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Data & storage"
+    "Data & opslag" : {
+      "comment" : "Settings section header for data and storage options",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data & storage"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Data & opslag"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data & opslag"
           }
         }
       }
     },
-    "Data kon niet gelezen worden: %@": {
-      "comment": "Error when JSON decoding fails",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Data could not be read: %@"
+    "Data kon niet gelezen worden: %@" : {
+      "comment" : "Error when JSON decoding fails",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data could not be read: %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Data kon niet gelezen worden: %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data kon niet gelezen worden: %@"
           }
         }
       }
     },
-    "De volgende video start direct zonder aftelling.": {
-      "comment": "Footer text when up-next overlay is disabled",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The next video will start immediately without a countdown."
+    "De volgende video start direct zonder aftelling." : {
+      "comment" : "Footer text when up-next overlay is disabled",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The next video will start immediately without a countdown."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De volgende video start direct zonder aftelling."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De volgende video start direct zonder aftelling."
           }
         }
       }
     },
-    "Deze maand": {
-      "comment": "Period filter option",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This month"
+    "Deze maand" : {
+      "comment" : "Period filter option",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This month"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deze maand"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze maand"
           }
         }
       }
     },
-    "Deze week": {
-      "comment": "Period filter option",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "This week"
+    "Deze week" : {
+      "comment" : "Period filter option",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This week"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deze week"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze week"
           }
         }
       }
     },
-    "Dieren": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Animals"
+    "Dieren" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animals"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dieren"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieren"
           }
         }
       }
     },
-    "Dumpert Reeten": {
-      "comment": "Category name for hall of fame videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dumpert Reeten"
+    "Dumpert Reeten" : {
+      "comment" : "Category name for hall of fame videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dumpert Reeten"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dumpert Reeten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dumpert Reeten"
           }
         }
       }
+    },
+    "Dumpert TV" : {
+
     },
-    "Elke 15 minuten": {
-      "comment": "Description of auto-refresh interval",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Every 15 minutes"
+    "Elke 15 minuten" : {
+      "comment" : "Description of auto-refresh interval",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every 15 minutes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elke 15 minuten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elke 15 minuten"
           }
         }
       }
     },
-    "Er ging iets mis": {
-      "comment": "Error title when something went wrong",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Something went wrong"
+    "Er ging iets mis" : {
+      "comment" : "Error title when something went wrong",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Er ging iets mis"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er ging iets mis"
           }
         }
       }
     },
-    "Fail": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fail"
+    "Fail" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fail"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fail"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fail"
           }
         }
       }
     },
-    "Fietsen": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cycling"
+    "Fietsen" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cycling"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fietsen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fietsen"
           }
         }
       }
     },
-    "Filter: %@": {
-      "comment": "Accessibility label for active search filter",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Filter: %@"
+    "Filter: %@" : {
+      "comment" : "Accessibility label for active search filter",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter: %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Filter: %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter: %@"
           }
         }
       }
     },
-    "Foto": {
-      "comment": "Accessibility: content type photo",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Photo"
+    "Foto" : {
+      "comment" : "Accessibility: content type photo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Foto"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto"
           }
         }
       }
     },
-    "Geen classics gevonden": {
-      "comment": "Description when no classic videos are available",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No classics found"
+    "Geen classics gevonden" : {
+      "comment" : "Description when no classic videos are available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No classics found"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen classics gevonden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen classics gevonden"
           }
         }
       }
     },
-    "Geen data ontvangen": {
-      "comment": "Error when server returns no data",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No data received"
+    "Geen data ontvangen" : {
+      "comment" : "Error when server returns no data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data received"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen data ontvangen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen data ontvangen"
           }
         }
       }
     },
-    "Geen internetverbinding": {
-      "comment": "Offline banner message",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No internet connection"
+    "Geen Dumpert TV afleveringen gevonden" : {
+
+    },
+    "Geen internetverbinding" : {
+      "comment" : "Offline banner message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No internet connection"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen internetverbinding"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen internetverbinding"
           }
         }
       }
     },
-    "Geen minimum": {
-      "comment": "Duration filter option - no minimum duration",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No minimum"
+    "Geen minimum" : {
+      "comment" : "Duration filter option - no minimum duration",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No minimum"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen minimum"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen minimum"
           }
         }
       }
     },
-    "Geen resultaten": {
-      "comment": "Title shown when search returns no results",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No results"
+    "Geen resultaten" : {
+      "comment" : "Title shown when search returns no results",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen resultaten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen resultaten"
           }
         }
       }
     },
-    "Geen resultaten met deze filters": {
-      "comment": "Empty state title when filters exclude all results",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No results with these filters"
+    "Geen resultaten met deze filters" : {
+      "comment" : "Empty state title when filters exclude all results",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results with these filters"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen resultaten met deze filters"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen resultaten met deze filters"
           }
         }
       }
     },
-    "Geen resultaten voor \"%@\"": {
-      "comment": "Description when search returns no results for a query",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No results for \"%@\""
+    "Geen resultaten voor \"%@\"" : {
+      "comment" : "Description when search returns no results for a query",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results for \"%@\""
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen resultaten voor \"%@\""
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen resultaten voor \"%@\""
           }
         }
       }
     },
-    "Geen video's": {
-      "comment": "Title shown when no videos are available",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No videos"
+    "Geen video's" : {
+      "comment" : "Title shown when no videos are available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No videos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen video's"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen video's"
           }
         }
       }
     },
-    "Geen video's gevonden voor %@": {
-      "comment": "Description when no videos found for a category",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No videos found for %@"
+    "Geen video's gevonden voor %@" : {
+      "comment" : "Description when no videos found for a category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No videos found for %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Geen video's gevonden voor %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen video's gevonden voor %@"
           }
         }
       }
     },
-    "Groot": {
-      "comment": "Tile size option - large",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Large"
+    "Gemarkeerd als bekeken" : {
+      "comment" : "Toast message when marking video as watched",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marked as watched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Groot"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemarkeerd als bekeken"
           }
         }
       }
     },
-    "Haal de nieuwste content op": {
-      "comment": "Description for refresh now button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fetch the latest content"
+    "Gemarkeerd als onbekeken" : {
+      "comment" : "Toast message when marking video as unwatched",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marked as unwatched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Haal de nieuwste content op"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemarkeerd als onbekeken"
           }
         }
       }
     },
-    "Herstel standaardwaarden": {
-      "comment": "Destructive button to restore default settings",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore defaults"
+    "Groot" : {
+      "comment" : "Tile size option - large",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Herstel standaardwaarden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groot"
           }
         }
       }
     },
-    "iCloud sync": {
-      "comment": "Label for iCloud sync status",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud sync"
+    "Haal de nieuwste content op" : {
+      "comment" : "Description for refresh now button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fetch the latest content"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud sync"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haal de nieuwste content op"
           }
         }
       }
     },
-    "Inactief": {
-      "comment": "iCloud sync status - inactive",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inactive"
+    "Herstel standaardwaarden" : {
+      "comment" : "Destructive button to restore default settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore defaults"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inactief"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herstel standaardwaarden"
           }
         }
       }
     },
-    "Instellingen": {
-      "comment": "Tab label and navigation title for settings screen",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+    "iCloud sync" : {
+      "comment" : "Label for iCloud sync status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud sync"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Instellingen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud sync"
           }
         }
       }
     },
-    "Inzoomen": {
-      "comment": "Accessibility label for zoom in button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom in"
+    "Inactief" : {
+      "comment" : "iCloud sync status - inactive",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactive"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inzoomen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inactief"
           }
         }
       }
     },
-    "Kaartgrootte": {
-      "comment": "Settings label for card size picker",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Card size"
+    "Instellingen" : {
+      "comment" : "Tab label and navigation title for settings screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kaartgrootte"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen"
           }
         }
       }
     },
-    "Karma": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Karma"
+    "Inzoomen" : {
+      "comment" : "Accessibility label for zoom in button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom in"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Karma"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inzoomen"
           }
         }
       }
     },
-    "Kijkgeschiedenis wissen": {
-      "comment": "Destructive button to clear watch history",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear watch history"
+    "Kaartgrootte" : {
+      "comment" : "Settings label for card size picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Card size"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kijkgeschiedenis wissen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaartgrootte"
           }
         }
       }
     },
-    "Klein": {
-      "comment": "Tile size option - small",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Small"
+    "Karma" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karma"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klein"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karma"
           }
         }
       }
     },
-    "Kon afbeelding niet laden": {
-      "comment": "Error message when an image fails to load",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Could not load image"
+    "Kijkgeschiedenis wissen" : {
+      "comment" : "Destructive button to clear watch history",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear watch history"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kon afbeelding niet laden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kijkgeschiedenis wissen"
           }
         }
       }
     },
-    "Kon geen video's laden. Controleer je internetverbinding.": {
-      "comment": "Description when videos fail to load due to network issues",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Could not load videos. Check your internet connection."
+    "Klein" : {
+      "comment" : "Tile size option - small",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Small"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kon geen video's laden. Controleer je internetverbinding."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klein"
           }
         }
       }
     },
-    "Kort (<1 min)": {
-      "comment": "Duration filter option - short videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Short (<1 min)"
+    "Kon afbeelding niet laden" : {
+      "comment" : "Error message when an image fails to load",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not load image"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kort (<1 min)"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kon afbeelding niet laden"
           }
         }
       }
     },
-    "Laad meer": {
-      "comment": "Button to load more content in a list",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Load more"
+    "Kon geen video's laden. Controleer je internetverbinding." : {
+      "comment" : "Description when videos fail to load due to network issues",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not load videos. Check your internet connection."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laad meer"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kon geen video's laden. Controleer je internetverbinding."
           }
         }
       }
     },
-    "Laad meer classics": {
-      "comment": "Accessibility label for load more classics button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Load more classics"
+    "Kort (<1 min)" : {
+      "comment" : "Duration filter option - short videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short (<1 min)"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laad meer classics"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kort (<1 min)"
           }
         }
       }
     },
-    "Laad meer video's in %@": {
-      "comment": "Accessibility hint for load more button in category",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Load more videos in %@"
+    "Laad meer" : {
+      "comment" : "Button to load more content in a list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load more"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laad meer video's in %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad meer"
           }
         }
       }
     },
-    "Laatst: %@": {
-      "comment": "Label showing relative time since last refresh",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Last: %@"
+    "Laad meer classics" : {
+      "comment" : "Accessibility label for load more classics button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load more classics"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laatst: %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad meer classics"
           }
         }
       }
     },
-    "Laden...": {
-      "comment": "Loading indicator text",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading..."
+    "Laad meer video's in %@" : {
+      "comment" : "Accessibility hint for load more button in category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load more videos in %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Laden..."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad meer video's in %@"
           }
         }
       }
     },
-    "Lang (>5 min)": {
-      "comment": "Duration filter option - long videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Long (>5 min)"
+    "Laatst: %@" : {
+      "comment" : "Label showing relative time since last refresh",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last: %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lang (>5 min)"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laatst: %@"
           }
         }
       }
     },
-    "Markeer als bekeken": {
-      "comment": "Context menu button to mark video as watched",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mark as watched"
+    "Laden..." : {
+      "comment" : "Loading indicator text",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Markeer als bekeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden..."
           }
         }
       }
     },
-    "Markeer als onbekeken": {
-      "comment": "Context menu button to mark video as unwatched",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mark as unwatched"
+    "Lang (>5 min)" : {
+      "comment" : "Duration filter option - long videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long (>5 min)"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Markeer als onbekeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lang (>5 min)"
           }
         }
       }
     },
-    "Medium (1-5 min)": {
-      "comment": "Duration filter option - medium videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Medium (1-5 min)"
+    "Markeer als bekeken" : {
+      "comment" : "Context menu button to mark video as watched",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as watched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Medium (1-5 min)"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markeer als bekeken"
           }
         }
       }
     },
-    "Meer classics laden": {
-      "comment": "Progress label when loading more classics",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading more classics"
+    "Markeer als onbekeken" : {
+      "comment" : "Context menu button to mark video as unwatched",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as unwatched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Meer classics laden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markeer als onbekeken"
           }
         }
       }
     },
-    "Meer laden...": {
-      "comment": "Loading indicator when fetching more content",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading more..."
+    "Medium (1-5 min)" : {
+      "comment" : "Duration filter option - medium videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium (1-5 min)"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Meer laden..."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium (1-5 min)"
           }
         }
       }
     },
-    "Meer video's laden": {
-      "comment": "Progress label when loading more videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading more videos"
+    "Meer classics laden" : {
+      "comment" : "Progress label when loading more classics",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading more classics"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Meer video's laden"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meer classics laden"
           }
         }
       }
     },
-    "Minimale kudos": {
-      "comment": "Label for minimum kudos filter setting",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minimum kudos"
+    "Meer laden..." : {
+      "comment" : "Loading indicator when fetching more content",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading more..."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minimale kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meer laden..."
           }
         }
       }
     },
-    "Minimale reeten-duur": {
-      "comment": "Label for minimum reeten video duration filter",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minimum reeten duration"
+    "Meer video's laden" : {
+      "comment" : "Progress label when loading more videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading more videos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minimale reeten-duur"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meer video's laden"
           }
         }
       }
     },
-    "Minimale videolengte": {
-      "comment": "Label for minimum video length setting in up-next settings",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minimum video length"
+    "Minimale kudos" : {
+      "comment" : "Label for minimum kudos filter setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minimale videolengte"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimale kudos"
           }
         }
       }
     },
-    "Motor": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Motorcycle"
+    "Minimale reeten-duur" : {
+      "comment" : "Label for minimum reeten video duration filter",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum reeten duration"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Motor"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimale reeten-duur"
           }
         }
       }
     },
-    "Muziek": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Music"
+    "Minimale videolengte" : {
+      "comment" : "Label for minimum video length setting in up-next settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimum video length"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muziek"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimale videolengte"
           }
         }
       }
     },
-    "Naar boven": {
-      "comment": "Button label to scroll back to top of list",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Back to top"
+    "Motor" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motorcycle"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Naar boven"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motor"
           }
         }
       }
     },
-    "Negatieve kudos tonen": {
-      "comment": "Toggle to show or hide videos with negative kudos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show negative kudos"
+    "Muziek" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Music"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Negatieve kudos tonen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muziek"
           }
         }
       }
     },
-    "Netwerkfout: %@": {
-      "comment": "Error when network request fails",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Network error: %@"
+    "Naar boven" : {
+      "comment" : "Button label to scroll back to top of list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back to top"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Netwerkfout: %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naar boven"
           }
         }
       }
     },
-    "Nieuw": {
-      "comment": "Category name for new videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New"
+    "Negatieve kudos tonen" : {
+      "comment" : "Toggle to show or hide videos with negative kudos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show negative kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nieuw"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Negatieve kudos tonen"
           }
         }
       }
     },
-    "Normaal": {
-      "comment": "Tile size option - normal",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Normal"
+    "Netwerkfout: %@" : {
+      "comment" : "Error when network request fails",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network error: %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Normaal"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Netwerkfout: %@"
           }
         }
       }
     },
-    "Nu verversen": {
-      "comment": "Button to manually refresh all content",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Refresh now"
+    "Nieuw" : {
+      "comment" : "Category name for new videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nu verversen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuw"
           }
         }
       }
     },
-    "Ongeldige URL": {
-      "comment": "Error when URL is malformed",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invalid URL"
+    "Normaal" : {
+      "comment" : "Tile size option - normal",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normal"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ongeldige URL"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Normaal"
           }
         }
       }
     },
-    "Opnieuw proberen": {
-      "comment": "Button to retry a failed operation",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Try again"
+    "Nu verversen" : {
+      "comment" : "Button to manually refresh all content",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh now"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opnieuw proberen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu verversen"
           }
         }
       }
     },
-    "Over": {
-      "comment": "Settings section header for about information",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "About"
+    "Ongeldige URL" : {
+      "comment" : "Error when URL is malformed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid URL"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Over"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongeldige URL"
           }
         }
       }
     },
-    "Overlay tonen": {
-      "comment": "Toggle label for showing the up-next overlay",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show overlay"
+    "Opnieuw proberen" : {
+      "comment" : "Button to retry a failed operation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Overlay tonen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opnieuw proberen"
           }
         }
       }
     },
-    "Overlay, aftelling en minimale videolengte": {
-      "comment": "Description for up-next settings navigation link",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Overlay, countdown and minimum video length"
+    "Over" : {
+      "comment" : "Settings section header for about information",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Overlay, aftelling en minimale videolengte"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over"
           }
         }
       }
     },
-    "Pas je filters aan om meer resultaten te zien": {
-      "comment": "Empty state description when filters exclude all results",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Adjust your filters to see more results"
+    "Overlay tonen" : {
+      "comment" : "Toggle label for showing the up-next overlay",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show overlay"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pas je filters aan om meer resultaten te zien"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overlay tonen"
           }
         }
       }
     },
-    "Politie": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Police"
+    "Overlay, aftelling en minimale videolengte" : {
+      "comment" : "Description for up-next settings navigation link",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overlay, countdown and minimum video length"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Politie"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overlay, aftelling en minimale videolengte"
           }
         }
       }
     },
-    "Populair": {
-      "comment": "Search suggestions section header for popular tags",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Popular"
+    "Pas je filters aan om meer resultaten te zien" : {
+      "comment" : "Empty state description when filters exclude all results",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust your filters to see more results"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Populair"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas je filters aan om meer resultaten te zien"
           }
         }
       }
     },
-    "Recent gezocht": {
-      "comment": "Search suggestions section header for recent searches",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recently searched"
+    "Politie" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Police"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recent gezocht"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politie"
           }
         }
       }
     },
-    "Reeten": {
-      "comment": "Tab label for hall of fame section",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reeten"
+    "Populair" : {
+      "comment" : "Search suggestions section header for popular tags",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popular"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reeten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Populair"
           }
         }
       }
     },
-    "Reset": {
-      "comment": "Button label to reset search filters",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset"
+    "Recent gezocht" : {
+      "comment" : "Search suggestions section header for recent searches",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recently searched"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent gezocht"
           }
         }
       }
     },
-    "Schaatsen": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skating"
+    "Reeten" : {
+      "comment" : "Tab label for hall of fame section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reeten"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schaatsen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reeten"
           }
         }
       }
     },
-    "Scroll naar boven": {
-      "comment": "Accessibility label for scroll to top button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scroll to top"
+    "Reset" : {
+      "comment" : "Button label to reset search filters",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scroll naar boven"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
           }
         }
       }
     },
-    "Server fout (HTTP %lld)": {
-      "comment": "Error for HTTP error status code",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Server error (HTTP %lld)"
+    "Schaatsen" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skating"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Server fout (HTTP %lld)"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schaatsen"
           }
         }
       }
     },
-    "Speel automatisch de volgende video af": {
-      "comment": "Description for autoplay toggle",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Automatically play next video"
+    "Scroll naar boven" : {
+      "comment" : "Accessibility label for scroll to top button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scroll to top"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Speel automatisch de volgende video af"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scroll naar boven"
           }
         }
       }
     },
-    "Speel een preview bij focus op een video": {
-      "comment": "Description for video preview toggle",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Play preview when focusing on a video"
+    "Server fout (HTTP %lld)" : {
+      "comment" : "Error for HTTP error status code",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server error (HTTP %lld)"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Speel een preview bij focus op een video"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server fout (HTTP %lld)"
           }
         }
       }
     },
-    "Speel nu af: %@": {
-      "comment": "Accessibility label for up-next play button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Now playing: %@"
+    "Slimme thumbnails" : {
+
+    },
+    "Speel automatisch de volgende video af" : {
+      "comment" : "Description for autoplay toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically play next video"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Speel nu af: %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speel automatisch de volgende video af"
           }
         }
       }
     },
-    "Standaardwaarden herstellen": {
-      "comment": "Confirmation dialog title for resetting settings",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore defaults"
+    "Speel een preview bij focus op een video" : {
+      "comment" : "Description for video preview toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play preview when focusing on a video"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standaardwaarden herstellen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speel een preview bij focus op een video"
           }
         }
       }
     },
-    "Suggesties": {
-      "comment": "Section title for search suggestions",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Suggestions"
+    "Speel nu af: %@" : {
+      "comment" : "Accessibility label for up-next play button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now playing: %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Suggesties"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speel nu af: %@"
           }
         }
       }
     },
-    "Toon de overlay alleen bij langere video's": {
-      "comment": "Description for minimum video length setting",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Only show the overlay for longer videos"
+    "Standaardwaarden herstellen" : {
+      "comment" : "Confirmation dialog title for resetting settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore defaults"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toon de overlay alleen bij langere video's"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standaardwaarden herstellen"
           }
         }
       }
     },
-    "Toon een aftelling met de volgende video": {
-      "comment": "Description for show overlay toggle",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show a countdown with the next video"
+    "Suggesties" : {
+      "comment" : "Section title for search suggestions",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggestions"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toon een aftelling met de volgende video"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggesties"
           }
         }
       }
     },
-    "Toon video's met meer downvotes dan upvotes": {
-      "comment": "Description for show negative kudos toggle",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show videos with more downvotes than upvotes"
+    "Toegevoegd aan %@" : {
+      "comment" : "Toast message when adding video to a category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toon video's met meer downvotes dan upvotes"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegevoegd aan %@"
           }
         }
       }
     },
-    "Top Deze Maand": {
-      "comment": "Section title for this month's top videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Top This Month"
+    "Toon de overlay alleen bij langere video's" : {
+      "comment" : "Description for minimum video length setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only show the overlay for longer videos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Top Deze Maand"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon de overlay alleen bij langere video's"
           }
         }
       }
     },
-    "Top Deze Week": {
-      "comment": "Section title for this week's top videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Top This Week"
+    "Toon een aftelling met de volgende video" : {
+      "comment" : "Description for show overlay toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show a countdown with the next video"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Top Deze Week"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon een aftelling met de volgende video"
           }
         }
       }
     },
-    "Toppers": {
-      "comment": "Tab label for trending/top videos section",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Top Videos"
+    "Toon video's met meer downvotes dan upvotes" : {
+      "comment" : "Description for show negative kudos toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show videos with more downvotes than upvotes"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toppers"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon video's met meer downvotes dan upvotes"
           }
         }
       }
     },
-    "Trending Nu": {
-      "comment": "Section title for currently trending videos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trending Now"
+    "Top Deze Maand" : {
+      "comment" : "Section title for this month's top videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top This Month"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trending Nu"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Deze Maand"
           }
         }
       }
     },
-    "Uitzoomen": {
-      "comment": "Accessibility label for zoom out button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom out"
+    "Top Deze Week" : {
+      "comment" : "Section title for this week's top videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top This Week"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uitzoomen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Deze Week"
           }
         }
       }
     },
-    "Vandaag": {
-      "comment": "Period filter option",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Today"
+    "Toppers" : {
+      "comment" : "Tab label for trending/top videos section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Videos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vandaag"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toppers"
           }
         }
       }
     },
-    "Verberg video's die je al hebt gezien": {
-      "comment": "Description for hide watched videos toggle",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide videos you've already seen"
+    "Trending Nu" : {
+      "comment" : "Section title for currently trending videos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending Now"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verberg video's die je al hebt gezien"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending Nu"
           }
         }
       }
     },
-    "Verberg video's onder dit aantal": {
-      "comment": "Description for minimum kudos filter",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide videos below this number of kudos"
+    "Uitzoomen" : {
+      "comment" : "Accessibility label for zoom out button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom out"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verberg video's onder dit aantal kudos"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uitzoomen"
           }
         }
       }
     },
-    "Versie": {
-      "comment": "Label for app version number",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Version"
+    "Vandaag" : {
+      "comment" : "Period filter option",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Versie"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vandaag"
           }
         }
       }
     },
-    "Verwijder": {
-      "comment": "Button label to delete a search suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
+    "Verberg video's die je al hebt gezien" : {
+      "comment" : "Description for hide watched videos toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide videos you've already seen"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwijder"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verberg video's die je al hebt gezien"
           }
         }
       }
     },
-    "Verwijder opgeslagen afbeeldingen en API-data": {
-      "comment": "Description for clear cache button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete saved images and API data"
+    "Verberg video's onder dit aantal" : {
+      "comment" : "Description for minimum kudos filter",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide videos below this number of kudos"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwijder opgeslagen afbeeldingen en API-data"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verberg video's onder dit aantal kudos"
           }
         }
       }
+    },
+    "Verbeter thumbnails automatisch met een beter videoframe" : {
+
     },
-    "Verwijder uit %@": {
-      "comment": "Context menu button to remove video from a category",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Remove from %@"
+    "Versie" : {
+      "comment" : "Label for app version number",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwijder uit %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie"
           }
         }
       }
     },
-    "Video": {
-      "comment": "Accessibility: content type video",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video"
+    "Verwijder" : {
+      "comment" : "Button label to delete a search suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder"
           }
         }
       }
     },
-    "Video voorvertoning": {
-      "comment": "Toggle for thumbnail video preview on focus",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video preview"
+    "Verwijder opgeslagen afbeeldingen en API-data" : {
+      "comment" : "Description for clear cache button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete saved images and API data"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video voorvertoning"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder opgeslagen afbeeldingen en API-data"
           }
         }
       }
     },
-    "Voeg toe aan %@": {
-      "comment": "Context menu button to add video to a category",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add to %@"
+    "Verwijder uit %@" : {
+      "comment" : "Context menu button to remove video from a category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voeg toe aan %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder uit %@"
           }
         }
       }
     },
-    "Voetbal": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Football"
+    "Verwijderd uit %@" : {
+      "comment" : "Toast message when removing video from a category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed from %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voetbal"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijderd uit %@"
           }
         }
       }
     },
-    "Volgende video": {
-      "comment": "Label in up-next overlay for the next video",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Next video"
+    "Video" : {
+      "comment" : "Accessibility: content type video",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Volgende video"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video"
           }
         }
       }
     },
-    "Voorbeeld: %lld kolommen": {
-      "comment": "Accessibility label for card size preview",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preview: %lld columns"
+    "Video voorvertoning" : {
+      "comment" : "Toggle for thumbnail video preview on focus",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video preview"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voorbeeld: %lld kolommen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video voorvertoning"
           }
         }
       }
     },
-    "VrijMiCo": {
-      "comment": "Category name for Friday/Saturday/Sunday content",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "VrijMiCo"
+    "Voeg toe aan %@" : {
+      "comment" : "Context menu button to add video to a category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to %@"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "VrijMiCo"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voeg toe aan %@"
           }
         }
       }
     },
-    "Vuurwerk": {
-      "comment": "Search category suggestion",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fireworks"
+    "Voetbal" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Football"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vuurwerk"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voetbal"
           }
         }
       }
     },
-    "Weergave & content": {
-      "comment": "Settings section header for display and content options",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Display & content"
+    "Volgende video" : {
+      "comment" : "Label in up-next overlay for the next video",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next video"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Weergave & content"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgende video"
           }
         }
       }
     },
-    "Wis alle recente zoekopdrachten": {
-      "comment": "Accessibility label for clear all searches button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear all recent searches"
+    "Voorbeeld: %lld kolommen" : {
+      "comment" : "Accessibility label for card size preview",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview: %lld columns"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wis alle recente zoekopdrachten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voorbeeld: %lld kolommen"
           }
         }
       }
     },
-    "Wis alles": {
-      "comment": "Button label to clear all recent searches",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear all"
+    "VrijMiCo" : {
+      "comment" : "Category name for Friday/Saturday/Sunday content",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VrijMiCo"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wis alles"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VrijMiCo"
           }
         }
       }
     },
-    "Wis geschiedenis": {
-      "comment": "Destructive button to clear watch history in confirmation dialog",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear history"
+    "Vuurwerk" : {
+      "comment" : "Search category suggestion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fireworks"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wis geschiedenis"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuurwerk"
           }
         }
       }
     },
-    "Wis zoekgeschiedenis": {
-      "comment": "Confirmation dialog button for clearing search history",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear search history"
+    "Weergave & content" : {
+      "comment" : "Settings section header for display and content options",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display & content"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wis zoekgeschiedenis"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weergave & content"
           }
         }
       }
     },
-    "Zet alle instellingen terug naar fabrieksinstellingen": {
-      "comment": "Description for restore defaults button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset all settings to factory defaults"
+    "Wis alle recente zoekopdrachten" : {
+      "comment" : "Accessibility label for clear all searches button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear all recent searches"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zet alle instellingen terug naar fabrieksinstellingen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis alle recente zoekopdrachten"
           }
         }
       }
     },
-    "Zoek op Dumpert": {
-      "comment": "Search field placeholder text",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search on Dumpert"
+    "Wis alles" : {
+      "comment" : "Button label to clear all recent searches",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear all"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoek op Dumpert"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis alles"
           }
         }
       }
     },
-    "Zoeken": {
-      "comment": "Tab label and navigation title for search screen",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Search"
+    "Wis geschiedenis" : {
+      "comment" : "Destructive button to clear watch history in confirmation dialog",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear history"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis geschiedenis"
           }
         }
       }
     },
-    "Zoeken...": {
-      "comment": "Loading indicator during search",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Searching..."
+    "Wis zoekgeschiedenis" : {
+      "comment" : "Confirmation dialog button for clearing search history",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear search history"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoeken..."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wis zoekgeschiedenis"
           }
         }
       }
     },
-    "Zoekgeschiedenis wissen": {
-      "comment": "Confirmation dialog title for clearing search history",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear search history"
+    "Zet alle instellingen terug naar fabrieksinstellingen" : {
+      "comment" : "Description for restore defaults button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset all settings to factory defaults"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoekgeschiedenis wissen"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zet alle instellingen terug naar fabrieksinstellingen"
           }
         }
       }
     },
-    "Zoom resetten": {
-      "comment": "Accessibility label for reset zoom button",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset zoom"
+    "Zoek op Dumpert" : {
+      "comment" : "Search field placeholder text",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search on Dumpert"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zoom resetten"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek op Dumpert"
           }
         }
       }
     },
-    "Gemarkeerd als onbekeken": {
-      "comment": "Toast message when marking video as unwatched",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marked as unwatched"
+    "Zoeken" : {
+      "comment" : "Tab label and navigation title for search screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemarkeerd als onbekeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
           }
         }
       }
     },
-    "Gemarkeerd als bekeken": {
-      "comment": "Toast message when marking video as watched",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marked as watched"
+    "Zoeken..." : {
+      "comment" : "Loading indicator during search",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searching..."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gemarkeerd als bekeken"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken..."
           }
         }
       }
     },
-    "Toegevoegd aan %@": {
-      "comment": "Toast message when adding video to a category",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Added to %@"
+    "Zoekgeschiedenis wissen" : {
+      "comment" : "Confirmation dialog title for clearing search history",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear search history"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toegevoegd aan %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoekgeschiedenis wissen"
           }
         }
       }
     },
-    "Verwijderd uit %@": {
-      "comment": "Toast message when removing video from a category",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Removed from %@"
+    "Zoom resetten" : {
+      "comment" : "Accessibility label for reset zoom button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset zoom"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Verwijderd uit %@"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoom resetten"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

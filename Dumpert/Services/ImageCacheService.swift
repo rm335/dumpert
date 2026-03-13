@@ -44,7 +44,7 @@ actor ImageCacheService {
         }
 
         // 2. Disk cache
-        let diskURL = diskCacheURL.appendingPathComponent(key)
+        var diskURL = diskCacheURL.appendingPathComponent(key)
         if let data = try? Data(contentsOf: diskURL),
            let image = UIImage(data: data) {
             let cost = data.count
@@ -66,8 +66,11 @@ actor ImageCacheService {
         // Store in memory
         memoryCache.setObject(image, forKey: key as NSString, cost: data.count)
 
-        // Store on disk (fire-and-forget)
+        // Store on disk (fire-and-forget, excluded from backup)
         try? data.write(to: diskURL, options: .atomic)
+        var resourceValues = URLResourceValues()
+        resourceValues.isExcludedFromBackup = true
+        try? diskURL.setResourceValues(resourceValues)
         evictDiskIfNeeded()
 
         return image

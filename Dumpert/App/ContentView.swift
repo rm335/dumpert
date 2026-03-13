@@ -17,52 +17,59 @@ struct ContentView: View {
                 .fontWeight(.medium)
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-                .background(.red.opacity(0.85))
+                .padding(.vertical, 10)
+                .background(.ultraThinMaterial)
+                .background(.red.opacity(0.6))
+                .transition(.move(edge: .top).combined(with: .opacity))
             }
 
             TabView {
-            ToppersSectionView()
-                .tabItem {
-                    Label("Toppers", systemImage: "flame.fill")
-                }
+                ToppersSectionView()
+                    .tabItem {
+                        Label("Toppers", systemImage: "flame.fill")
+                    }
 
-            CategorySectionView(category: .nieuwBinnen)
-                .tabItem {
-                    Label("Nieuw", systemImage: "sparkles")
-                }
+                CategorySectionView(category: .nieuwBinnen)
+                    .tabItem {
+                        Label("Nieuw", systemImage: "sparkles")
+                    }
 
-            CategorySectionView(category: .reeten)
-                .tabItem {
-                    Label("Reeten", systemImage: "trophy")
-                }
+                CategorySectionView(category: .reeten)
+                    .tabItem {
+                        Label("Reeten", systemImage: "trophy")
+                    }
 
-            CategorySectionView(category: .vrijmico)
-                .tabItem {
-                    Label("VrijMiCo", systemImage: "party.popper.fill")
-                }
+                CategorySectionView(category: .vrijmico)
+                    .tabItem {
+                        Label("VrijMiCo", systemImage: "party.popper.fill")
+                    }
 
-            CategorySectionView(category: .dashcam)
-                .tabItem {
-                    Label("Dashcam", systemImage: "car.fill")
-                }
+                CategorySectionView(category: .dashcam)
+                    .tabItem {
+                        Label("Dashcam", systemImage: "car.fill")
+                    }
 
-            ClassicsSectionView()
-                .tabItem {
-                    Label("Classics", systemImage: "clock.arrow.circlepath")
-                }
+                DumpertTVSectionView()
+                    .tabItem {
+                        Label("Dumpert TV", systemImage: "tv.fill")
+                    }
+                ClassicsSectionView()
+                    .tabItem {
+                        Label("Classics", systemImage: "clock.arrow.circlepath")
+                    }
 
-            SearchView()
-                .tabItem {
-                    Label("Zoeken", systemImage: "magnifyingglass")
-                }
+                SearchView()
+                    .tabItem {
+                        Label("Zoeken", systemImage: "magnifyingglass")
+                    }
 
-            SettingsView()
-                .tabItem {
-                    Label("Instellingen", systemImage: "gearshape.fill")
-                }
+                SettingsView()
+                    .tabItem {
+                        Label("Instellingen", systemImage: "gearshape.fill")
+                    }
             }
         }
+        .animation(.smooth, value: networkMonitor.isConnected)
         .fullScreenCover(item: $deepLinkVideo) { video in
             VideoPlayerView(viewModel: VideoPlayerViewModel(
                 video: video,
@@ -75,7 +82,7 @@ struct ContentView: View {
             let allItems = repository.hotshiz
                 + repository.topWeek + repository.topMonth
             if let item = allItems.first(where: { $0.id == videoId }),
-               case .video(let video) = item {
+               case let .video(video) = item {
                 deepLinkVideo = video
             }
         }

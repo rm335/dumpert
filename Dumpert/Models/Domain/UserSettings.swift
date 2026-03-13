@@ -42,19 +42,21 @@ final class UserSettings {
     var reetenMinimumMinutes: Int
     var showNegativeKudos: Bool
     var thumbnailPreviewEnabled: Bool
+    var smartThumbnailsEnabled: Bool
     var tileSize: TileSize
     var upNextOverlayEnabled: Bool
     var upNextCountdownSeconds: Int
     var upNextMinimumVideoSeconds: Int
     var lastModified: Date
 
-    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, thumbnailPreviewEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60) {
+    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60) {
         self.minimumKudos = minimumKudos
         self.autoplayEnabled = autoplayEnabled
         self.hideWatched = hideWatched
         self.reetenMinimumMinutes = reetenMinimumMinutes
         self.showNegativeKudos = showNegativeKudos
         self.thumbnailPreviewEnabled = thumbnailPreviewEnabled
+        self.smartThumbnailsEnabled = smartThumbnailsEnabled
         self.tileSize = tileSize
         self.upNextOverlayEnabled = upNextOverlayEnabled
         self.upNextCountdownSeconds = upNextCountdownSeconds
@@ -70,6 +72,7 @@ final class UserSettings {
             reetenMinimumMinutes: reetenMinimumMinutes,
             showNegativeKudos: showNegativeKudos,
             thumbnailPreviewEnabled: thumbnailPreviewEnabled,
+            smartThumbnailsEnabled: smartThumbnailsEnabled,
             tileSize: tileSize,
             upNextOverlayEnabled: upNextOverlayEnabled,
             upNextCountdownSeconds: upNextCountdownSeconds,
@@ -85,6 +88,7 @@ final class UserSettings {
         reetenMinimumMinutes = snapshot.reetenMinimumMinutes
         showNegativeKudos = snapshot.showNegativeKudos
         thumbnailPreviewEnabled = snapshot.thumbnailPreviewEnabled
+        smartThumbnailsEnabled = snapshot.smartThumbnailsEnabled
         tileSize = snapshot.tileSize
         upNextOverlayEnabled = snapshot.upNextOverlayEnabled
         upNextCountdownSeconds = snapshot.upNextCountdownSeconds
@@ -100,19 +104,21 @@ struct UserSettingsSnapshot: Codable, Sendable {
     var reetenMinimumMinutes: Int
     var showNegativeKudos: Bool
     var thumbnailPreviewEnabled: Bool
+    var smartThumbnailsEnabled: Bool
     var tileSize: TileSize
     var upNextOverlayEnabled: Bool
     var upNextCountdownSeconds: Int
     var upNextMinimumVideoSeconds: Int
     var lastModified: Date
 
-    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, thumbnailPreviewEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, lastModified: Date = Date()) {
+    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, lastModified: Date = Date()) {
         self.minimumKudos = minimumKudos
         self.autoplayEnabled = autoplayEnabled
         self.hideWatched = hideWatched
         self.reetenMinimumMinutes = reetenMinimumMinutes
         self.showNegativeKudos = showNegativeKudos
         self.thumbnailPreviewEnabled = thumbnailPreviewEnabled
+        self.smartThumbnailsEnabled = smartThumbnailsEnabled
         self.tileSize = tileSize
         self.upNextOverlayEnabled = upNextOverlayEnabled
         self.upNextCountdownSeconds = upNextCountdownSeconds
@@ -135,6 +141,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
         }
         showNegativeKudos = try container.decode(Bool.self, forKey: .showNegativeKudos)
         thumbnailPreviewEnabled = try container.decode(Bool.self, forKey: .thumbnailPreviewEnabled)
+        smartThumbnailsEnabled = try container.decodeIfPresent(Bool.self, forKey: .smartThumbnailsEnabled) ?? true
         tileSize = try container.decodeIfPresent(TileSize.self, forKey: .tileSize) ?? .normal
         upNextOverlayEnabled = try container.decodeIfPresent(Bool.self, forKey: .upNextOverlayEnabled) ?? true
         upNextCountdownSeconds = try container.decodeIfPresent(Int.self, forKey: .upNextCountdownSeconds) ?? 5
@@ -145,7 +152,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case minimumKudos, autoplayEnabled, hideWatched
         case reetenMinimumMinutes = "reetenMinimumDuration"
-        case showNegativeKudos, thumbnailPreviewEnabled, tileSize
+        case showNegativeKudos, thumbnailPreviewEnabled, smartThumbnailsEnabled, tileSize
         case upNextOverlayEnabled, upNextCountdownSeconds, upNextMinimumVideoSeconds
         case lastModified
     }

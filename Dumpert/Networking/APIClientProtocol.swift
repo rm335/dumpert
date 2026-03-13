@@ -8,6 +8,8 @@ protocol APIClientProtocol: Sendable {
     func fetchLatest(page: Int) async throws -> [MediaItem]
     func fetchSearch(query: String, page: Int) async throws -> [MediaItem]
     func fetchClassics(page: Int) async throws -> [MediaItem]
+    func fetchRelated(id: String) async throws -> [MediaItem]
+    func fetchDumpertTV() async throws -> [MediaItem]
 }
 
 extension DumpertAPIClient: @preconcurrency APIClientProtocol {}

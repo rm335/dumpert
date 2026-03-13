@@ -75,7 +75,7 @@ var body: some View {
                                 columns: repository.settings.tileSize.gridColumns,
                                 spacing: 35
                             ) {
-                                ForEach(items) { item in
+                                ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                                     Button {
                                         item.present(selectedVideo: $selectedVideo, selectedPhoto: $selectedPhoto)
                                     } label: {
@@ -84,41 +84,21 @@ var body: some View {
                                             isWatched: repository.isWatched(item.id),
                                             progress: repository.progressFor(item.id),
                                             isFocused: focusedItem == item.id,
-                                            thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled
+                                            thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled,
+                                            smartThumbnailsEnabled: repository.settings.smartThumbnailsEnabled && category != .reeten && category != .vrijmico
                                         )
                                     }
                                     .buttonStyle(.card)
                                     .focused($focusedItem, equals: item.id)
-                                    .contextMenu {
-                                        Button(repository.isWatched(item.id) ? "Markeer als onbekeken" : "Markeer als bekeken") {
-                                            let wasWatched = repository.isWatched(item.id)
-                                            repository.toggleWatched(videoId: item.id)
-                                            toastMessage = wasWatched ? String(localized: "Gemarkeerd als onbekeken") : String(localized: "Gemarkeerd als bekeken")
-                                        }
-                                        if !category.usesLatestEndpoint {
-                                            Button("Verwijder uit \(category.displayName)") {
-                                                repository.removeFromCategory(videoId: item.id, category: category)
-                                                toastMessage = String(localized: "Verwijderd uit \(category.displayName)")
-                                            }
-                                        }
-                                        ForEach(VideoCategory.allCases.filter { $0 != category && !$0.usesLatestEndpoint }) { otherCategory in
-                                            Button("Voeg toe aan \(otherCategory.displayName)") {
-                                                repository.addToCategory(videoId: item.id, category: otherCategory)
-                                                toastMessage = String(localized: "Toegevoegd aan \(otherCategory.displayName)")
-                                            }
-                                        }
-                                    }
+                                    .videoContextMenu(item: item, repository: repository, toastMessage: $toastMessage, currentCategory: category)
                                     .onAppear {
-                                        if let index = items.firstIndex(of: item) {
-                                            // Prefetch thumbnails for upcoming items
-                                            let prefetchRange = (index + 1)..<min(index + 6, items.count)
-                                            if !prefetchRange.isEmpty {
-                                                let upcoming = Array(items[prefetchRange])
-                                                Task { await ImagePrefetchService.shared.prefetch(upcoming) }
-                                            }
-                                            if index >= items.count - 3 {
-                                                Task { await repository.loadMoreForCategory(category) }
-                                            }
+                                        let prefetchRange = (index + 1)..<min(index + 6, items.count)
+                                        if !prefetchRange.isEmpty {
+                                            let upcoming = Array(items[prefetchRange])
+                                            Task { await ImagePrefetchService.shared.prefetch(upcoming) }
+                                        }
+                                        if index >= items.count - 3 {
+                                            Task { await repository.loadMoreForCategory(category) }
                                         }
                                     }
                                 }

@@ -81,6 +81,9 @@ struct SearchView: View {
         ScrollView {
             if viewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 suggestionsView(viewModel)
+            } else if viewModel.isSearching && viewModel.results.isEmpty {
+                SkeletonGridView(columnCount: repository.settings.tileSize.gridColumnCount)
+                    .padding(.vertical, 30)
             } else if let error = viewModel.error {
                 errorView(error, viewModel: viewModel)
             } else if viewModel.filteredResults.isEmpty && viewModel.hasSearched && !viewModel.isSearching {
@@ -111,12 +114,6 @@ struct SearchView: View {
                     }
                     resultsGrid(viewModel)
                 }
-            }
-        }
-        .overlay {
-            if viewModel.isSearching && viewModel.results.isEmpty {
-                ProgressView("Zoeken...")
-                    .transition(.opacity)
             }
         }
         .animation(.easeOut(duration: 0.3), value: viewModel.isSearching)
@@ -150,7 +147,7 @@ struct SearchView: View {
                 columns: repository.settings.tileSize.gridColumns,
                 spacing: 35
             ) {
-                ForEach(viewModel.filteredResults) { item in
+                ForEach(Array(viewModel.filteredResults.enumerated()), id: \.element.id) { index, item in
                     Button {
                         item.present(selectedVideo: $selectedVideo, selectedPhoto: $selectedPhoto)
                     } label: {
@@ -159,35 +156,22 @@ struct SearchView: View {
                             isWatched: repository.isWatched(item.id),
                             progress: repository.progressFor(item.id),
                             isFocused: focusedItem == item.id,
-                            thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled
+                            thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled,
+                            smartThumbnailsEnabled: repository.settings.smartThumbnailsEnabled
                         )
                     }
                     .buttonStyle(.card)
                     .focused($focusedItem, equals: item.id)
-                    .contextMenu {
-                        Button(repository.isWatched(item.id) ? "Markeer als onbekeken" : "Markeer als bekeken") {
-                            let wasWatched = repository.isWatched(item.id)
-                            repository.toggleWatched(videoId: item.id)
-                            toastMessage = wasWatched ? String(localized: "Gemarkeerd als onbekeken") : String(localized: "Gemarkeerd als bekeken")
-                        }
-                        ForEach(VideoCategory.allCases.filter { !$0.usesLatestEndpoint }) { category in
-                            Button("Voeg toe aan \(category.displayName)") {
-                                repository.addToCategory(videoId: item.id, category: category)
-                                toastMessage = String(localized: "Toegevoegd aan \(category.displayName)")
-                            }
-                        }
-                    }
+                    .videoContextMenu(item: item, repository: repository, toastMessage: $toastMessage)
                     .onAppear {
-                        if let index = viewModel.filteredResults.firstIndex(of: item) {
-                            let results = viewModel.filteredResults
-                            let prefetchRange = (index + 1)..<min(index + 6, results.count)
-                            if !prefetchRange.isEmpty {
-                                let upcoming = Array(results[prefetchRange])
-                                Task { await ImagePrefetchService.shared.prefetch(upcoming) }
-                            }
-                            if index >= results.count - 3 {
-                                Task { await viewModel.loadMore() }
-                            }
+                        let results = viewModel.filteredResults
+                        let prefetchRange = (index + 1)..<min(index + 6, results.count)
+                        if !prefetchRange.isEmpty {
+                            let upcoming = Array(results[prefetchRange])
+                            Task { await ImagePrefetchService.shared.prefetch(upcoming) }
+                        }
+                        if index >= results.count - 3 {
+                            Task { await viewModel.loadMore() }
                         }
                     }
                 }

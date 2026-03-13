@@ -20,6 +20,7 @@ struct VideoPreviewView: UIViewRepresentable {
     }
 }
 
+@MainActor
 final class VideoPreviewUIView: UIView {
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?

@@ -7,6 +7,7 @@ struct ToppersSectionView: View {
     @State private var toastMessage: String?
     @State private var heroIndex = 0
     @State private var heroAutoRotate = true
+    @State private var resumeAutoRotateTask: Task<Void, Never>?
     @FocusState private var focusedItem: String?
 
     private var heroItems: [MediaItem] {
@@ -92,9 +93,13 @@ struct ToppersSectionView: View {
                             heroCarousel
                         }
 
-                        mediaRow(title: "Trending Nu", items: repository.filteredItems(repository.hotshiz))
-                        mediaRow(title: "Top Deze Week", items: repository.filteredItems(repository.topWeek))
-                        mediaRow(title: "Top Deze Maand", items: repository.filteredItems(repository.topMonth))
+                        let trendingItems = repository.filteredItems(repository.hotshiz)
+                        let weekItems = repository.filteredItems(repository.topWeek)
+                        let monthItems = repository.filteredItems(repository.topMonth)
+
+                        mediaRow(title: "Trending Nu", items: trendingItems)
+                        mediaRow(title: "Top Deze Week", items: weekItems)
+                        mediaRow(title: "Top Deze Maand", items: monthItems)
                     }
                     .padding(.horizontal, 50)
                     .padding(.vertical, 30)
@@ -141,25 +146,14 @@ struct ToppersSectionView: View {
                                     isWatched: repository.isWatched(item.id),
                                     progress: repository.progressFor(item.id),
                                     isFocused: focusedItem == item.id,
-                                    thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled
+                                    thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled,
+                                    smartThumbnailsEnabled: repository.settings.smartThumbnailsEnabled
                                 )
                             }
                             .buttonStyle(.card)
                             .frame(width: repository.settings.tileSize.horizontalCardWidth)
                             .focused($focusedItem, equals: item.id)
-                            .contextMenu {
-                                Button(repository.isWatched(item.id) ? "Markeer als onbekeken" : "Markeer als bekeken") {
-                                    let wasWatched = repository.isWatched(item.id)
-                                    repository.toggleWatched(videoId: item.id)
-                                    toastMessage = wasWatched ? String(localized: "Gemarkeerd als onbekeken") : String(localized: "Gemarkeerd als bekeken")
-                                }
-                                ForEach(VideoCategory.allCases.filter { !$0.usesLatestEndpoint }) { category in
-                                    Button("Voeg toe aan \(category.displayName)") {
-                                        repository.addToCategory(videoId: item.id, category: category)
-                                        toastMessage = String(localized: "Toegevoegd aan \(category.displayName)")
-                                    }
-                                }
-                            }
+                            .videoContextMenu(item: item, repository: repository, toastMessage: $toastMessage)
                         }
                     }
                     .padding(.vertical, 20)
@@ -192,7 +186,10 @@ struct ToppersSectionView: View {
                 // Info overlay crossfades with the thumbnail
                 heroInfoOverlay(for: heroItems[heroIndex])
                     .id(heroItems[heroIndex].id)
-                    .transition(.opacity)
+                    .transition(.asymmetric(
+                        insertion: .offset(y: 12).combined(with: .opacity),
+                        removal: .opacity
+                    ))
 
                 // Page indicators
                 if heroItems.count > 1 {
@@ -251,18 +248,24 @@ struct ToppersSectionView: View {
     }
 
     private var pageIndicators: some View {
-        HStack(spacing: 8) {
-            ForEach(0..<heroItems.count, id: \.self) { index in
-                Circle()
-                    .fill(index == heroIndex ? Color.dumpiGreen : .white.opacity(0.4))
-                    .frame(width: 10, height: 10)
-                    .scaleEffect(index == heroIndex ? 1.3 : 1.0)
-                    .animation(.spring(duration: 0.4, bounce: 0.3), value: heroIndex)
+        HStack(spacing: 10) {
+            if !heroAutoRotate {
+                Image(systemName: "pause.fill")
+                    .font(.system(size: 10))
+                    .foregroundStyle(.white.opacity(0.6))
+                    .transition(.scale.combined(with: .opacity))
             }
+            Text("\(heroIndex + 1) / \(heroItems.count)")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .monospacedDigit()
+                .foregroundStyle(.white)
+                .contentTransition(.numericText())
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
         .background(.ultraThinMaterial, in: Capsule())
+        .animation(.smooth(duration: 0.3), value: heroAutoRotate)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
         .padding(20)
     }
@@ -332,8 +335,10 @@ struct ToppersSectionView: View {
     }
 
     private func resumeAutoRotateAfterDelay() {
-        Task {
+        resumeAutoRotateTask?.cancel()
+        resumeAutoRotateTask = Task {
             try? await Task.sleep(for: .seconds(10))
+            guard !Task.isCancelled else { return }
             heroAutoRotate = true
         }
     }

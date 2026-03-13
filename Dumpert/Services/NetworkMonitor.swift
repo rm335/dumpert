@@ -12,8 +12,8 @@ final class NetworkMonitor {
 
     init() {
         monitor.pathUpdateHandler = { [weak self] path in
-            Task { @MainActor [weak self] in
-                self?.isConnected = path.status == .satisfied
+            Task { @MainActor in
+                self?.isConnected = path.status == .satisfied || path.status == .requiresConnection
                 self?.connectionType = path.availableInterfaces.first?.type
             }
         }

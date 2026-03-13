@@ -52,6 +52,13 @@ struct SettingsView: View {
                     isOn: $settings.hideWatched
                 )
 
+                settingsToggle(
+                    "Slimme thumbnails",
+                    icon: "sparkles.rectangle.stack",
+                    description: "Verbeter thumbnails automatisch met een beter videoframe",
+                    isOn: $settings.smartThumbnailsEnabled
+                )
+
                 settingsNavigationPicker(
                     "Kaartgrootte",
                     icon: "square.grid.2x2",
@@ -246,7 +253,7 @@ struct SettingsView: View {
             // MARK: - Over
 
             Section {
-                infoRow("Versie", icon: "info.circle", value: "\(appVersion)")
+                infoRow("Versie", icon: "info.circle", value: "\(Self.appVersion)")
                 infoRow("Automatisch verversen", icon: "clock", value: "Elke 15 minuten")
 
                 HStack(spacing: 28) {
@@ -282,6 +289,7 @@ struct SettingsView: View {
                             settings.reetenMinimumMinutes = 10
                             settings.showNegativeKudos = false
                             settings.thumbnailPreviewEnabled = true
+                            settings.smartThumbnailsEnabled = true
                             settings.tileSize = .normal
                             settings.upNextOverlayEnabled = true
                             settings.upNextCountdownSeconds = 5
@@ -302,14 +310,10 @@ struct SettingsView: View {
         .task {
             await loadCacheSize()
         }
-        .onChange(of: showRefreshFeedback) {
-            if showRefreshFeedback {
-                Task {
-                    try? await Task.sleep(for: .seconds(4))
-                    withAnimation(.smooth) { showRefreshFeedback = false }
-                }
-            }
-        }
+        .autoDismiss($showRefreshFeedback)
+        .autoDismiss($showHistoryClearedFeedback)
+        .autoDismiss($showSearchHistoryClearedFeedback)
+        .autoDismiss($showResetFeedback)
         .onChange(of: showCacheClearedFeedback) {
             if showCacheClearedFeedback {
                 Task {
@@ -319,29 +323,17 @@ struct SettingsView: View {
                 }
             }
         }
-        .onChange(of: showHistoryClearedFeedback) {
-            if showHistoryClearedFeedback {
-                Task {
-                    try? await Task.sleep(for: .seconds(4))
-                    withAnimation(.smooth) { showHistoryClearedFeedback = false }
-                }
-            }
-        }
-        .onChange(of: showResetFeedback) {
-            if showResetFeedback {
-                Task {
-                    try? await Task.sleep(for: .seconds(4))
-                    withAnimation(.smooth) { showResetFeedback = false }
-                }
-            }
-        }
     }
+
+    private static let byteCountFormatter: ByteCountFormatter = {
+        let f = ByteCountFormatter()
+        f.allowedUnits = [.useMB, .useKB]
+        f.countStyle = .file
+        return f
+    }()
 
     private func loadCacheSize() async {
         let totalBytes = await repository.totalCacheSize()
-        let formatter = ByteCountFormatter()
-        formatter.allowedUnits = [.useMB, .useKB]
-        formatter.countStyle = .file
-        cacheSize = formatter.string(fromByteCount: Int64(totalBytes))
+        cacheSize = Self.byteCountFormatter.string(fromByteCount: Int64(totalBytes))
     }
 }

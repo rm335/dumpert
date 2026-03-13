@@ -27,6 +27,8 @@ final class VideoPlayerViewModel {
     private var upNextCancelled = false
     private var lastSaveTime: Date = .distantPast
     private var preloadedItem: AVPlayerItem?
+    private(set) var relatedVideos: [Video] = []
+    private var isFetchingRelated = false
 
 
     var autoplayEnabled: Bool { repository.settings.autoplayEnabled }
@@ -39,8 +41,10 @@ final class VideoPlayerViewModel {
     }
 
     var nextVideo: Video? {
-        guard currentIndex + 1 < playlist.count else { return nil }
-        return playlist[currentIndex + 1]
+        if currentIndex + 1 < playlist.count {
+            return playlist[currentIndex + 1]
+        }
+        return relatedVideos.first
     }
 
     var hasNextVideo: Bool { nextVideo != nil }
@@ -113,7 +117,7 @@ final class VideoPlayerViewModel {
     private func addTimeObserver() {
         let interval = CMTime(seconds: 1, preferredTimescale: 600)
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            Task { @MainActor [weak self] in
+            Task { @MainActor in
                 guard let self else { return }
                 self.currentTime = time.seconds
                 self.duration = self.player?.currentItem?.duration.seconds ?? 0
@@ -139,9 +143,8 @@ final class VideoPlayerViewModel {
             object: player?.currentItem,
             queue: .main
         ) { [weak self] _ in
-            guard let self else { return }
-            Task { @MainActor in
-                self.onVideoFinished()
+            Task { @MainActor [weak self] in
+                self?.onVideoFinished()
             }
         }
     }
@@ -169,10 +172,21 @@ final class VideoPlayerViewModel {
 
     private func checkUpNext() {
         guard autoplayEnabled,
-              hasNextVideo,
               !upNextCancelled else { return }
 
         let remaining = duration - currentTime
+
+        // Fetch related videos when near the end and playlist is exhausted
+        if remaining <= 30 && currentIndex + 1 >= playlist.count
+            && relatedVideos.isEmpty && !isFetchingRelated {
+            isFetchingRelated = true
+            Task {
+                relatedVideos = await repository.fetchRelatedVideos(for: currentVideo.id)
+                isFetchingRelated = false
+            }
+        }
+
+        guard hasNextVideo else { return }
 
         // Preload next video when <30s remaining
         if remaining <= 30 && preloadedItem == nil,
@@ -203,10 +217,18 @@ final class VideoPlayerViewModel {
     }
 
     func playNext() {
-        guard currentIndex + 1 < playlist.count else { return }
-        currentIndex += 1
-        let nextVideo = playlist[currentIndex]
-        guard let url = nextVideo.streamURL else { return }
+        let targetVideo: Video?
+        if currentIndex + 1 < playlist.count {
+            currentIndex += 1
+            targetVideo = playlist[currentIndex]
+        } else if let related = relatedVideos.first {
+            targetVideo = related
+            relatedVideos.removeFirst()
+        } else {
+            return
+        }
+
+        guard let video = targetVideo, let url = video.streamURL else { return }
 
         upNextCancelled = false
         showUpNext = false
@@ -222,9 +244,9 @@ final class VideoPlayerViewModel {
         addEndObserver()
         player?.play()
 
-        showControlsTask = Task {
+        showControlsTask = Task { [weak self] in
             try? await Task.sleep(for: .seconds(1))
-            playerViewController?.showsPlaybackControls = true
+            self?.playerViewController?.showsPlaybackControls = true
         }
     }
 }

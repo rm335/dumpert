@@ -13,6 +13,7 @@ final class VideoRepository {
     private(set) var watchProgress: [String: WatchProgress] = [:]
     private(set) var curationEntries: [CurationEntry] = []
     private(set) var classics: [MediaItem] = []
+    private(set) var dumpertTV: [MediaItem] = []
     private(set) var searchHistory: [SearchHistoryEntry] = []
 
     // Pagination
@@ -92,6 +93,9 @@ final class VideoRepository {
         if let cachedClassics = await cacheService.loadCachedMediaItems(for: "classics") {
             classics = cachedClassics
         }
+        if let cachedDumpertTV = await cacheService.loadCachedMediaItems(for: "dumperttv") {
+            dumpertTV = cachedDumpertTV
+        }
     }
 
     private func setupCloudKit() async {
@@ -130,6 +134,7 @@ final class VideoRepository {
             group.addTask { await self.refreshToppers() }
             group.addTask { await self.refreshCategories() }
             group.addTask { await self.refreshClassics() }
+            group.addTask { await self.refreshDumpertTV() }
         }
 
         isLoading = false
@@ -239,6 +244,29 @@ final class VideoRepository {
             await cacheService.cacheMediaItems(items, for: "classics")
         } catch {
             self.error = error.localizedDescription
+        }
+    }
+
+    private func refreshDumpertTV() async {
+        do {
+            let items = try await apiClient.fetchDumpertTV()
+            dumpertTV = filterByKudos(items)
+            await cacheService.cacheMediaItems(items, for: "dumperttv")
+        } catch {
+            self.error = error.localizedDescription
+        }
+    }
+
+    func fetchRelatedVideos(for videoId: String) async -> [Video] {
+        do {
+            let items = try await apiClient.fetchRelated(id: videoId)
+            return filterByKudos(items).compactMap { item -> Video? in
+                if case .video(let v) = item { return v }
+                return nil
+            }
+        } catch {
+            Logger.network.warning("Failed to fetch related videos: \(error.localizedDescription)")
+            return []
         }
     }
 
@@ -500,12 +528,14 @@ final class VideoRepository {
     func clearAllCaches() async {
         await cacheService.clearCache()
         await ImageCacheService.shared.clearAll()
+        await ThumbnailUpgradeService.shared.clearCache()
     }
 
     func totalCacheSize() async -> Int {
         let apiCacheBytes = await cacheService.cacheSize()
         let imageCacheBytes = await ImageCacheService.shared.diskSize()
-        return apiCacheBytes + imageCacheBytes
+        let thumbnailUpgradeBytes = await ThumbnailUpgradeService.shared.cacheSize()
+        return apiCacheBytes + imageCacheBytes + thumbnailUpgradeBytes
     }
 
     // MARK: - Sync Helpers

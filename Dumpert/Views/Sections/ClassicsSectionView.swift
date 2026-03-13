@@ -56,7 +56,7 @@ struct ClassicsSectionView: View {
                                 columns: repository.settings.tileSize.gridColumns,
                                 spacing: 35
                             ) {
-                                ForEach(items) { item in
+                                ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                                     Button {
                                         item.present(selectedVideo: $selectedVideo, selectedPhoto: $selectedPhoto)
                                     } label: {
@@ -65,7 +65,8 @@ struct ClassicsSectionView: View {
                                             isWatched: repository.isWatched(item.id),
                                             progress: repository.progressFor(item.id),
                                             isFocused: focusedItem == item.id,
-                                            thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled
+                                            thumbnailPreviewEnabled: repository.settings.thumbnailPreviewEnabled,
+                                            smartThumbnailsEnabled: repository.settings.smartThumbnailsEnabled
                                         )
                                         .overlay(alignment: .topLeading) {
                                             // Vintage year badge for classics
@@ -77,36 +78,22 @@ struct ClassicsSectionView: View {
                                                     .foregroundStyle(.white.opacity(0.9))
                                                     .padding(.horizontal, 6)
                                                     .padding(.vertical, 2)
-                                                    .background(.black.opacity(0.6), in: RoundedRectangle(cornerRadius: 4))
+                                                    .modifier(GlassPillModifier())
                                                     .padding(6)
                                             }
                                         }
                                     }
                                     .buttonStyle(.card)
                                     .focused($focusedItem, equals: item.id)
-                                    .contextMenu {
-                                        Button(repository.isWatched(item.id) ? "Markeer als onbekeken" : "Markeer als bekeken") {
-                                            let wasWatched = repository.isWatched(item.id)
-                                            repository.toggleWatched(videoId: item.id)
-                                            toastMessage = wasWatched ? String(localized: "Gemarkeerd als onbekeken") : String(localized: "Gemarkeerd als bekeken")
-                                        }
-                                        ForEach(VideoCategory.allCases.filter { !$0.usesLatestEndpoint }) { category in
-                                            Button("Voeg toe aan \(category.displayName)") {
-                                                repository.addToCategory(videoId: item.id, category: category)
-                                                toastMessage = String(localized: "Toegevoegd aan \(category.displayName)")
-                                            }
-                                        }
-                                    }
+                                    .videoContextMenu(item: item, repository: repository, toastMessage: $toastMessage)
                                     .onAppear {
-                                        if let index = items.firstIndex(of: item) {
-                                            let prefetchRange = (index + 1)..<min(index + 6, items.count)
-                                            if !prefetchRange.isEmpty {
-                                                let upcoming = Array(items[prefetchRange])
-                                                Task { await ImagePrefetchService.shared.prefetch(upcoming) }
-                                            }
-                                            if index >= items.count - 3 {
-                                                Task { await repository.loadMoreClassics() }
-                                            }
+                                        let prefetchRange = (index + 1)..<min(index + 6, items.count)
+                                        if !prefetchRange.isEmpty {
+                                            let upcoming = Array(items[prefetchRange])
+                                            Task { await ImagePrefetchService.shared.prefetch(upcoming) }
+                                        }
+                                        if index >= items.count - 3 {
+                                            Task { await repository.loadMoreClassics() }
                                         }
                                     }
                                 }
@@ -179,9 +166,13 @@ struct ClassicsSectionView: View {
 // MARK: - Date Extension for Classics
 
 extension Date {
+    private static let classicsYearFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy"
+        return f
+    }()
+
     var classicsYearString: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy"
-        return formatter.string(from: self)
+        Date.classicsYearFormatter.string(from: self)
     }
 }

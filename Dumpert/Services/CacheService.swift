@@ -123,8 +123,11 @@ actor CacheService {
         let cached = items.map { CachedMediaItem(from: $0) }
         do {
             let data = try JSONEncoder().encode(cached)
-            let url = cacheDirectory.appendingPathComponent("videos_\(key).json")
+            var url = cacheDirectory.appendingPathComponent("videos_\(key).json")
             try data.write(to: url, options: .atomic)
+            var resourceValues = URLResourceValues()
+            resourceValues.isExcludedFromBackup = true
+            try? url.setResourceValues(resourceValues)
         } catch {
             Logger.cache.warning("Failed to cache media items for '\(key)': \(error.localizedDescription)")
         }
@@ -218,6 +221,7 @@ private struct CachedMediaItem: Codable {
     let kudosTotal: Int
     let thumbnailURL: String?
     let streamURL: String?
+    let videoFileURL: String?
     let imageURL: String?
     let tags: [String]
     let isNSFW: Bool
@@ -238,11 +242,13 @@ private struct CachedMediaItem: Codable {
             self.mediaType = "video"
             self.duration = video.duration
             self.streamURL = video.streamURL?.absoluteString
+            self.videoFileURL = video.videoFileURL?.absoluteString
             self.imageURL = nil
         case .photo(let photo):
             self.mediaType = "photo"
             self.duration = 0
             self.streamURL = nil
+            self.videoFileURL = nil
             self.imageURL = photo.imageURL?.absoluteString
         }
     }
@@ -270,6 +276,7 @@ private struct CachedMediaItem: Codable {
                 kudosTotal: kudosTotal,
                 thumbnailURL: thumbnailURL.flatMap { URL(string: $0) },
                 streamURL: streamURL.flatMap { URL(string: $0) },
+                videoFileURL: videoFileURL.flatMap { URL(string: $0) },
                 tags: tags,
                 isNSFW: isNSFW
             ))

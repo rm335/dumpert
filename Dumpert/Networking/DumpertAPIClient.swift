@@ -6,10 +6,13 @@ actor DumpertAPIClient {
     private let decoder: JSONDecoder
     private var etags: [URL: String] = [:]
     private var cachedResponses: [URL: Data] = [:]
+    private let maxCachedResponses = 50
 
     init() {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
+        config.waitsForConnectivity = true
+        config.timeoutIntervalForResource = 300
         config.httpAdditionalHeaders = [
             "Accept": "application/json"
         ]
@@ -45,8 +48,15 @@ actor DumpertAPIClient {
             throw APIError.httpError(statusCode: httpResponse.statusCode)
         }
 
-        // Store ETag and cache response
+        // Store ETag and cache response (capped to prevent unbounded growth)
         if let etag = httpResponse.value(forHTTPHeaderField: "ETag") {
+            if cachedResponses.count >= maxCachedResponses {
+                // Evict oldest entry (first key)
+                if let oldest = etags.keys.first(where: { $0 != url }) {
+                    etags.removeValue(forKey: oldest)
+                    cachedResponses.removeValue(forKey: oldest)
+                }
+            }
             etags[url] = etag
             cachedResponses[url] = data
         }
@@ -111,5 +121,13 @@ actor DumpertAPIClient {
 
     func fetchClassics(page: Int = 0) async throws -> [MediaItem] {
         try await fetchMediaItems(endpoint: .classics(page: page))
+    }
+
+    func fetchRelated(id: String) async throws -> [MediaItem] {
+        try await fetchMediaItems(endpoint: .related(id: id))
+    }
+
+    func fetchDumpertTV() async throws -> [MediaItem] {
+        try await fetchMediaItems(endpoint: .dumpertTV)
     }
 }

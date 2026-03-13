@@ -62,7 +62,8 @@ extension SettingsView {
         selection: Binding<V>,
         options: [(LocalizedStringKey, V)]
     ) -> some View {
-        NavigationLink {
+        let currentLabel = options.first(where: { $0.1 == selection.wrappedValue })?.0 ?? ""
+        return NavigationLink {
             SettingsPickerDestination(
                 title: title,
                 selection: selection,
@@ -72,12 +73,12 @@ extension SettingsView {
             HStack {
                 settingsLabel(title, icon: icon, description: description)
                 Spacer()
-                Text(options.first(where: { $0.1 == selection.wrappedValue })?.0 ?? "")
+                Text(currentLabel)
                     .foregroundStyle(.secondary)
                     .font(.callout)
             }
         }
-        .accessibilityValue(Text(options.first(where: { $0.1 == selection.wrappedValue })?.0 ?? ""))
+        .accessibilityValue(Text(currentLabel))
     }
 
     func infoRow(_ title: LocalizedStringKey, icon: String, value: LocalizedStringKey) -> some View {
@@ -107,9 +108,9 @@ extension SettingsView {
         .accessibilityLabel("Voorbeeld: \(columnCount) kolommen")
     }
 
-    var appVersion: String {
+    static let appVersion: String = {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?"
         let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "?"
         return "\(version) (\(build))"
-    }
+    }()
 }

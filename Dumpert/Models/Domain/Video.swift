@@ -9,8 +9,18 @@ struct Video: Identifiable, Hashable, Sendable {
     let kudosTotal: Int
     let thumbnailURL: URL?
     let streamURL: URL?
+    /// Direct MP4 URL (720p/1080p) for frame extraction. Unlike HLS streams,
+    /// AVAssetImageGenerator can seek and extract frames from MP4 files.
+    let videoFileURL: URL?
     let tags: [String]
     let isNSFW: Bool
+
+    private nonisolated(unsafe) static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return f
+    }()
+    private nonisolated(unsafe) static let iso8601Formatter = ISO8601DateFormatter()
 
     init(from item: DumpertItem) {
         self.id = item.id
@@ -18,10 +28,8 @@ struct Video: Identifiable, Hashable, Sendable {
         self.descriptionText = item.description?.strippingHTML() ?? ""
 
         if let dateString = item.date {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            self.date = formatter.date(from: dateString)
-                ?? ISO8601DateFormatter().date(from: dateString)
+            self.date = Video.dateFormatter.date(from: dateString)
+                ?? Video.iso8601Formatter.date(from: dateString)
         } else {
             self.date = nil
         }
@@ -36,6 +44,11 @@ struct Video: Identifiable, Hashable, Sendable {
             ?? variants.first(where: { $0.version == "720p" })
             ?? variants.first
         self.streamURL = streamVariant.flatMap { URL(string: $0.uri) }
+
+        // Direct MP4 for frame extraction: prefer 720p (smaller), then 1080p
+        let fileVariant = variants.first(where: { $0.version == "720p" })
+            ?? variants.first(where: { $0.version == "1080p" })
+        self.videoFileURL = fileVariant.flatMap { URL(string: $0.uri) }
 
         // Prefer still-large from stills dict, then still, then thumbnail
         let stillLarge = item.stills?["still-large"] ?? item.stills?["still"]
@@ -60,6 +73,7 @@ struct Video: Identifiable, Hashable, Sendable {
         kudosTotal: Int,
         thumbnailURL: URL?,
         streamURL: URL?,
+        videoFileURL: URL? = nil,
         tags: [String],
         isNSFW: Bool
     ) {
@@ -71,6 +85,7 @@ struct Video: Identifiable, Hashable, Sendable {
         self.kudosTotal = kudosTotal
         self.thumbnailURL = thumbnailURL
         self.streamURL = streamURL
+        self.videoFileURL = videoFileURL
         self.tags = tags
         self.isNSFW = isNSFW
     }

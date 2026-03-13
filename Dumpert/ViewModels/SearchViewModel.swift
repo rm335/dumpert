@@ -49,10 +49,10 @@ final class SearchViewModel {
             return
         }
 
-        searchTask = Task {
+        searchTask = Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(500))
             guard !Task.isCancelled else { return }
-            await search()
+            await self?.search()
         }
     }
 

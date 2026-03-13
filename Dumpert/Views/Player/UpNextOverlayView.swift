@@ -78,19 +78,7 @@ struct UpNextOverlayView: View {
             }
         }
         .padding(24)
-        .background {
-            if #available(tvOS 26, *) {
-                RoundedRectangle(cornerRadius: 16)
-                    .glassEffect()
-            } else {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(.black.opacity(0.85))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .strokeBorder(.white.opacity(0.1), lineWidth: 1)
-                    )
-            }
-        }
+        .modifier(GlassCardModifier(cornerRadius: 16))
         .padding(.bottom, 80)
         .padding(.trailing, 60)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
@@ -131,6 +119,29 @@ private struct CountdownRingView: View {
         }
         .frame(width: 32, height: 32)
         .accessibilityLabel("Aftelling: \(countdown) seconden")
+    }
+}
+
+// MARK: - Glass Card Background
+
+private struct GlassCardModifier: ViewModifier {
+    let cornerRadius: CGFloat
+
+    func body(content: Content) -> some View {
+        if #available(tvOS 26, *) {
+            content
+                .glassEffect(in: RoundedRectangle(cornerRadius: cornerRadius))
+        } else {
+            content
+                .background(
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .fill(.black.opacity(0.85))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: cornerRadius)
+                                .strokeBorder(.white.opacity(0.1), lineWidth: 1)
+                        )
+                )
+        }
     }
 }
 

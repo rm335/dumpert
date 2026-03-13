@@ -1,18 +1,26 @@
 import Foundation
 
 extension Date {
+    private nonisolated(unsafe) static let relativeFormatter: RelativeDateTimeFormatter = {
+        let f = RelativeDateTimeFormatter()
+        f.locale = Locale(identifier: "nl_NL")
+        f.unitsStyle = .short
+        return f
+    }()
+
+    private static let shortFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "nl_NL")
+        f.dateStyle = .medium
+        f.timeStyle = .none
+        return f
+    }()
+
     var relativeString: String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.locale = Locale(identifier: "nl_NL")
-        formatter.unitsStyle = .short
-        return formatter.localizedString(for: self, relativeTo: Date())
+        Date.relativeFormatter.localizedString(for: self, relativeTo: Date())
     }
 
     var shortString: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "nl_NL")
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: self)
+        Date.shortFormatter.string(from: self)
     }
 }

@@ -9,11 +9,13 @@ final class RefreshScheduler {
 
     func start() {
         stop()
-        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
-            Task { @MainActor [weak self] in
+        let t = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            Task { @MainActor in
                 await self?.onRefresh?()
             }
         }
+        t.tolerance = interval * 0.10
+        timer = t
     }
 
     func stop() {
@@ -22,8 +24,8 @@ final class RefreshScheduler {
     }
 
     func refreshNow() {
-        Task {
-            await onRefresh?()
+        Task { [weak self] in
+            await self?.onRefresh?()
         }
     }
 }

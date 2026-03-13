@@ -6,17 +6,49 @@ struct VideoCardView: View {
     let progress: Double
     var isFocused: Bool = false
     var thumbnailPreviewEnabled: Bool = true
+    var smartThumbnailsEnabled: Bool = true
 
     @State private var showPreview = false
+    @State private var upgradedThumbnail: UIImage?
+    @State private var upgradedFaceCenter: CGPoint = CGPoint(x: 0.5, y: 0.5)
+    @State private var upgradeAnimating = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Thumbnail
             ZStack {
-                FaceCenteredThumbnailView(url: item.thumbnailURL)
-                    .brightness(isFocused ? 0.05 : 0)
-                    .saturation(isFocused ? 1.15 : 1.0)
-                    .accessibilityHidden(true)
+                ZStack {
+                    FaceCenteredThumbnailView(url: item.thumbnailURL)
+
+                    if let upgradedThumbnail {
+                        Color.clear
+                            .aspectRatio(16/9, contentMode: .fit)
+                            .overlay {
+                                GeometryReader { geo in
+                                    let imgSize = upgradedThumbnail.size
+                                    let scale = max(
+                                        geo.size.width / imgSize.width,
+                                        geo.size.height / imgSize.height
+                                    )
+                                    let scaledW = imgSize.width * scale
+                                    let scaledH = imgSize.height * scale
+                                    let offsetX = clampedOffset(face: upgradedFaceCenter.x, scaled: scaledW, container: geo.size.width)
+                                    let offsetY = clampedOffset(face: upgradedFaceCenter.y, scaled: scaledH, container: geo.size.height)
+
+                                    Image(uiImage: upgradedThumbnail)
+                                        .resizable()
+                                        .frame(width: scaledW, height: scaledH)
+                                        .offset(x: offsetX, y: offsetY)
+                                }
+                            }
+                            .clipped()
+                            .scaleEffect(upgradeAnimating ? 1.0 : 1.03)
+                            .transition(.opacity)
+                    }
+                }
+                .brightness(isFocused ? 0.05 : 0)
+                .saturation(isFocused ? 1.15 : 1.0)
+                .accessibilityHidden(true)
 
                 // Video preview overlay (max 10% of duration, minimum 10s)
                 if showPreview, let streamURL = item.streamURL {
@@ -88,7 +120,7 @@ struct VideoCardView: View {
                     }
                 }
             }
-            .scaleEffect(isFocused ? 1.05 : 1.0)
+            // Green brand shadow on focus; scale + parallax handled by .buttonStyle(.card)
             .shadow(color: .dumpiGreen.opacity(isFocused ? 0.3 : 0), radius: 15)
             .animation(.spring(duration: 0.35), value: isFocused)
 
@@ -140,6 +172,29 @@ struct VideoCardView: View {
                 }
             }
         }
+        .task {
+            guard smartThumbnailsEnabled, item.isVideo,
+                  case .video(let video) = item,
+                  video.streamURL != nil else { return }
+
+            // Check disk cache first
+            if let cached = await ThumbnailUpgradeService.shared.cachedImage(for: item.id) {
+                let center = await detectFaceCenter(in: cached)
+                applyUpgrade(image: cached, faceCenter: center)
+                return
+            }
+
+            // Run upgrade analysis in background
+            if let upgraded = await ThumbnailUpgradeService.shared.upgradeIfNeeded(
+                itemId: item.id,
+                thumbnailURL: item.thumbnailURL,
+                streamURL: video.streamURL,
+                duration: video.duration
+            ) {
+                let center = await detectFaceCenter(in: upgraded)
+                applyUpgrade(image: upgraded, faceCenter: center)
+            }
+        }
     }
 
     /// Preview shows at most 10% of the video, but never less than 10 seconds.
@@ -176,6 +231,28 @@ struct VideoCardView: View {
         return parts.joined(separator: ", ")
     }
 
+    /// Applies the upgraded thumbnail with a crossfade + subtle scale-down animation.
+    private func applyUpgrade(image: UIImage, faceCenter: CGPoint) {
+        upgradedFaceCenter = faceCenter
+        upgradedThumbnail = image
+        withAnimation(.easeInOut(duration: 0.7)) {
+            upgradeAnimating = true
+        }
+    }
+
+    private func detectFaceCenter(in image: UIImage) async -> CGPoint {
+        guard let cgImage = image.cgImage else { return CGPoint(x: 0.5, y: 0.5) }
+        return await FaceDetectionService.shared.faceCenter(for: URL(string: "upgraded://\(item.id)")!, in: cgImage)
+    }
+
+    /// Compute offset to center face in container, clamped so no gaps appear.
+    private func clampedOffset(face: CGFloat, scaled: CGFloat, container: CGFloat) -> CGFloat {
+        let facePos = face * scaled
+        let idealOffset = container / 2 - facePos
+        let minOffset = container - scaled
+        return min(0, max(minOffset, idealOffset))
+    }
+
     private var kudosColor: Color {
         if item.kudosTotal >= 100 { return .green }
         if item.kudosTotal >= 0 { return .gray }
@@ -185,7 +262,7 @@ struct VideoCardView: View {
 }
 
 /// Applies Liquid Glass on tvOS 26+, falls back to dark pill on older versions.
-private struct GlassPillModifier: ViewModifier {
+struct GlassPillModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(tvOS 26, *) {
             content
