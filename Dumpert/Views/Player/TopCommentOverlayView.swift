@@ -37,7 +37,7 @@ struct TopCommentOverlayView: View {
                         .font(.callout)
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
-                        .lineLimit(3)
+                        .lineLimit(10)
 
                     HStack(spacing: 8) {
                         Text("@\(comment.authorUsername)")

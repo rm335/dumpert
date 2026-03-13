@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 import AVKit
+import os
 
 @Observable
 @MainActor
@@ -303,13 +304,22 @@ final class VideoPlayerViewModel {
                         self.topComments = []
                     }
                 case .all:
-                    // All comments with >= 50 kudos
+                    // All comments with >= 20 kudos
                     self.topComments = allComments.filter { $0.kudosCount >= 20 }
                 }
+                Logger.network.debug("Fetched \(allComments.count) comments for \(itemId), filtered to \(self.topComments.count)")
             } catch {
+                Logger.network.error("Failed to fetch comments for \(itemId): \(error)")
                 self.topComments = []
             }
             self.topCommentsFetched = true
+
+            // If video resumed past the 10-15s timing window, start carousel after a brief delay
+            if !topComments.isEmpty && currentTime >= 15 && topCommentCarouselTask == nil {
+                try? await Task.sleep(for: .seconds(3))
+                guard !Task.isCancelled, topCommentCarouselTask == nil else { return }
+                startTopCommentCarousel()
+            }
         }
     }
 
@@ -330,18 +340,43 @@ final class VideoPlayerViewModel {
 
         topCommentCarouselTask = Task { [weak self] in
             guard let self else { return }
-            // Show first comment for 5 seconds
-            try? await Task.sleep(for: .seconds(5))
+            let speed = self.repository.settings.readingSpeed
+            do {
+                // Show first comment for dynamic duration based on text length
+                let firstDuration = speed.readingDuration(for: self.topComments[0].displayContent)
+                try await self.pauseAwareSleep(seconds: firstDuration)
+                self.showTopComment = false
 
-            // Cycle through remaining comments
-            var index = 1
-            while index < self.topComments.count {
-                self.currentCommentIndex = index
-                try? await Task.sleep(for: .seconds(5))
-                index += 1
+                // Cycle through remaining comments
+                var index = 1
+                while index < self.topComments.count {
+                    // 5 second gap between comments
+                    try await self.pauseAwareSleep(seconds: 5)
+                    self.currentCommentIndex = index
+                    self.showTopComment = true
+
+                    // Show comment for dynamic duration based on text length
+                    let duration = speed.readingDuration(for: self.topComments[index].displayContent)
+                    try await self.pauseAwareSleep(seconds: duration)
+                    self.showTopComment = false
+                    index += 1
+                }
+            } catch {
+                // Task cancelled during cleanup
             }
+        }
+    }
 
-            self.showTopComment = false
+    /// Sleeps for the given duration, pausing the countdown while the video is paused.
+    private func pauseAwareSleep(seconds: Double) async throws {
+        let tick: Duration = .milliseconds(250)
+        var remaining = seconds
+        while remaining > 0 {
+            try Task.checkCancellation()
+            try await Task.sleep(for: tick)
+            if isPlaying {
+                remaining -= 0.25
+            }
         }
     }
 

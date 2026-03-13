@@ -91,6 +91,7 @@ actor CloudKitService {
         record["upNextCountdownSeconds"] = settings.upNextCountdownSeconds as CKRecordValue
         record["upNextMinimumVideoSeconds"] = settings.upNextMinimumVideoSeconds as CKRecordValue
         record["topCommentMode"] = settings.topCommentMode.rawValue as CKRecordValue
+        record["readingSpeed"] = settings.readingSpeed.rawValue as CKRecordValue
         record["lastModified"] = settings.lastModified as CKRecordValue
 
         _ = try await privateDB.modifyRecords(saving: [record], deleting: [], savePolicy: .changedKeys)
@@ -117,6 +118,7 @@ actor CloudKitService {
                     }
                     return .all
                 }(),
+                readingSpeed: (record["readingSpeed"] as? Int).flatMap(ReadingSpeed.init(rawValue:)) ?? .normal,
                 lastModified: record["lastModified"] as? Date ?? Date()
             )
         } catch let error as CKError where error.code == .unknownItem {

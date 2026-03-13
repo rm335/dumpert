@@ -25,8 +25,6 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
         controller.player = viewModel.player
         controller.delegate = context.coordinator
 
-        // Embed UpNext overlay in contentOverlayView so it renders
-        // on top of AVPlayerViewController's view hierarchy on tvOS.
         let overlay = UpNextOverlayContainer(viewModel: viewModel)
         let hosting = UIHostingController(rootView: overlay)
         hosting.view.backgroundColor = .clear

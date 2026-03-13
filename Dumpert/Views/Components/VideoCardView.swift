@@ -222,7 +222,7 @@ struct VideoCardView: View {
         } else {
             parts.append(String(localized: "Foto", comment: "Accessibility: content type photo"))
         }
-        parts.append("\(formattedKudos) kudos")
+        parts.append(String(localized: "\(formattedKudos) kudos", comment: "Kudos count label"))
         if isWatched {
             parts.append(String(localized: "Bekeken", comment: "Accessibility: video has been watched"))
         } else if progress > 0 {

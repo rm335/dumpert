@@ -115,9 +115,23 @@ struct SettingsView: View {
                     ]
                 )
 
+                settingsNavigationPicker(
+                    "Leessnelheid",
+                    icon: "text.word.spacing",
+                    description: "Hoe lang reaguursels in beeld blijven",
+                    selection: $settings.readingSpeed,
+                    options: [
+                        ("Langzaam (2 woorden/sec)", ReadingSpeed.slow),
+                        ("Normaal (3 woorden/sec)", ReadingSpeed.normal),
+                        ("Snel (4 woorden/sec)", ReadingSpeed.fast),
+                        ("Zeer snel (5 woorden/sec)", ReadingSpeed.veryFast),
+                        ("Razendsnel (6 woorden/sec)", ReadingSpeed.ultraFast),
+                    ]
+                )
+
                 settingsToggle(
                     "Hervat-melding",
-                    icon: "arrow.counterclockwise",
+                    icon: "arrow.uturn.backward.circle",
                     description: "Toon een melding wanneer een video wordt hervat",
                     isOn: $settings.showResumeOverlay
                 )
@@ -314,6 +328,7 @@ struct SettingsView: View {
                             settings.upNextCountdownSeconds = 5
                             settings.upNextMinimumVideoSeconds = 60
                             settings.topCommentMode = .all
+                            settings.readingSpeed = .normal
                             settings.showResumeOverlay = true
                         }
                         showResetFeedback = true

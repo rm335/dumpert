@@ -146,19 +146,39 @@ actor DumpertAPIClient {
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue(Self.userAgent, forHTTPHeaderField: "User-Agent")
 
-        let (data, response) = try await session.data(for: request)
+        var lastError: Error?
+        for attempt in 0..<3 {
+            do {
+                let (data, response) = try await session.data(for: request)
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            throw APIError.httpError(statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+                    if (500...599).contains(statusCode) {
+                        lastError = APIError.httpError(statusCode: statusCode)
+                        let delay = UInt64(pow(2.0, Double(attempt))) * 1_000_000_000
+                        try await Task.sleep(nanoseconds: delay)
+                        continue
+                    }
+                    throw APIError.httpError(statusCode: statusCode)
+                }
+
+                let commentsResponse = try decoder.decode(CommentsAPIResponse.self, from: data)
+                let comments = commentsResponse.data?.comments ?? []
+
+                // Return all non-banned comments sorted by kudos descending
+                return comments
+                    .filter { $0.banned != true }
+                    .sorted { $0.kudosCount > $1.kudosCount }
+            } catch let error as APIError {
+                throw error
+            } catch {
+                // Retry on network errors (URLError, connection failures, etc.)
+                lastError = error
+                let delay = UInt64(pow(2.0, Double(attempt))) * 1_000_000_000
+                try await Task.sleep(nanoseconds: delay)
+            }
         }
-
-        let commentsResponse = try decoder.decode(CommentsAPIResponse.self, from: data)
-        let comments = commentsResponse.data?.comments ?? []
-
-        // Return all non-banned comments sorted by kudos descending
-        return comments
-            .filter { $0.banned != true }
-            .sorted { $0.kudosCount > $1.kudosCount }
+        throw lastError ?? APIError.noData
     }
 }

@@ -164,18 +164,30 @@ struct FullScreenImageView: View {
         currentCommentIndex = 0
         withAnimation { showTopComment = true }
 
-        // Carousel: show each comment for 5 seconds
+        // Carousel: show each comment for dynamic duration, 5 second gap between
+        let speed = repository.settings.readingSpeed
         topCommentCarouselTask = Task {
-            try? await Task.sleep(for: .seconds(5))
+            // Show first comment for dynamic duration based on text length
+            let firstDuration = speed.readingDuration(for: topComments[0].displayContent)
+            try? await Task.sleep(for: .seconds(firstDuration))
+            withAnimation { showTopComment = false }
 
+            // Cycle through remaining comments
             var index = 1
             while index < topComments.count {
-                withAnimation { currentCommentIndex = index }
+                // 5 second gap between comments
                 try? await Task.sleep(for: .seconds(5))
+                withAnimation {
+                    currentCommentIndex = index
+                    showTopComment = true
+                }
+
+                // Show comment for dynamic duration based on text length
+                let duration = speed.readingDuration(for: topComments[index].displayContent)
+                try? await Task.sleep(for: .seconds(duration))
+                withAnimation { showTopComment = false }
                 index += 1
             }
-
-            withAnimation { showTopComment = false }
         }
     }
 
