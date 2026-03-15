@@ -39,6 +39,13 @@ struct SettingsView: View {
                 )
 
                 settingsToggle(
+                    "NSFW-content tonen",
+                    icon: "eye.trianglebadge.exclamationmark",
+                    description: "Toon content die als niet-veilig-voor-werk is gemarkeerd",
+                    isOn: $settings.nsfwEnabled
+                )
+
+                settingsToggle(
                     "Negatieve kudos tonen",
                     icon: "hand.thumbsdown",
                     description: "Toon video's met meer downvotes dan upvotes",
@@ -321,6 +328,7 @@ struct SettingsView: View {
                             settings.hideWatched = true
                             settings.reetenMinimumMinutes = 10
                             settings.showNegativeKudos = false
+                            settings.nsfwEnabled = true
                             settings.thumbnailPreviewEnabled = true
                             settings.smartThumbnailsEnabled = true
                             settings.tileSize = .normal
@@ -350,6 +358,9 @@ struct SettingsView: View {
         .autoDismiss($showHistoryClearedFeedback)
         .autoDismiss($showSearchHistoryClearedFeedback)
         .autoDismiss($showResetFeedback)
+        .onChange(of: settings.nsfwEnabled) {
+            repository.syncNSFWSetting()
+        }
         .onChange(of: showCacheClearedFeedback) {
             if showCacheClearedFeedback {
                 Task {

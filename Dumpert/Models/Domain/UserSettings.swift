@@ -77,6 +77,7 @@ final class UserSettings {
     var hideWatched: Bool
     var reetenMinimumMinutes: Int
     var showNegativeKudos: Bool
+    var nsfwEnabled: Bool
     var thumbnailPreviewEnabled: Bool
     var smartThumbnailsEnabled: Bool
     var tileSize: TileSize
@@ -88,12 +89,13 @@ final class UserSettings {
     var showResumeOverlay: Bool
     var lastModified: Date
 
-    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, showResumeOverlay: Bool = true) {
+    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, showResumeOverlay: Bool = true) {
         self.minimumKudos = minimumKudos
         self.autoplayEnabled = autoplayEnabled
         self.hideWatched = hideWatched
         self.reetenMinimumMinutes = reetenMinimumMinutes
         self.showNegativeKudos = showNegativeKudos
+        self.nsfwEnabled = nsfwEnabled
         self.thumbnailPreviewEnabled = thumbnailPreviewEnabled
         self.smartThumbnailsEnabled = smartThumbnailsEnabled
         self.tileSize = tileSize
@@ -113,6 +115,7 @@ final class UserSettings {
             hideWatched: hideWatched,
             reetenMinimumMinutes: reetenMinimumMinutes,
             showNegativeKudos: showNegativeKudos,
+            nsfwEnabled: nsfwEnabled,
             thumbnailPreviewEnabled: thumbnailPreviewEnabled,
             smartThumbnailsEnabled: smartThumbnailsEnabled,
             tileSize: tileSize,
@@ -132,6 +135,7 @@ final class UserSettings {
         hideWatched = snapshot.hideWatched
         reetenMinimumMinutes = snapshot.reetenMinimumMinutes
         showNegativeKudos = snapshot.showNegativeKudos
+        nsfwEnabled = snapshot.nsfwEnabled
         thumbnailPreviewEnabled = snapshot.thumbnailPreviewEnabled
         smartThumbnailsEnabled = snapshot.smartThumbnailsEnabled
         tileSize = snapshot.tileSize
@@ -151,6 +155,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
     var hideWatched: Bool
     var reetenMinimumMinutes: Int
     var showNegativeKudos: Bool
+    var nsfwEnabled: Bool
     var thumbnailPreviewEnabled: Bool
     var smartThumbnailsEnabled: Bool
     var tileSize: TileSize
@@ -162,12 +167,13 @@ struct UserSettingsSnapshot: Codable, Sendable {
     var showResumeOverlay: Bool
     var lastModified: Date
 
-    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, showResumeOverlay: Bool = true, lastModified: Date = Date()) {
+    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, showResumeOverlay: Bool = true, lastModified: Date = Date()) {
         self.minimumKudos = minimumKudos
         self.autoplayEnabled = autoplayEnabled
         self.hideWatched = hideWatched
         self.reetenMinimumMinutes = reetenMinimumMinutes
         self.showNegativeKudos = showNegativeKudos
+        self.nsfwEnabled = nsfwEnabled
         self.thumbnailPreviewEnabled = thumbnailPreviewEnabled
         self.smartThumbnailsEnabled = smartThumbnailsEnabled
         self.tileSize = tileSize
@@ -194,6 +200,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
             reetenMinimumMinutes = 10
         }
         showNegativeKudos = try container.decode(Bool.self, forKey: .showNegativeKudos)
+        nsfwEnabled = try container.decodeIfPresent(Bool.self, forKey: .nsfwEnabled) ?? true
         thumbnailPreviewEnabled = try container.decode(Bool.self, forKey: .thumbnailPreviewEnabled)
         smartThumbnailsEnabled = try container.decodeIfPresent(Bool.self, forKey: .smartThumbnailsEnabled) ?? true
         tileSize = try container.decodeIfPresent(TileSize.self, forKey: .tileSize) ?? .normal
@@ -216,7 +223,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case minimumKudos, autoplayEnabled, hideWatched
         case reetenMinimumMinutes = "reetenMinimumDuration"
-        case showNegativeKudos, thumbnailPreviewEnabled, smartThumbnailsEnabled, tileSize
+        case showNegativeKudos, nsfwEnabled, thumbnailPreviewEnabled, smartThumbnailsEnabled, tileSize
         case upNextOverlayEnabled, upNextCountdownSeconds, upNextMinimumVideoSeconds
         case topCommentMode = "showTopComment"
         case readingSpeed

@@ -7,6 +7,7 @@ actor DumpertAPIClient {
     private var etags: [URL: String] = [:]
     private var cachedResponses: [URL: Data] = [:]
     private let maxCachedResponses = 50
+    private var nsfwEnabled: Bool = true
 
     init() {
         let config = URLSessionConfiguration.default
@@ -20,6 +21,10 @@ actor DumpertAPIClient {
         self.decoder = JSONDecoder()
     }
 
+    func setNSFWEnabled(_ enabled: Bool) {
+        nsfwEnabled = enabled
+    }
+
     private static let userAgent = "DumpertTV/1.0 (tvOS; unofficial)"
 
     private func fetch(endpoint: APIEndpoint) async throws -> DumpertAPIResponse {
@@ -27,6 +32,9 @@ actor DumpertAPIClient {
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue(Self.userAgent, forHTTPHeaderField: "User-Agent")
+        if nsfwEnabled {
+            request.setValue("nsfw=1", forHTTPHeaderField: "Cookie")
+        }
 
         // Conditional request with ETag
         if let etag = etags[url] {
@@ -127,18 +135,14 @@ actor DumpertAPIClient {
         try await fetchMediaItems(endpoint: .related(id: id))
     }
 
-    func fetchDumpertTV() async throws -> [MediaItem] {
-        try await fetchMediaItems(endpoint: .dumpertTV)
-    }
-
     // MARK: - Comments API
 
-    private static let commentsBaseURL = "https://comments.dumpert.nl/api/v1.0"
+    private static let commentsBaseURL = "https://comment.dumpert.nl/api/v1.0"
 
     func fetchTopComments(for itemId: String) async throws -> [DumpertComment] {
         // Convert underscore ID (100146773_1e4d8897) to slash format (100146773/1e4d8897)
         let slashId = itemId.replacingOccurrences(of: "_", with: "/")
-        guard let url = URL(string: "\(Self.commentsBaseURL)/articles/\(slashId)/comments/?includeitems=1") else {
+        guard let url = URL(string: "\(Self.commentsBaseURL)/articles/\(slashId)/comments") else {
             throw APIError.invalidURL
         }
 
@@ -163,12 +167,26 @@ actor DumpertAPIClient {
                     throw APIError.httpError(statusCode: statusCode)
                 }
 
-                let commentsResponse = try decoder.decode(CommentsAPIResponse.self, from: data)
-                let comments = commentsResponse.data?.comments ?? []
+                let apiResponse = try decoder.decode(CommentsAPIResponse.self, from: data)
+                let rawComments = apiResponse.comments ?? []
+                let authors = apiResponse.authors ?? []
 
-                // Return all non-banned comments sorted by kudos descending
-                return comments
-                    .filter { $0.banned != true }
+                // Build author lookup by ID
+                let authorMap = Dictionary(uniqueKeysWithValues: authors.map { ($0.id, $0) })
+                let bannedAuthorIds = Set(authors.filter { $0.banned == true }.map(\.id))
+
+                // Map raw comments to DumpertComment, filtering banned authors
+                return rawComments
+                    .filter { !bannedAuthorIds.contains($0.author) }
+                    .map { raw in
+                        DumpertComment(
+                            id: raw.id,
+                            authorUsername: authorMap[raw.author]?.username ?? "Onbekend",
+                            displayContent: raw.content,
+                            kudosCount: raw.kudosCount,
+                            creationDatetime: raw.creationDatetime
+                        )
+                    }
                     .sorted { $0.kudosCount > $1.kudosCount }
             } catch let error as APIError {
                 throw error

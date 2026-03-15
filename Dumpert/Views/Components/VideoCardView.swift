@@ -59,18 +59,31 @@ struct VideoCardView: View {
                     .transition(.opacity)
                 }
 
-                // Mute indicator when preview is playing
-                if showPreview {
-                    Image(systemName: "speaker.slash.fill")
-                        .font(.caption2)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .modifier(GlassPillModifier())
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .padding(6)
-                        .transition(.opacity)
+                // Top leading: NSFW label and mute indicator
+                HStack(spacing: 4) {
+                    if item.isNSFW {
+                        Text("NSFW")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(.red)
+                            .cornerRadius(4)
+                    }
+
+                    if showPreview {
+                        Image(systemName: "speaker.slash.fill")
+                            .font(.caption2)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .modifier(GlassPillModifier())
+                            .transition(.opacity)
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding(6)
 
                 // Watched badge - top trailing
                 if isWatched {
@@ -213,7 +226,11 @@ struct VideoCardView: View {
     }
 
     private var accessibilityDescription: String {
-        var parts: [String] = [item.title]
+        var parts: [String] = []
+        if item.isNSFW {
+            parts.append("NSFW")
+        }
+        parts.append(item.title)
         if item.isVideo {
             parts.append(String(localized: "Video", comment: "Accessibility: content type video"))
             if item.duration > 0 {

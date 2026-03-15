@@ -13,7 +13,6 @@ final class VideoRepository {
     private(set) var watchProgress: [String: WatchProgress] = [:]
     private(set) var curationEntries: [CurationEntry] = []
     private(set) var classics: [MediaItem] = []
-    private(set) var dumpertTV: [MediaItem] = []
     private(set) var searchHistory: [SearchHistoryEntry] = []
 
     // Pagination
@@ -74,6 +73,7 @@ final class VideoRepository {
 
     private func loadFromCache() async {
         settings.apply(await cacheService.loadSettings())
+        await apiClient.setNSFWEnabled(settings.nsfwEnabled)
         watchProgress = await cacheService.loadWatchProgress()
         curationEntries = await cacheService.loadCurationEntries()
         searchHistory = await cacheService.loadSearchHistory()
@@ -93,9 +93,6 @@ final class VideoRepository {
         if let cachedClassics = await cacheService.loadCachedMediaItems(for: "classics") {
             classics = cachedClassics
         }
-        if let cachedDumpertTV = await cacheService.loadCachedMediaItems(for: "dumperttv") {
-            dumpertTV = cachedDumpertTV
-        }
     }
 
     private func setupCloudKit() async {
@@ -107,6 +104,7 @@ final class VideoRepository {
             if let remoteSettings = try await cloudKitService.fetchSettings() {
                 if remoteSettings.lastModified > settings.lastModified {
                     settings.apply(remoteSettings)
+                    await apiClient.setNSFWEnabled(settings.nsfwEnabled)
                 }
             }
             let remoteCuration = try await cloudKitService.fetchAllCurationEntries()
@@ -134,7 +132,6 @@ final class VideoRepository {
             group.addTask { await self.refreshToppers() }
             group.addTask { await self.refreshCategories() }
             group.addTask { await self.refreshClassics() }
-            group.addTask { await self.refreshDumpertTV() }
         }
 
         isLoading = false
@@ -247,16 +244,6 @@ final class VideoRepository {
         }
     }
 
-    private func refreshDumpertTV() async {
-        do {
-            let items = try await apiClient.fetchDumpertTV()
-            dumpertTV = filterByKudos(items)
-            await cacheService.cacheMediaItems(items, for: "dumperttv")
-        } catch {
-            self.error = error.localizedDescription
-        }
-    }
-
     func fetchRelatedVideos(for videoId: String) async -> [Video] {
         do {
             let items = try await apiClient.fetchRelated(id: videoId)
@@ -342,8 +329,15 @@ final class VideoRepository {
         }
     }
 
+    func syncNSFWSetting() {
+        Task { await apiClient.setNSFWEnabled(settings.nsfwEnabled) }
+    }
+
     func filteredItems(_ items: [MediaItem]) -> [MediaItem] {
         var result = filterByKudos(items)
+        if !settings.nsfwEnabled {
+            result = result.filter { !$0.isNSFW }
+        }
         if settings.hideWatched {
             result = result.filter { item in
                 !(watchProgress[item.id]?.isCompleted ?? false)

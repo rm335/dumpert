@@ -5,7 +5,7 @@ import os
 /// Fetches hotshiz directly without depending on the main app's API client.
 enum TopShelfFetcher: Sendable {
     private static let logger = Logger(subsystem: "nl.dumpert.tvos.topshelf", category: "fetcher")
-    private static let hotshizURL = URL(string: "https://api.dumpert.nl/mobile_api/json/hotshiz")!
+    private static let hotshizURL = URL(string: "https://post.dumpert.nl/api/v1.0/hotshiz")!
 
     private static let userAgent = "DumpertTV/1.0 (tvOS; unofficial)"
 
@@ -53,7 +53,10 @@ enum TopShelfFetcher: Sendable {
 
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
-        config.httpAdditionalHeaders = ["Accept": "application/json"]
+        config.httpAdditionalHeaders = [
+            "Accept": "application/json",
+            "Cookie": "nsfw=1"
+        ]
         let session = URLSession(configuration: config)
 
         var request = URLRequest(url: hotshizURL)

@@ -9,23 +9,28 @@ enum APIEndpoint {
     case info(id: String)
     case classics(page: Int)
     case related(id: String)
-    case dumpertTV
 
-    private static let baseURL = "https://api.dumpert.nl/mobile_api/json"
+    private static let baseURL = "https://post.dumpert.nl/api/v1.0"
 
-    private nonisolated(unsafe) static let dateFormatter: DateFormatter = {
+    private nonisolated(unsafe) static let monthFormatter: DateFormatter = {
         let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
+        f.dateFormat = "yyyy-MM"
         return f
     }()
+
+    private static func weekString(from date: Date) -> String {
+        let year = Calendar.current.component(.yearForWeekOfYear, from: date)
+        let week = Calendar.current.component(.weekOfYear, from: date)
+        return String(format: "%04d-%02d", year, week)
+    }
 
     var url: URL {
         let path: String
         switch self {
         case .topWeek(let date):
-            path = "/top5/week/\(Self.dateFormatter.string(from: date))"
+            path = "/top5/week/\(Self.weekString(from: date))"
         case .topMonth(let date):
-            path = "/top5/maand/\(Self.dateFormatter.string(from: date))"
+            path = "/top5/maand/\(Self.monthFormatter.string(from: date))"
         case .hotshiz:
             path = "/hotshiz"
         case .latest(let page):
@@ -39,8 +44,6 @@ enum APIEndpoint {
             path = "/classics/\(page)"
         case .related(let id):
             path = "/related/\(id)"
-        case .dumpertTV:
-            path = "/dumperttv"
         }
         guard let url = URL(string: Self.baseURL + path) else {
             preconditionFailure("Invalid API URL: \(Self.baseURL + path)")

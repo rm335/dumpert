@@ -49,10 +49,6 @@ struct ContentView: View {
                         Label("Dashcam", systemImage: "car.fill")
                     }
 
-                DumpertTVSectionView()
-                    .tabItem {
-                        Label("Dumpert TV", systemImage: "tv.fill")
-                    }
                 ClassicsSectionView()
                     .tabItem {
                         Label("Classics", systemImage: "clock.arrow.circlepath")
