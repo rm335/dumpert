@@ -91,7 +91,17 @@ The easiest way to install DumpertTV on your Apple TV:
 
 ---
 
-## Demo
+## Screenshots
+
+| Toppers | Search |
+|:---:|:---:|
+| ![Toppers](assets/screenshot-toppers.png) | ![Search](assets/screenshot-search.png) |
+| **Reeten** | **VrijMiCo** |
+| ![Reeten](assets/screenshot-reeten.png) | ![VrijMiCo](assets/screenshot-vrijmico.png) |
+| **Classics** | **Settings** |
+| ![Classics](assets/screenshot-classics.png) | ![Settings](assets/screenshot-settings.png) |
+
+### Demo
 
 <p align="center">
   <img src="assets/demo.gif" alt="DumpertTV demo" width="100%">
