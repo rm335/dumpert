@@ -1,8 +1,20 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rm335/dumpert/refs/heads/main/Dumpert/Assets.xcassets/App%20Icon%20%26%20Top%20Shelf%20Image.brandassets/Top%20Shelf%20Image.imageset/top-shelf.png" alt="DumpertTV" width=“100%">
+  <img src=”assets/top-shelf.png” alt=”DumpertTV” width=”100%”>
 </p>
 
 # DumpertTV
+
+<p align="center">
+  <a href="https://testflight.apple.com/join/TXTUMzEq"><img src="https://img.shields.io/badge/TestFlight-Join%20Beta-0D96F6?style=flat&logo=apple&logoColor=white" alt="TestFlight"></a>
+  <img src="https://img.shields.io/badge/platform-tvOS%2018.0%2B-000000?style=flat&logo=apple&logoColor=white" alt="Platform">
+  <img src="https://img.shields.io/badge/Swift-6.0-F05138?style=flat&logo=swift&logoColor=white" alt="Swift 6.0">
+  <img src="https://img.shields.io/badge/Xcode-26.3-147EFB?style=flat&logo=xcode&logoColor=white" alt="Xcode 26.3">
+  <a href="https://github.com/rm335/dumpert/blob/main/LICENSE"><img src="https://img.shields.io/github/license/rm335/dumpert?style=flat" alt="License"></a>
+  <a href="https://github.com/rm335/dumpert/stargazers"><img src="https://img.shields.io/github/stars/rm335/dumpert?style=flat" alt="Stars"></a>
+  <a href="https://github.com/rm335/dumpert/commits/main"><img src="https://img.shields.io/github/last-commit/rm335/dumpert?style=flat" alt="Last Commit"></a>
+  <img src="https://img.shields.io/github/repo-size/rm335/dumpert?style=flat" alt="Repo Size">
+  <img src="https://img.shields.io/badge/build%20system-XcodeGen-blue?style=flat" alt="XcodeGen">
+</p>
 
 An unofficial [Dumpert](https://www.dumpert.nl) client for Apple TV, built with Swift 6.0 and SwiftUI.
 
@@ -11,6 +23,26 @@ An unofficial [Dumpert](https://www.dumpert.nl) client for Apple TV, built with 
 > **This project is not affiliated with, endorsed by, or associated with Dumpert or DPG Media B.V.**
 > Dumpert is a registered trademark of DPG Media B.V. All trademarks belong to their respective owners.
 > This app consumes the public Dumpert API. Use at your own risk.
+
+---
+
+## Installation via TestFlight
+
+<p align="center">
+  <img src="assets/testflight-icon.png" alt="TestFlight" width="80">
+</p>
+
+<p align="center">
+  <a href="https://testflight.apple.com/join/TXTUMzEq">
+    <img src="https://img.shields.io/badge/TestFlight-Join%20Beta-0D96F6?style=for-the-badge&logo=apple&logoColor=white" alt="Join TestFlight Beta">
+  </a>
+</p>
+
+The easiest way to install DumpertTV on your Apple TV:
+
+1. Install **TestFlight** from the App Store on your Apple TV and iPhone
+2. Open the [TestFlight invite link](https://testflight.apple.com/join/TXTUMzEq) on your iPhone and accept the invite
+3. Open **TestFlight** on your Apple TV and install the app
 
 ---
 
@@ -62,7 +94,7 @@ An unofficial [Dumpert](https://www.dumpert.nl) client for Apple TV, built with 
 ## Demo
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rm335/dumpert/refs/heads/main/demo.gif?token=GHSAT0AAAAAADTE7EUS3TAXZD6PD5E33RXK2NSWZQA" alt="DumpertTV demo" width="100%">
+  <img src="assets/demo.gif" alt="DumpertTV demo" width="100%">
 </p>
 
 ---
