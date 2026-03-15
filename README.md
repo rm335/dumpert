@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=”assets/top-shelf.png” alt=”DumpertTV” width=”100%”>
+  <img src="assets/top-shelf.png" alt=”DumpertTV” width=”100%”>
 </p>
 
 # DumpertTV
