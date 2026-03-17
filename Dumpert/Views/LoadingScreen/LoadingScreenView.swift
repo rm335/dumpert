@@ -43,7 +43,9 @@ struct LoadingScreenView: View {
         }
         .onChange(of: repository.isLoading) { _, isLoading in
             if !isLoading {
-                scheduleExit()
+                Task { @MainActor in
+                    scheduleExit()
+                }
             }
         }
     }

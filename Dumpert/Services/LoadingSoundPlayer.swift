@@ -38,7 +38,7 @@ final class LoadingSoundPlayer {
     private func configureAudioSession() {
         do {
             let session = AVAudioSession.sharedInstance()
-            try session.setCategory(.ambient)
+            try session.setCategory(.playback)
             try session.setActive(true)
         } catch {
             logger.warning("Audio session setup failed: \(error.localizedDescription)")

@@ -9,55 +9,27 @@ struct SearchView: View {
     @State private var toastMessage: String?
     @FocusState private var focusedItem: String?
 
-    private var resolvedViewModel: SearchViewModel {
-        if let viewModel { return viewModel }
-        let vm = SearchViewModel(
-            apiClient: repository.apiClient,
-            repository: repository
-        )
-        viewModel = vm
-        return vm
-    }
-
     var body: some View {
-        NavigationStack {
-            searchContent(resolvedViewModel)
-            .searchable(
-                text: Binding(
-                    get: { resolvedViewModel.searchQuery },
-                    set: { resolvedViewModel.searchQuery = $0 }
-                ),
-                prompt: "Zoek op Dumpert"
-            )
-            .searchSuggestions {
-                if !resolvedViewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    let query = resolvedViewModel.searchQuery.lowercased()
-                    // Matching popular tags
-                    let matchingTags = repository.popularTags.filter { $0.lowercased().contains(query) }.prefix(5)
-                    ForEach(Array(matchingTags), id: \.self) { tag in
-                        Label(tag.capitalized, systemImage: "flame.fill")
-                            .searchCompletion(tag)
-                    }
-                    // Matching recent searches
-                    let matchingRecent = repository.searchHistory.filter { $0.query.lowercased().contains(query) }.prefix(3)
-                    ForEach(Array(matchingRecent)) { entry in
-                        Label(entry.query, systemImage: "clock.arrow.circlepath")
-                            .searchCompletion(entry.query)
-                    }
-                    // Matching categories
-                    let matchingCategories = Self.categories.filter { $0.query.lowercased().contains(query) }.prefix(3)
-                    ForEach(Array(matchingCategories), id: \.query) { cat in
-                        Label(cat.name, systemImage: cat.icon)
-                            .searchCompletion(cat.query)
-                    }
-                }
+        Group {
+            if let viewModel {
+                searchNavigationStack(viewModel)
+            } else {
+                ProgressView()
+            }
+        }
+        .task {
+            if viewModel == nil {
+                viewModel = SearchViewModel(
+                    apiClient: repository.apiClient,
+                    repository: repository
+                )
             }
         }
         .onAppear {
             backgroundState.useFallback()
         }
         .fullScreenCover(item: $selectedVideo) { video in
-            let videoPlaylist = resolvedViewModel.filteredResults.compactMap { item -> Video? in
+            let videoPlaylist = (viewModel?.filteredResults ?? []).compactMap { item -> Video? in
                 if case .video(let v) = item { return v }
                 return nil
             }
@@ -72,11 +44,47 @@ struct SearchView: View {
         }
         .toast(message: $toastMessage)
         .onChange(of: focusedItem) { _, newId in
-            if let id = newId,
-               let item = resolvedViewModel.filteredResults.first(where: { $0.id == id }) {
-                backgroundState.update(for: item)
-            } else {
-                backgroundState.useFallback()
+            Task { @MainActor in
+                if let id = newId,
+                   let item = viewModel?.filteredResults.first(where: { $0.id == id }) {
+                    backgroundState.update(for: item)
+                } else {
+                    backgroundState.useFallback()
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func searchNavigationStack(_ viewModel: SearchViewModel) -> some View {
+        NavigationStack {
+            searchContent(viewModel)
+            .searchable(
+                text: Binding(
+                    get: { viewModel.searchQuery },
+                    set: { viewModel.searchQuery = $0 }
+                ),
+                prompt: "Zoek op Dumpert"
+            )
+            .searchSuggestions {
+                if !viewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    let query = viewModel.searchQuery.lowercased()
+                    let matchingTags = repository.popularTags.filter { $0.lowercased().contains(query) }.prefix(5)
+                    ForEach(Array(matchingTags), id: \.self) { tag in
+                        Label(tag.capitalized, systemImage: "flame.fill")
+                            .searchCompletion(tag)
+                    }
+                    let matchingRecent = repository.searchHistory.filter { $0.query.lowercased().contains(query) }.prefix(3)
+                    ForEach(Array(matchingRecent)) { entry in
+                        Label(entry.query, systemImage: "clock.arrow.circlepath")
+                            .searchCompletion(entry.query)
+                    }
+                    let matchingCategories = Self.categories.filter { $0.query.lowercased().contains(query) }.prefix(3)
+                    ForEach(Array(matchingCategories), id: \.query) { cat in
+                        Label(cat.name, systemImage: cat.icon)
+                            .searchCompletion(cat.query)
+                    }
+                }
             }
         }
     }

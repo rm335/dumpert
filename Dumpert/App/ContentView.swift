@@ -81,10 +81,14 @@ struct ContentView: View {
         }
         .animation(.smooth, value: networkMonitor.isConnected)
         .onChange(of: repository.classics) {
-            backgroundState.shuffleFallback(from: repository.classics)
+            Task { @MainActor in
+                backgroundState.shuffleFallback(from: repository.classics)
+            }
         }
         .onChange(of: selectedTab) {
-            backgroundState.shuffleFallback(from: repository.classics)
+            Task { @MainActor in
+                backgroundState.shuffleFallback(from: repository.classics)
+            }
         }
         .fullScreenCover(item: $deepLinkVideo) { video in
             VideoPlayerView(viewModel: VideoPlayerViewModel(
@@ -94,12 +98,14 @@ struct ContentView: View {
         }
         .onChange(of: deepLinkVideoId) { _, videoId in
             guard let videoId else { return }
-            deepLinkVideoId = nil
-            let allItems = repository.hotshiz
-                + repository.topWeek + repository.topMonth
-            if let item = allItems.first(where: { $0.id == videoId }),
-               case let .video(video) = item {
-                deepLinkVideo = video
+            Task { @MainActor in
+                deepLinkVideoId = nil
+                let allItems = repository.hotshiz
+                    + repository.topWeek + repository.topMonth
+                if let item = allItems.first(where: { $0.id == videoId }),
+                   case let .video(video) = item {
+                    deepLinkVideo = video
+                }
             }
         }
     }

@@ -32,7 +32,7 @@ struct DumpertApp: App {
             .environment(backgroundState)
             .environment(soundPlayer)
             .tint(.dumpiGreen)
-            .onAppear {
+            .task {
                 videoRepository.networkMonitor = networkMonitor
             }
         }

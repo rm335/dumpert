@@ -155,8 +155,10 @@ struct ClassicsSectionView: View {
         }
         .toast(message: $toastMessage)
         .onChange(of: focusedItem) { _, newId in
-            if let id = newId, let item = items.first(where: { $0.id == id }) {
-                backgroundState.update(for: item)
+            Task { @MainActor in
+                if let id = newId, let item = items.first(where: { $0.id == id }) {
+                    backgroundState.update(for: item)
+                }
             }
         }
     }

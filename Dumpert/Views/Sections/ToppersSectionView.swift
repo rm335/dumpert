@@ -126,25 +126,29 @@ struct ToppersSectionView: View {
             FullScreenImageView(photo: photo, repository: repository)
         }
         .toast(message: $toastMessage)
-        .onAppear {
+        .task {
             if !heroItems.isEmpty {
                 backgroundState.update(for: heroItems[heroIndex])
             }
         }
         .onChange(of: heroIndex) { _, newIndex in
             guard newIndex < heroItems.count, focusedItem == nil else { return }
-            backgroundState.update(for: heroItems[newIndex])
+            Task { @MainActor in
+                backgroundState.update(for: heroItems[newIndex])
+            }
         }
         .onChange(of: focusedItem) { _, newId in
-            if let id = newId {
-                let allItems = repository.filteredItems(repository.hotshiz)
-                    + repository.filteredItems(repository.topWeek)
-                    + repository.filteredItems(repository.topMonth)
-                if let item = allItems.first(where: { $0.id == id }) {
-                    backgroundState.update(for: item)
+            Task { @MainActor in
+                if let id = newId {
+                    let allItems = repository.filteredItems(repository.hotshiz)
+                        + repository.filteredItems(repository.topWeek)
+                        + repository.filteredItems(repository.topMonth)
+                    if let item = allItems.first(where: { $0.id == id }) {
+                        backgroundState.update(for: item)
+                    }
+                } else if !heroItems.isEmpty {
+                    backgroundState.update(for: heroItems[heroIndex])
                 }
-            } else if !heroItems.isEmpty {
-                backgroundState.update(for: heroItems[heroIndex])
             }
         }
     }

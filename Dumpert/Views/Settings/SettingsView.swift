@@ -354,7 +354,7 @@ struct SettingsView: View {
         .task {
             await loadCacheSize()
         }
-        .onAppear {
+        .task {
             backgroundState.useFallback()
         }
         .autoDismiss($showRefreshFeedback)
@@ -362,7 +362,9 @@ struct SettingsView: View {
         .autoDismiss($showSearchHistoryClearedFeedback)
         .autoDismiss($showResetFeedback)
         .onChange(of: settings.nsfwEnabled) {
-            repository.syncNSFWSetting()
+            Task { @MainActor in
+                repository.syncNSFWSetting()
+            }
         }
         .onChange(of: showCacheClearedFeedback) {
             if showCacheClearedFeedback {
