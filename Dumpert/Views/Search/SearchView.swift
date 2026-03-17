@@ -18,7 +18,6 @@ struct SearchView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle("Zoeken")
             .searchable(
                 text: Binding(
                     get: { viewModel?.searchQuery ?? "" },

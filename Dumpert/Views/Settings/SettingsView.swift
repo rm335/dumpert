@@ -350,7 +350,6 @@ struct SettingsView: View {
                 sectionHeader("Over")
             }
             }
-            .navigationTitle("Instellingen")
         } // NavigationStack
         .task {
             await loadCacheSize()
