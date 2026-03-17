@@ -2,11 +2,15 @@ import SwiftUI
 import AVKit
 
 struct VideoPlayerView: View {
+    @Environment(LoadingSoundPlayer.self) private var soundPlayer
     let viewModel: VideoPlayerViewModel
 
     var body: some View {
         PlayerRepresentable(viewModel: viewModel)
             .ignoresSafeArea()
+            .onAppear {
+                soundPlayer.fadeOutAndStop()
+            }
             .onDisappear {
                 viewModel.cleanup()
             }
