@@ -9,25 +9,29 @@ struct SearchView: View {
     @State private var toastMessage: String?
     @FocusState private var focusedItem: String?
 
+    private var resolvedViewModel: SearchViewModel {
+        if let viewModel { return viewModel }
+        let vm = SearchViewModel(
+            apiClient: repository.apiClient,
+            repository: repository
+        )
+        viewModel = vm
+        return vm
+    }
+
     var body: some View {
         NavigationStack {
-            Group {
-                if let viewModel {
-                    searchContent(viewModel)
-                } else {
-                    ProgressView()
-                }
-            }
+            searchContent(resolvedViewModel)
             .searchable(
                 text: Binding(
-                    get: { viewModel?.searchQuery ?? "" },
-                    set: { viewModel?.searchQuery = $0 }
+                    get: { resolvedViewModel.searchQuery },
+                    set: { resolvedViewModel.searchQuery = $0 }
                 ),
                 prompt: "Zoek op Dumpert"
             )
             .searchSuggestions {
-                if let viewModel, !viewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    let query = viewModel.searchQuery.lowercased()
+                if !resolvedViewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    let query = resolvedViewModel.searchQuery.lowercased()
                     // Matching popular tags
                     let matchingTags = repository.popularTags.filter { $0.lowercased().contains(query) }.prefix(5)
                     ForEach(Array(matchingTags), id: \.self) { tag in
@@ -50,34 +54,26 @@ struct SearchView: View {
             }
         }
         .onAppear {
-            if viewModel == nil {
-                viewModel = SearchViewModel(
-                    apiClient: repository.apiClient,
-                    repository: repository
-                )
-            }
             backgroundState.useFallback()
         }
         .fullScreenCover(item: $selectedVideo) { video in
-            if let viewModel {
-                let videoPlaylist = viewModel.filteredResults.compactMap { item -> Video? in
-                    if case .video(let v) = item { return v }
-                    return nil
-                }
-                VideoPlayerView(viewModel: VideoPlayerViewModel(
-                    video: video,
-                    playlist: videoPlaylist,
-                    repository: repository
-                ))
+            let videoPlaylist = resolvedViewModel.filteredResults.compactMap { item -> Video? in
+                if case .video(let v) = item { return v }
+                return nil
             }
+            VideoPlayerView(viewModel: VideoPlayerViewModel(
+                video: video,
+                playlist: videoPlaylist,
+                repository: repository
+            ))
         }
         .fullScreenCover(item: $selectedPhoto) { photo in
             FullScreenImageView(photo: photo, repository: repository)
         }
         .toast(message: $toastMessage)
         .onChange(of: focusedItem) { _, newId in
-            if let id = newId, let results = viewModel?.filteredResults,
-               let item = results.first(where: { $0.id == id }) {
+            if let id = newId,
+               let item = resolvedViewModel.filteredResults.first(where: { $0.id == id }) {
                 backgroundState.update(for: item)
             } else {
                 backgroundState.useFallback()
