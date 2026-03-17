@@ -18,7 +18,7 @@ struct SettingsView: View {
         @Bindable var settings = repository.settings
 
         NavigationStack {
-        List {
+            List {
             // MARK: - Weergave & content
 
             Section {
@@ -348,8 +348,8 @@ struct SettingsView: View {
             } header: {
                 sectionHeader("Over")
             }
-        }
-        .navigationTitle("Instellingen")
+            }
+            .navigationTitle("Instellingen")
         } // NavigationStack
         .task {
             await loadCacheSize()

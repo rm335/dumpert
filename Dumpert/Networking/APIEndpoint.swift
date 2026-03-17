@@ -5,7 +5,7 @@ enum APIEndpoint {
     case topMonth(date: Date)
     case hotshiz
     case latest(page: Int)
-    case search(query: String, page: Int)
+    case search(query: String, page: Int, order: SortOrder?)
     case info(id: String)
     case classics(page: Int)
     case related(id: String)
@@ -35,9 +35,14 @@ enum APIEndpoint {
             path = "/hotshiz"
         case .latest(let page):
             path = "/latest/\(page)"
-        case .search(let query, let page):
+        case .search(let query, let page, let order):
             let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? query
             path = "/search/\(encoded)/\(page)"
+            if let order {
+                var components = URLComponents(string: Self.baseURL + path)!
+                components.queryItems = [URLQueryItem(name: "order", value: order.rawValue)]
+                return components.url!
+            }
         case .info(let id):
             path = "/info/\(id)"
         case .classics(let page):

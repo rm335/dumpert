@@ -12,6 +12,10 @@ struct CategorySectionView: View {
         repository.filteredItems(repository.categoryVideos[category] ?? [])
     }
 
+    private var sortOrder: SortOrder {
+        repository.categorySortOrder[category] ?? .dateNewest
+    }
+
     private var hasMore: Bool {
         repository.categoryHasMore[category] ?? false
     }
@@ -65,11 +69,17 @@ var body: some View {
                 ScrollViewReader { proxy in
                     ScrollView {
                         VStack(alignment: .leading, spacing: 30) {
-                            Text(category.displayName)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .padding(.horizontal, 50)
-                                .id("top")
+                            HStack {
+                                Text(category.displayName)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                Spacer()
+                                if !category.usesLatestEndpoint {
+                                    sortPicker
+                                }
+                            }
+                            .padding(.horizontal, 50)
+                            .id("top")
 
                             LazyVGrid(
                                 columns: repository.settings.tileSize.gridColumns,
@@ -161,4 +171,23 @@ var body: some View {
         .toast(message: $toastMessage)
     }
 
+    private var sortPicker: some View {
+        Button {
+            let cases = SortOrder.allCases
+            let idx = cases.firstIndex(of: sortOrder) ?? cases.startIndex
+            let next = cases[(cases.distance(from: cases.startIndex, to: idx) + 1) % cases.count]
+            repository.setSortOrder(next, for: category)
+        } label: {
+            Label(sortOrder.displayName, systemImage: sortOrder.systemImage)
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(Color.dumpiGreen, in: Capsule())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Sortering: \(sortOrder.displayName)")
+        .accessibilityHint("Wijzig de sorteervolgorde")
+    }
 }

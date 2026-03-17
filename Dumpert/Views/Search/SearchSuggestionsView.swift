@@ -20,14 +20,17 @@ extension SearchView {
         VStack(alignment: .leading, spacing: 40) {
             if !repository.searchHistory.isEmpty {
                 recentSearchesSection(viewModel)
+                    .focusSection()
             }
 
             let tags = repository.popularTags
             if !tags.isEmpty {
                 popularTagsSection(tags, viewModel: viewModel)
+                    .focusSection()
             }
 
             categoriesSection(viewModel)
+                .focusSection()
         }
         .padding(.vertical, 30)
     }

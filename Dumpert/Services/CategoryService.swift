@@ -12,6 +12,7 @@ actor CategoryService {
     func fetchItems(
         for category: VideoCategory,
         page: Int = 0,
+        order: SortOrder? = .dateNewest,
         curationEntries: [CurationEntry],
         minimumKudos: Int,
         reetenMinimumMinutes: Int = 10
@@ -20,7 +21,7 @@ actor CategoryService {
         if category.usesLatestEndpoint {
             items = try await apiClient.fetchLatest(page: page)
         } else {
-            items = try await apiClient.fetchSearch(query: category.searchQuery, page: page)
+            items = try await apiClient.fetchSearch(query: category.searchQuery, page: page, order: order)
         }
 
         // Cache results

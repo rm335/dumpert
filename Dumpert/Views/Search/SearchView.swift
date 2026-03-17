@@ -79,42 +79,45 @@ struct SearchView: View {
     @ViewBuilder
     private func searchContent(_ viewModel: SearchViewModel) -> some View {
         ScrollView {
-            if viewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                suggestionsView(viewModel)
-            } else if viewModel.isSearching && viewModel.results.isEmpty {
-                SkeletonGridView(columnCount: repository.settings.tileSize.gridColumnCount)
-                    .padding(.vertical, 30)
-            } else if let error = viewModel.error {
-                errorView(error, viewModel: viewModel)
-            } else if viewModel.filteredResults.isEmpty && viewModel.hasSearched && !viewModel.isSearching {
-                if viewModel.results.isEmpty {
-                    EmptyStateView(
-                        title: "Geen resultaten",
-                        systemImage: "magnifyingglass",
-                        description: "Geen resultaten voor \"\(viewModel.searchQuery)\""
-                    )
-                    .frame(maxWidth: .infinity, minHeight: 300)
+            VStack(alignment: .leading, spacing: 0) {
+                if viewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    suggestionsView(viewModel)
+                } else if viewModel.isSearching && viewModel.results.isEmpty {
+                    SkeletonGridView(columnCount: repository.settings.tileSize.gridColumnCount)
+                        .padding(.vertical, 30)
+                } else if let error = viewModel.error {
+                    errorView(error, viewModel: viewModel)
+                } else if viewModel.filteredResults.isEmpty && viewModel.hasSearched && !viewModel.isSearching {
+                    if viewModel.results.isEmpty {
+                        EmptyStateView(
+                            title: "Geen resultaten",
+                            systemImage: "magnifyingglass",
+                            description: "Geen resultaten voor \"\(viewModel.searchQuery)\""
+                        )
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        VStack(spacing: 20) {
+                            filterBar(viewModel)
+                            EmptyStateView(
+                                title: "Geen resultaten met deze filters",
+                                systemImage: "line.3.horizontal.decrease.circle",
+                                description: "Pas je filters aan om meer resultaten te zien"
+                            ) {
+                                viewModel.resetFilters()
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                    }
                 } else {
                     VStack(spacing: 20) {
-                        filterBar(viewModel)
-                        EmptyStateView(
-                            title: "Geen resultaten met deze filters",
-                            systemImage: "line.3.horizontal.decrease.circle",
-                            description: "Pas je filters aan om meer resultaten te zien"
-                        ) {
-                            viewModel.resetFilters()
+                        if viewModel.hasSearched {
+                            filterBar(viewModel)
                         }
-                        .frame(maxWidth: .infinity, minHeight: 300)
+                        resultsGrid(viewModel)
                     }
-                }
-            } else {
-                VStack(spacing: 20) {
-                    if viewModel.hasSearched {
-                        filterBar(viewModel)
-                    }
-                    resultsGrid(viewModel)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
         .animation(.easeOut(duration: 0.3), value: viewModel.isSearching)
     }
@@ -136,7 +139,7 @@ struct SearchView: View {
                 Task { await viewModel.search() }
             }
         }
-        .frame(maxWidth: .infinity, minHeight: 300)
+        .frame(maxWidth: .infinity)
     }
 
     // MARK: - Results Grid

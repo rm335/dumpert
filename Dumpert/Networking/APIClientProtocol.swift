@@ -6,7 +6,7 @@ protocol APIClientProtocol: Sendable {
     func fetchTopWeek(date: Date) async throws -> [MediaItem]
     func fetchTopMonth(date: Date) async throws -> [MediaItem]
     func fetchLatest(page: Int) async throws -> [MediaItem]
-    func fetchSearch(query: String, page: Int) async throws -> [MediaItem]
+    func fetchSearch(query: String, page: Int, order: SortOrder?) async throws -> [MediaItem]
     func fetchClassics(page: Int) async throws -> [MediaItem]
     func fetchRelated(id: String) async throws -> [MediaItem]
     func fetchTopComments(for itemId: String) async throws -> [DumpertComment]

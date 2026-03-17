@@ -76,7 +76,7 @@ final class SearchViewModel {
         currentPage = 0
 
         do {
-            let items = try await apiClient.fetchSearch(query: query, page: 0)
+            let items = try await apiClient.fetchSearch(query: query, page: 0, order: .dateNewest)
             guard !Task.isCancelled else { return }
             searchCache[cacheKey] = CachedResult(items: items, timestamp: Date())
             results = repository.filteredItems(items)
@@ -107,7 +107,7 @@ final class SearchViewModel {
         let nextPage = currentPage + 1
 
         do {
-            let newItems = try await apiClient.fetchSearch(query: query, page: nextPage)
+            let newItems = try await apiClient.fetchSearch(query: query, page: nextPage, order: .dateNewest)
             guard !Task.isCancelled else { return }
             if newItems.isEmpty {
                 hasMore = false

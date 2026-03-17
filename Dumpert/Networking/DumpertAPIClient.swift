@@ -123,8 +123,8 @@ actor DumpertAPIClient {
         try await fetchMediaItems(endpoint: .latest(page: page))
     }
 
-    func fetchSearch(query: String, page: Int = 0) async throws -> [MediaItem] {
-        try await fetchMediaItems(endpoint: .search(query: query, page: page))
+    func fetchSearch(query: String, page: Int = 0, order: SortOrder? = .dateNewest) async throws -> [MediaItem] {
+        try await fetchMediaItems(endpoint: .search(query: query, page: page, order: order))
     }
 
     func fetchClassics(page: Int = 0) async throws -> [MediaItem] {

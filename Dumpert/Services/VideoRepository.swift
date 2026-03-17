@@ -15,6 +15,9 @@ final class VideoRepository {
     private(set) var classics: [MediaItem] = []
     private(set) var searchHistory: [SearchHistoryEntry] = []
 
+    // Sort order
+    private(set) var categorySortOrder: [VideoCategory: SortOrder] = [:]
+
     // Pagination
     private(set) var categoryPages: [VideoCategory: Int] = [:]
     private(set) var categoryHasMore: [VideoCategory: Bool] = [:]
@@ -54,6 +57,7 @@ final class VideoRepository {
         self.categoryService = CategoryService(apiClient: apiClient, cacheService: cacheService)
         self.settings = UserSettings()
         for category in VideoCategory.allCases {
+            categorySortOrder[category] = .dateNewest
             categoryPages[category] = 0
             categoryHasMore[category] = true
             isCategoryLoadingMore[category] = false
@@ -219,6 +223,7 @@ final class VideoRepository {
             do {
                 let videos = try await categoryService.fetchItems(
                     for: category,
+                    order: categorySortOrder[category] ?? .dateNewest,
                     curationEntries: curationEntries,
                     minimumKudos: settings.minimumKudos,
                     reetenMinimumMinutes: settings.reetenMinimumMinutes
@@ -274,6 +279,7 @@ final class VideoRepository {
             let newVideos = try await categoryService.fetchItems(
                 for: category,
                 page: nextPage,
+                order: categorySortOrder[category] ?? .dateNewest,
                 curationEntries: curationEntries,
                 minimumKudos: settings.minimumKudos,
                 reetenMinimumMinutes: settings.reetenMinimumMinutes
@@ -331,6 +337,30 @@ final class VideoRepository {
 
     func syncNSFWSetting() {
         Task { await apiClient.setNSFWEnabled(settings.nsfwEnabled) }
+    }
+
+    // MARK: - Sort Order
+
+    func setSortOrder(_ order: SortOrder, for category: VideoCategory) {
+        categorySortOrder[category] = order
+        categoryPages[category] = 0
+        categoryHasMore[category] = true
+        categoryVideos[category] = []
+        Task {
+            do {
+                let videos = try await categoryService.fetchItems(
+                    for: category,
+                    order: order,
+                    curationEntries: curationEntries,
+                    minimumKudos: settings.minimumKudos,
+                    reetenMinimumMinutes: settings.reetenMinimumMinutes
+                )
+                categoryVideos[category] = videos
+                categoryHasMore[category] = !videos.isEmpty
+            } catch {
+                self.error = error.localizedDescription
+            }
+        }
     }
 
     func filteredItems(_ items: [MediaItem]) -> [MediaItem] {
