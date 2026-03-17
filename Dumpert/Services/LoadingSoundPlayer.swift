@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import os.log
 
 @Observable
 @MainActor
@@ -6,21 +7,41 @@ final class LoadingSoundPlayer {
     private var audioPlayer: AVAudioPlayer?
     private var fadeTask: Task<Void, Never>?
     private var autoStopTask: Task<Void, Never>?
+    private let logger = Logger(subsystem: "nl.dumpert.tvos", category: "sound")
 
     func playRandom() {
         stop()
+        configureAudioSession()
         let urls = soundURLs()
-        guard let url = urls.randomElement() else { return }
+        guard let url = urls.randomElement() else {
+            logger.warning("No sound files found in bundle")
+            return
+        }
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
+            let player = try AVAudioPlayer(contentsOf: url)
+            audioPlayer = player
+            player.prepareToPlay()
+            guard player.play() else {
+                logger.warning("AVAudioPlayer.play() returned false for \(url.lastPathComponent)")
+                return
+            }
             autoStopTask = Task {
                 try? await Task.sleep(for: .seconds(10))
                 guard !Task.isCancelled else { return }
                 fadeOutAndStop()
             }
         } catch {
-            // Sound playback is non-critical
+            logger.warning("Failed to play sound: \(error.localizedDescription)")
+        }
+    }
+
+    private func configureAudioSession() {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.ambient)
+            try session.setActive(true)
+        } catch {
+            logger.warning("Audio session setup failed: \(error.localizedDescription)")
         }
     }
 
