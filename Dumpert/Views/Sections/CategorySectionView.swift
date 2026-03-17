@@ -3,6 +3,7 @@ import SwiftUI
 struct CategorySectionView: View {
     let category: VideoCategory
     @Environment(VideoRepository.self) private var repository
+    @Environment(ImmersiveBackgroundState.self) private var backgroundState
     @State private var selectedVideo: Video?
     @State private var selectedPhoto: Photo?
     @State private var toastMessage: String?
@@ -169,6 +170,11 @@ var body: some View {
             FullScreenImageView(photo: photo, repository: repository)
         }
         .toast(message: $toastMessage)
+        .onChange(of: focusedItem) { _, newId in
+            if let id = newId, let item = items.first(where: { $0.id == id }) {
+                backgroundState.update(for: item)
+            }
+        }
     }
 
     private var sortPicker: some View {

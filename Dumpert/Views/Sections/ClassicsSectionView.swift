@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ClassicsSectionView: View {
     @Environment(VideoRepository.self) private var repository
+    @Environment(ImmersiveBackgroundState.self) private var backgroundState
     @State private var selectedVideo: Video?
     @State private var selectedPhoto: Photo?
     @State private var toastMessage: String?
@@ -153,6 +154,11 @@ struct ClassicsSectionView: View {
             FullScreenImageView(photo: photo, repository: repository)
         }
         .toast(message: $toastMessage)
+        .onChange(of: focusedItem) { _, newId in
+            if let id = newId, let item = items.first(where: { $0.id == id }) {
+                backgroundState.update(for: item)
+            }
+        }
     }
 
     private var classicsHeader: some View {

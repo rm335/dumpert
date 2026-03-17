@@ -4,6 +4,7 @@ import SwiftUI
 struct DumpertApp: App {
     @State private var videoRepository = VideoRepository()
     @State private var networkMonitor = NetworkMonitor()
+    @State private var backgroundState = ImmersiveBackgroundState()
     @State private var deepLinkVideoId: String?
 
     var body: some Scene {
@@ -11,6 +12,7 @@ struct DumpertApp: App {
             ContentView(deepLinkVideoId: $deepLinkVideoId)
                 .environment(videoRepository)
                 .environment(networkMonitor)
+                .environment(backgroundState)
                 .tint(.dumpiGreen)
                 .onAppear {
                     videoRepository.networkMonitor = networkMonitor

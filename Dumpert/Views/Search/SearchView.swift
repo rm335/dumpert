@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SearchView: View {
     @Environment(VideoRepository.self) var repository
+    @Environment(ImmersiveBackgroundState.self) private var backgroundState
     @State private var viewModel: SearchViewModel?
     @State private var selectedVideo: Video?
     @State private var selectedPhoto: Photo?
@@ -56,6 +57,7 @@ struct SearchView: View {
                     repository: repository
                 )
             }
+            backgroundState.useFallback()
         }
         .fullScreenCover(item: $selectedVideo) { video in
             if let viewModel {
@@ -74,6 +76,14 @@ struct SearchView: View {
             FullScreenImageView(photo: photo, repository: repository)
         }
         .toast(message: $toastMessage)
+        .onChange(of: focusedItem) { _, newId in
+            if let id = newId, let results = viewModel?.filteredResults,
+               let item = results.first(where: { $0.id == id }) {
+                backgroundState.update(for: item)
+            } else {
+                backgroundState.useFallback()
+            }
+        }
     }
 
     @ViewBuilder

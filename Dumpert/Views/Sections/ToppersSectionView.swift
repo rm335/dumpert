@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ToppersSectionView: View {
     @Environment(VideoRepository.self) private var repository
+    @Environment(ImmersiveBackgroundState.self) private var backgroundState
     @State private var selectedVideo: Video?
     @State private var selectedPhoto: Photo?
     @State private var toastMessage: String?
@@ -125,6 +126,27 @@ struct ToppersSectionView: View {
             FullScreenImageView(photo: photo, repository: repository)
         }
         .toast(message: $toastMessage)
+        .onAppear {
+            if !heroItems.isEmpty {
+                backgroundState.update(for: heroItems[heroIndex])
+            }
+        }
+        .onChange(of: heroIndex) { _, newIndex in
+            guard newIndex < heroItems.count, focusedItem == nil else { return }
+            backgroundState.update(for: heroItems[newIndex])
+        }
+        .onChange(of: focusedItem) { _, newId in
+            if let id = newId {
+                let allItems = repository.filteredItems(repository.hotshiz)
+                    + repository.filteredItems(repository.topWeek)
+                    + repository.filteredItems(repository.topMonth)
+                if let item = allItems.first(where: { $0.id == id }) {
+                    backgroundState.update(for: item)
+                }
+            } else if !heroItems.isEmpty {
+                backgroundState.update(for: heroItems[heroIndex])
+            }
+        }
     }
 
     @ViewBuilder

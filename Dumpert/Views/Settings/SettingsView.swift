@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(VideoRepository.self) private var repository
+    @Environment(ImmersiveBackgroundState.self) private var backgroundState
     @State private var showClearCacheConfirmation = false
     @State private var showCacheClearedFeedback = false
     @State private var showClearHistoryConfirmation = false
@@ -353,6 +354,9 @@ struct SettingsView: View {
         } // NavigationStack
         .task {
             await loadCacheSize()
+        }
+        .onAppear {
+            backgroundState.useFallback()
         }
         .autoDismiss($showRefreshFeedback)
         .autoDismiss($showHistoryClearedFeedback)
