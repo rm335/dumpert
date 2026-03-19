@@ -30,9 +30,8 @@ var body: some View {
             if repository.isLoading && items.isEmpty {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 30) {
-                        Text(category.displayName)
+                        SectionTitleView(category.displayName)
                             .font(.title2)
-                            .fontWeight(.bold)
                             .padding(.horizontal, 50)
                         SkeletonGridView(columnCount: repository.settings.tileSize.gridColumnCount)
                     }
@@ -41,9 +40,8 @@ var body: some View {
                 .transition(.opacity)
             } else if items.isEmpty && !repository.isLoading {
                 VStack(spacing: 30) {
-                    Text(category.displayName)
+                    SectionTitleView(category.displayName)
                         .font(.title2)
-                        .fontWeight(.bold)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 50)
 
@@ -71,9 +69,8 @@ var body: some View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 30) {
                             HStack {
-                                Text(category.displayName)
+                                SectionTitleView(category.displayName)
                                     .font(.title2)
-                                    .fontWeight(.bold)
                                 Spacer()
                                 if !category.usesLatestEndpoint {
                                     sortPicker

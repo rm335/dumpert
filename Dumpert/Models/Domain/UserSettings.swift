@@ -50,9 +50,9 @@ enum TileSize: String, Codable, Sendable, CaseIterable {
 
     var horizontalCardWidth: CGFloat {
         switch self {
-        case .small: 300
-        case .normal: 375
-        case .large: 450
+        case .small: 400
+        case .normal: 450
+        case .large: 500
         }
     }
 

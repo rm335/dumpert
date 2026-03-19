@@ -28,7 +28,7 @@ struct KudosBadgeView: View {
     }
 
     private var kudosColor: Color {
-        if kudos >= 100 { return .green }
+        if kudos >= 100 { return .dumpiGreen }
         if kudos >= 0 { return .gray.opacity(0.7) }
         return .red
     }

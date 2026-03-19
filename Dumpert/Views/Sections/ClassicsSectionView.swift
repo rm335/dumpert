@@ -164,9 +164,8 @@ struct ClassicsSectionView: View {
     }
 
     private var classicsHeader: some View {
-        Text("Classics")
+        SectionTitleView("Classics")
             .font(.title2)
-            .fontWeight(.bold)
             .padding(.horizontal, 50)
     }
 }

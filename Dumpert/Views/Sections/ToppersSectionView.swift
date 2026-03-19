@@ -157,12 +157,11 @@ struct ToppersSectionView: View {
     private func mediaRow(title: LocalizedStringKey, items: [MediaItem]) -> some View {
         if !items.isEmpty {
             VStack(alignment: .leading, spacing: 14) {
-                Text(title)
+                SectionTitleView(title)
                     .font(.title3)
-                    .fontWeight(.bold)
 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 30) {
+                    LazyHStack(spacing: 50) {
                         ForEach(items) { item in
                             Button {
                                 item.present(selectedVideo: $selectedVideo, selectedPhoto: $selectedPhoto)

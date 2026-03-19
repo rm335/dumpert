@@ -1,0 +1,36 @@
+import SwiftUI
+
+struct NowPlayingOverlayView: View {
+    let title: String
+    let isVisible: Bool
+
+    var body: some View {
+        VStack {
+            if isVisible {
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(.black.opacity(0.75))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(.white.opacity(0.1), lineWidth: 1)
+                            )
+                    )
+                    .padding(.top, 20)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .accessibilityLabel("Nu speelt: \(title)")
+            }
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+        .animation(.easeInOut(duration: 0.5), value: isVisible)
+    }
+}

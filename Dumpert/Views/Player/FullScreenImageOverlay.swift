@@ -143,7 +143,7 @@ extension FullScreenImageView {
     }
 
     var kudosColor: Color {
-        if photo.kudosTotal >= 100 { return .green }
+        if photo.kudosTotal >= 100 { return .dumpiGreen }
         if photo.kudosTotal >= 0 { return .gray }
         return .red
     }

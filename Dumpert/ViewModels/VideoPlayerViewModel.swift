@@ -9,7 +9,7 @@ final class VideoPlayerViewModel {
     private let repository: VideoRepository
     private var timeObserver: Any?
     private var endObserver: NSObjectProtocol?
-    private var showControlsTask: Task<Void, Never>?
+    private var statusObservation: NSKeyValueObservation?
 
     let video: Video
     let playlist: [Video]
@@ -45,6 +45,12 @@ final class VideoPlayerViewModel {
     private var topCommentsFetched = false
     private var topCommentCarouselTask: Task<Void, Never>?
 
+    // MARK: - Now Playing State
+
+    private(set) var showNowPlaying = false
+    private(set) var nowPlayingTitle = ""
+    private var nowPlayingDismissTask: Task<Void, Never>?
+
 
     var currentTopComment: DumpertComment? {
         guard !topComments.isEmpty, currentCommentIndex < topComments.count else { return nil }
@@ -79,7 +85,9 @@ final class VideoPlayerViewModel {
     func setupPlayer() {
         guard let url = video.streamURL else { return }
         let playerItem = AVPlayerItem(url: url)
+        setMetadata(for: currentVideo, on: playerItem)
         player = AVPlayer(playerItem: playerItem)
+        observePlaybackStatus()
 
         resumeIfNeeded(for: currentVideo)
 
@@ -101,22 +109,22 @@ final class VideoPlayerViewModel {
 
     func play() {
         player?.play()
-        isPlaying = true
     }
 
     func pause() {
         player?.pause()
-        isPlaying = false
         saveProgress(force: true)
     }
 
     func cleanup() {
-        showControlsTask?.cancel()
-        showControlsTask = nil
+        statusObservation?.invalidate()
+        statusObservation = nil
         resumeDismissTask?.cancel()
         resumeDismissTask = nil
         topCommentCarouselTask?.cancel()
         topCommentCarouselTask = nil
+        nowPlayingDismissTask?.cancel()
+        nowPlayingDismissTask = nil
         saveProgress(force: true)
         removeTimeObserver()
         removeEndObserver()
@@ -184,6 +192,22 @@ final class VideoPlayerViewModel {
         }
     }
 
+    /// Tracks the player's timeControlStatus so isPlaying stays in sync
+    /// with both programmatic and user-initiated play/pause changes.
+    private func observePlaybackStatus() {
+        statusObservation = player?.observe(\.timeControlStatus, options: [.old, .new]) { [weak self] player, change in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                if player.timeControlStatus == .playing {
+                    self.isPlaying = true
+                } else if change.oldValue == .playing && player.timeControlStatus == .paused {
+                    self.isPlaying = false
+                    self.saveProgress(force: true)
+                }
+            }
+        }
+    }
+
     private func saveProgress(force: Bool = false) {
         guard duration.isFinite && duration > 0 else { return }
         let now = Date()
@@ -245,6 +269,15 @@ final class VideoPlayerViewModel {
     }
 
     func playNext() {
+        // Save progress for the current video and reset tracking state
+        // BEFORE changing currentVideo. Otherwise, when replaceCurrentItem
+        // triggers a status observation, saveProgress would write the old
+        // video's completion state onto the new video's ID — marking it
+        // as watched immediately.
+        saveProgress(force: true)
+        currentTime = 0
+        duration = 0
+
         let targetVideo: Video?
         if currentIndex + 1 < playlist.count {
             currentIndex += 1
@@ -269,6 +302,7 @@ final class VideoPlayerViewModel {
         removeTimeObserver()
         removeEndObserver()
         let item = preloadedItem ?? AVPlayerItem(url: url)
+        setMetadata(for: video, on: item)
         preloadedItem = nil
         player?.replaceCurrentItem(with: item)
 
@@ -277,11 +311,7 @@ final class VideoPlayerViewModel {
         addTimeObserver()
         addEndObserver()
         player?.play()
-
-        showControlsTask = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(1))
-            self?.playerViewController?.showsPlaybackControls = true
-        }
+        showNowPlayingBriefly(video.title)
     }
 
     // MARK: - Top Comment
@@ -420,5 +450,38 @@ final class VideoPlayerViewModel {
         resumeDismissTask = nil
         showResumeOverlay = false
         resumeTimeFormatted = ""
+    }
+
+    // MARK: - Now Playing Overlay
+
+    private func showNowPlayingBriefly(_ title: String) {
+        nowPlayingDismissTask?.cancel()
+        nowPlayingTitle = title
+        showNowPlaying = true
+        nowPlayingDismissTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(5))
+            self?.showNowPlaying = false
+        }
+    }
+
+    // MARK: - Player Metadata
+
+    private func setMetadata(for video: Video, on item: AVPlayerItem) {
+        let titleItem = AVMutableMetadataItem()
+        titleItem.identifier = .commonIdentifierTitle
+        titleItem.value = video.title as NSString
+        titleItem.extendedLanguageTag = "und"
+
+        var items: [AVMetadataItem] = [titleItem]
+
+        if !video.descriptionText.isEmpty {
+            let descItem = AVMutableMetadataItem()
+            descItem.identifier = .commonIdentifierDescription
+            descItem.value = video.descriptionText as NSString
+            descItem.extendedLanguageTag = "und"
+            items.append(descItem)
+        }
+
+        item.externalMetadata = items
     }
 }

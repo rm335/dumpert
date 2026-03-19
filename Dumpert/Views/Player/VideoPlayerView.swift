@@ -24,6 +24,7 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
+        controller.showsPlaybackControls = false
         viewModel.setupPlayer()
         viewModel.playerViewController = controller
         controller.player = viewModel.player
@@ -47,6 +48,19 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
         }
         hosting.didMove(toParent: controller)
 
+        // Play/pause is ALWAYS intercepted so AVPlayerViewController's native
+        // handler can never seek to a stale transport bar position (0:00).
+        // Select is only intercepted while controls are hidden to reveal them.
+        let playPauseTap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePlayPause))
+        playPauseTap.allowedPressTypes = [NSNumber(value: UIPress.PressType.playPause.rawValue)]
+        controller.view.addGestureRecognizer(playPauseTap)
+        context.coordinator.playPauseGesture = playPauseTap
+
+        let selectTap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleSelect))
+        selectTap.allowedPressTypes = [NSNumber(value: UIPress.PressType.select.rawValue)]
+        selectTap.delegate = context.coordinator
+        controller.view.addGestureRecognizer(selectTap)
+
         viewModel.configureTransportBar()
         viewModel.play()
         return controller
@@ -66,8 +80,9 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
     }
 
     @MainActor
-    class Coordinator: NSObject, @preconcurrency AVPlayerViewControllerDelegate {
+    class Coordinator: NSObject, @preconcurrency AVPlayerViewControllerDelegate, UIGestureRecognizerDelegate {
         private let viewModel: VideoPlayerViewModel
+        var playPauseGesture: UITapGestureRecognizer?
 
         init(viewModel: VideoPlayerViewModel) {
             self.viewModel = viewModel
@@ -75,6 +90,30 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
 
         func playerViewControllerWillBeginDismissalTransition(_ playerViewController: AVPlayerViewController) {
             viewModel.cleanup()
+        }
+
+        // MARK: - Remote Control Handling
+
+        /// Play/pause is always handled by us (no delegate check needed —
+        /// that gesture has no delegate set). Select is only intercepted
+        /// while controls are hidden; once visible, native handling takes over.
+        func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+            viewModel.playerViewController?.showsPlaybackControls == false
+        }
+
+        @objc func handlePlayPause() {
+            guard let player = viewModel.player else { return }
+            if player.timeControlStatus == .playing {
+                player.pause()
+            } else {
+                player.play()
+            }
+            // Show controls on any play/pause interaction
+            viewModel.playerViewController?.showsPlaybackControls = true
+        }
+
+        @objc func handleSelect() {
+            viewModel.playerViewController?.showsPlaybackControls = true
         }
     }
 }
@@ -94,6 +133,12 @@ private struct UpNextOverlayContainer: View {
                 formattedTime: viewModel.resumeTimeFormatted,
                 isVisible: viewModel.showResumeOverlay,
                 onPlayFromBeginning: { viewModel.playFromBeginning() }
+            )
+
+            // Now playing title (top-center, shown briefly on autoplay)
+            NowPlayingOverlayView(
+                title: viewModel.nowPlayingTitle,
+                isVisible: viewModel.showNowPlaying
             )
 
             // Top comment overlay (bottom-left)
