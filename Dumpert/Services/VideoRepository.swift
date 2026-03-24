@@ -103,18 +103,11 @@ final class VideoRepository {
         do {
             try await cloudKitService.setupZone()
             cloudKitAvailable = true
-            let remoteProgress = try await cloudKitService.fetchAllWatchProgress()
-            mergeWatchProgress(remote: remoteProgress)
-            if let remoteSettings = try await cloudKitService.fetchSettings() {
-                if remoteSettings.lastModified > settings.lastModified {
-                    settings.apply(remoteSettings)
-                    await apiClient.setNSFWEnabled(settings.nsfwEnabled)
-                }
-            }
-            let remoteCuration = try await cloudKitService.fetchAllCurationEntries()
-            mergeCurationEntries(remote: remoteCuration)
-            let remoteSearchHistory = try await cloudKitService.fetchAllSearchHistory()
-            mergeSearchHistory(remote: remoteSearchHistory)
+            // Use delta sync (with no token = full fetch) instead of queries.
+            // This avoids the "recordName not queryable" index requirement.
+            let changes = try await cloudKitService.fetchChanges()
+            applyCloudKitChanges(changes)
+            Logger.cloudKit.info("CloudKit initial sync: \(changes.changedRecords.count) records loaded")
         } catch {
             cloudKitAvailable = false
             Logger.cloudKit.info("CloudKit not available: \(error.localizedDescription). Using local data only.")
@@ -140,6 +133,7 @@ final class VideoRepository {
 
         isLoading = false
         lastRefreshDate = Date()
+        updateTopShelf()
 
         // Delta sync CloudKit changes in background
         if cloudKitAvailable {
@@ -187,6 +181,37 @@ final class VideoRepository {
                         curationEntries.append(entry)
                     }
                 }
+            case "UserSettings":
+                let remoteSettings = UserSettingsSnapshot(
+                    minimumKudos: record["minimumKudos"] as? Int ?? 0,
+                    autoplayEnabled: (record["autoplayEnabled"] as? Int ?? 0) == 1,
+                    hideWatched: (record["hideWatched"] as? Int ?? 0) == 1,
+                    showNegativeKudos: (record["showNegativeKudos"] as? Int ?? 0) == 1,
+                    nsfwEnabled: (record["nsfwEnabled"] as? Int ?? 1) == 1,
+                    thumbnailPreviewEnabled: (record["thumbnailPreviewEnabled"] as? Int ?? 1) == 1,
+                    tileSize: TileSize(rawValue: record["tileSize"] as? String ?? "") ?? .normal,
+                    upNextOverlayEnabled: (record["upNextOverlayEnabled"] as? Int ?? 1) == 1,
+                    upNextCountdownSeconds: record["upNextCountdownSeconds"] as? Int ?? 5,
+                    upNextMinimumVideoSeconds: record["upNextMinimumVideoSeconds"] as? Int ?? 60,
+                    topCommentMode: TopCommentMode(rawValue: record["topCommentMode"] as? String ?? "") ?? .all,
+                    readingSpeed: ReadingSpeed(rawValue: record["readingSpeed"] as? Int ?? 3) ?? .normal,
+                    showResumeOverlay: (record["showResumeOverlay"] as? Int ?? 1) == 1,
+                    lastModified: record["lastModified"] as? Date ?? Date.distantPast
+                )
+                if remoteSettings.lastModified > settings.lastModified {
+                    settings.apply(remoteSettings)
+                }
+            case "SearchHistory":
+                if let query = record["query"] as? String {
+                    let idString = record.recordID.recordName.replacingOccurrences(of: "search_", with: "")
+                    if let uuid = UUID(uuidString: idString) {
+                        let timestamp = record["timestamp"] as? Date ?? Date()
+                        let entry = SearchHistoryEntry(id: uuid, query: query, timestamp: timestamp)
+                        if !searchHistory.contains(where: { $0.id == entry.id }) {
+                            searchHistory.append(entry)
+                        }
+                    }
+                }
             default:
                 break
             }
@@ -206,7 +231,6 @@ final class VideoRepository {
             topMonth = filterByKudos(monthResult)
 
             recomputePopularTags()
-            updateTopShelf()
 
             await cacheService.cacheMediaItems(hotshizResult, for: "hotshiz")
             await cacheService.cacheMediaItems(weekResult, for: "topweek")
@@ -544,10 +568,29 @@ final class VideoRepository {
     // MARK: - Top Shelf
 
     private func updateTopShelf() {
-        let items = hotshiz.prefix(10).map { TopShelfItem(id: $0.id, title: $0.title, thumbnailURL: $0.thumbnailURL, streamURL: $0.streamURL) }
-        Logger.cache.info("updateTopShelf: saving \(items.count) items (hotshiz has \(self.hotshiz.count) total)")
-        TopShelfDataStore.diagnose()
-        TopShelfDataStore.save(hotshiz: Array(items))
+        let mapToShelfItems: ([MediaItem]) -> [TopShelfItem] = { items in
+            Array(items.prefix(10).map {
+                TopShelfItem(
+                    id: $0.id,
+                    title: $0.title,
+                    thumbnailURL: $0.thumbnailURL,
+                    streamURL: $0.streamURL,
+                    description: $0.descriptionText.isEmpty ? nil : $0.descriptionText,
+                    kudos: $0.kudosTotal,
+                    duration: $0.isVideo ? $0.duration : nil,
+                    date: $0.date
+                )
+            })
+        }
+
+        let hotshizItems = mapToShelfItems(hotshiz)
+        let topWeekItems = mapToShelfItems(topWeek)
+        let latestItems = mapToShelfItems(categoryVideos[.nieuwBinnen] ?? [])
+
+        Logger.cache.info("updateTopShelf: hotshiz=\(hotshizItems.count), topWeek=\(topWeekItems.count), latest=\(latestItems.count)")
+        TopShelfDataStore.save(hotshiz: hotshizItems)
+        TopShelfDataStore.save(topWeek: topWeekItems)
+        TopShelfDataStore.save(latest: latestItems)
         TVTopShelfContentProvider.topShelfContentDidChange()
     }
 

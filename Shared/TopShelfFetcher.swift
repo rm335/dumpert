@@ -18,9 +18,12 @@ enum TopShelfFetcher: Sendable {
     private struct Item: Codable {
         let id: String
         let title: String
+        let description: String?
         let still: String?
         let stills: [String: String]?
         let media: [Media]?
+        let stats: Stats?
+        let date: String?
 
         var thumbnailURL: URL? {
             let urlString = stills?["still-large"] ?? stills?["still"] ?? still
@@ -35,10 +38,32 @@ enum TopShelfFetcher: Sendable {
                 ?? variants.first
             return best.flatMap { URL(string: $0.uri) }
         }
+
+        var kudosTotal: Int? {
+            guard let stats else { return nil }
+            return (stats.kudos_positive ?? 0) - (stats.kudos_negative ?? 0)
+        }
+
+        var videoDuration: Int? {
+            media?.first?.duration
+        }
+
+        var parsedDate: Date? {
+            guard let date else { return nil }
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            return formatter.date(from: date) ?? ISO8601DateFormatter().date(from: date)
+        }
+    }
+
+    private struct Stats: Codable {
+        let kudos_positive: Int?
+        let kudos_negative: Int?
     }
 
     private struct Media: Codable {
         let variants: [Variant]?
+        let duration: Int?
     }
 
     private struct Variant: Codable {
@@ -90,7 +115,11 @@ enum TopShelfFetcher: Sendable {
                         id: item.id,
                         title: item.title,
                         thumbnailURL: item.thumbnailURL,
-                        streamURL: item.streamURL
+                        streamURL: item.streamURL,
+                        description: item.description,
+                        kudos: item.kudosTotal,
+                        duration: item.videoDuration,
+                        date: item.parsedDate
                     )
                 }
 

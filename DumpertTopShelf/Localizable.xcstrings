@@ -1,8 +1,62 @@
 {
   "sourceLanguage" : "nl",
   "strings" : {
+    "Bron" : {
+      "comment" : "Top Shelf named attribute: source",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bron"
+          }
+        }
+      }
+    },
+    "Nieuw" : {
+      "comment" : "Top Shelf section title for newest videos",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieuw"
+          }
+        }
+      }
+    },
+    "Top Vandaag" : {
+      "comment" : "Top Shelf section title for today's top videos",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Today"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top Vandaag"
+          }
+        }
+      }
+    },
     "Trending Nu" : {
       "comment" : "Top Shelf section title for currently trending videos",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14,6 +68,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trending Nu"
+          }
+        }
+      }
+    },
+    "Trending op Dumpert" : {
+      "comment" : "Top Shelf carousel context title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending on Dumpert"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending op Dumpert"
           }
         }
       }
