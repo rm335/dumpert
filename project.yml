@@ -47,6 +47,8 @@ targets:
       path: Dumpert/Info.plist
       properties:
         UILaunchScreen: {}
+        UIBackgroundModes:
+          - audio
         CFBundleURLTypes:
           - CFBundleURLSchemes:
               - dumpert

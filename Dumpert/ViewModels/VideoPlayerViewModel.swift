@@ -7,6 +7,8 @@ import os
 @MainActor
 final class VideoPlayerViewModel {
     private let repository: VideoRepository
+    private let nowPlayingService = NowPlayingService()
+    let sharePlayService = SharePlayService()
     private var timeObserver: Any?
     private var endObserver: NSObjectProtocol?
     private var statusObservation: NSKeyValueObservation?
@@ -20,6 +22,7 @@ final class VideoPlayerViewModel {
     private(set) var isPlaying = false
     private(set) var currentTime: Double = 0
     private(set) var duration: Double = 0
+    var isInPiP = false
 
     // MARK: - Up Next State
 
@@ -84,6 +87,15 @@ final class VideoPlayerViewModel {
 
     func setupPlayer() {
         guard let url = video.streamURL else { return }
+
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .moviePlayback)
+            try session.setActive(true)
+        } catch {
+            Logger.network.warning("Audio session setup failed: \(error.localizedDescription)")
+        }
+
         let playerItem = AVPlayerItem(url: url)
         setMetadata(for: currentVideo, on: playerItem)
         player = AVPlayer(playerItem: playerItem)
@@ -94,6 +106,12 @@ final class VideoPlayerViewModel {
         addTimeObserver()
         addEndObserver()
         fetchTopCommentsIfNeeded(for: video.id)
+        configureNowPlaying(for: currentVideo)
+
+        sharePlayService.observeSessions()
+        if let player {
+            sharePlayService.coordinatePlayback(with: player)
+        }
     }
 
     func configureTransportBar() {
@@ -117,6 +135,8 @@ final class VideoPlayerViewModel {
     }
 
     func cleanup() {
+        if isInPiP { return }
+
         statusObservation?.invalidate()
         statusObservation = nil
         resumeDismissTask?.cancel()
@@ -126,6 +146,8 @@ final class VideoPlayerViewModel {
         nowPlayingDismissTask?.cancel()
         nowPlayingDismissTask = nil
         saveProgress(force: true)
+        nowPlayingService.cleanup()
+        sharePlayService.cancelObservation()
         removeTimeObserver()
         removeEndObserver()
         player?.pause()
@@ -160,6 +182,11 @@ final class VideoPlayerViewModel {
                     self.saveProgress()
                     self.checkUpNext()
                     self.checkTopCommentTiming()
+                    self.nowPlayingService.updateProgress(
+                        currentTime: self.currentTime,
+                        duration: self.duration,
+                        rate: self.player?.rate ?? 0
+                    )
                 }
             }
         }
@@ -224,7 +251,8 @@ final class VideoPlayerViewModel {
 
     private func checkUpNext() {
         guard autoplayEnabled,
-              !upNextCancelled else { return }
+              !upNextCancelled,
+              !sharePlayService.isSharePlayActive else { return }
 
         let remaining = duration - currentTime
 
@@ -312,6 +340,7 @@ final class VideoPlayerViewModel {
         addEndObserver()
         player?.play()
         showNowPlayingBriefly(video.title)
+        configureNowPlaying(for: video)
     }
 
     // MARK: - Top Comment
@@ -465,6 +494,30 @@ final class VideoPlayerViewModel {
     }
 
     // MARK: - Player Metadata
+
+    private func configureNowPlaying(for video: Video) {
+        nowPlayingService.configure(
+            title: video.title,
+            thumbnailURL: video.thumbnailURL,
+            duration: Double(video.duration),
+            onPlay: { [weak self] in self?.player?.play() },
+            onPause: { [weak self] in self?.player?.pause(); self?.saveProgress(force: true) },
+            onSkipForward: { [weak self] in
+                guard let self, let player = self.player else { return }
+                let target = CMTime(seconds: player.currentTime().seconds + 15, preferredTimescale: 600)
+                player.seek(to: target)
+            },
+            onSkipBackward: { [weak self] in
+                guard let self, let player = self.player else { return }
+                let target = CMTime(seconds: max(0, player.currentTime().seconds - 15), preferredTimescale: 600)
+                player.seek(to: target)
+            },
+            onSeek: { [weak self] (position: TimeInterval) in
+                let target = CMTime(seconds: position, preferredTimescale: 600)
+                self?.player?.seek(to: target)
+            }
+        )
+    }
 
     private func setMetadata(for video: Video, on item: AVPlayerItem) {
         let titleItem = AVMutableMetadataItem()

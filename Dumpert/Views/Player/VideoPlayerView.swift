@@ -12,7 +12,9 @@ struct VideoPlayerView: View {
                 soundPlayer.fadeOutAndStop()
             }
             .onDisappear {
-                viewModel.cleanup()
+                if !viewModel.isInPiP {
+                    viewModel.cleanup()
+                }
             }
     }
 }
@@ -25,6 +27,7 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
         controller.showsPlaybackControls = false
+        controller.allowsPictureInPicturePlayback = true
         viewModel.setupPlayer()
         viewModel.playerViewController = controller
         controller.player = viewModel.player
@@ -89,7 +92,26 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
         }
 
         func playerViewControllerWillBeginDismissalTransition(_ playerViewController: AVPlayerViewController) {
-            viewModel.cleanup()
+            if !viewModel.isInPiP {
+                viewModel.cleanup()
+            }
+        }
+
+        // MARK: - Picture in Picture
+
+        func playerViewControllerDidStartPictureInPicture(_ playerViewController: AVPlayerViewController) {
+            viewModel.isInPiP = true
+        }
+
+        func playerViewControllerDidStopPictureInPicture(_ playerViewController: AVPlayerViewController) {
+            viewModel.isInPiP = false
+        }
+
+        func playerViewController(
+            _ playerViewController: AVPlayerViewController,
+            restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void
+        ) {
+            completionHandler(true)
         }
 
         // MARK: - Remote Control Handling
@@ -139,6 +161,12 @@ private struct UpNextOverlayContainer: View {
             NowPlayingOverlayView(
                 title: viewModel.nowPlayingTitle,
                 isVisible: viewModel.showNowPlaying
+            )
+
+            // SharePlay indicator (top-right)
+            SharePlayIndicatorView(
+                participantCount: viewModel.sharePlayService.participantCount,
+                isVisible: viewModel.sharePlayService.isSharePlayActive
             )
 
             // Top comment overlay (bottom-left)

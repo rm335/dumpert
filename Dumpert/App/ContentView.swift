@@ -16,7 +16,7 @@ struct ContentView: View {
                 if !networkMonitor.isConnected {
                     HStack(spacing: 8) {
                         Image(systemName: "wifi.slash")
-                        Text("Geen internetverbinding")
+                        Text("Geen internetverbinding", comment: "Offline banner message")
                     }
                     .font(.callout)
                     .fontWeight(.medium)
@@ -100,11 +100,23 @@ struct ContentView: View {
             guard let videoId else { return }
             Task { @MainActor in
                 deepLinkVideoId = nil
+                // Try local data first
                 let allItems = repository.hotshiz
                     + repository.topWeek + repository.topMonth
+                    + (repository.categoryVideos[.nieuwBinnen] ?? [])
                 if let item = allItems.first(where: { $0.id == videoId }),
                    case let .video(video) = item {
                     deepLinkVideo = video
+                    return
+                }
+                // Not found locally — fetch from API
+                do {
+                    if let item = try await repository.apiClient.fetchItem(id: videoId),
+                       case let .video(video) = item {
+                        deepLinkVideo = video
+                    }
+                } catch {
+                    // Silently fail — video not available
                 }
             }
         }

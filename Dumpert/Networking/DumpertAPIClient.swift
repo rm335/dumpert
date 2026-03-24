@@ -135,6 +135,11 @@ actor DumpertAPIClient {
         try await fetchMediaItems(endpoint: .related(id: id))
     }
 
+    func fetchItem(id: String) async throws -> MediaItem? {
+        let response = try await fetchWithRetry(endpoint: .info(id: id))
+        return response.items?.first.map { MediaItem(from: $0) }
+    }
+
     // MARK: - Comments API
 
     private static let commentsBaseURL = "https://comment.dumpert.nl/api/v1.0"
