@@ -58,9 +58,9 @@ enum MediaTypeFilter: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .all: String(localized: "Alles")
-        case .video: String(localized: "Video")
-        case .photo: String(localized: "Foto")
+        case .all: String(localized: "Alles", comment: "Media type filter: all types")
+        case .video: String(localized: "Video", comment: "Media type filter: video only")
+        case .photo: String(localized: "Foto", comment: "Media type filter: photo only")
         }
     }
 
@@ -78,10 +78,10 @@ enum PeriodFilter: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .all: String(localized: "Altijd")
-        case .today: String(localized: "Vandaag")
-        case .thisWeek: String(localized: "Deze week")
-        case .thisMonth: String(localized: "Deze maand")
+        case .all: String(localized: "Altijd", comment: "Period filter: all time")
+        case .today: String(localized: "Vandaag", comment: "Period filter: today only")
+        case .thisWeek: String(localized: "Deze week", comment: "Period filter: this week")
+        case .thisMonth: String(localized: "Deze maand", comment: "Period filter: this month")
         }
     }
 
@@ -100,7 +100,7 @@ enum KudosFilter: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .all: String(localized: "Alle kudos")
+        case .all: String(localized: "Alle kudos", comment: "Kudos filter: no minimum")
         case .hundred: "100+"
         case .fiveHundred: "500+"
         case .thousand: "1000+"
@@ -115,10 +115,10 @@ enum DurationFilter: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .all: String(localized: "Alle duur")
-        case .short: String(localized: "Kort (<1 min)")
-        case .medium: String(localized: "Medium (1-5 min)")
-        case .long: String(localized: "Lang (>5 min)")
+        case .all: String(localized: "Alle duur", comment: "Duration filter: any duration")
+        case .short: String(localized: "Kort (<1 min)", comment: "Duration filter: short videos under 1 minute")
+        case .medium: String(localized: "Medium (1-5 min)", comment: "Duration filter: medium videos 1-5 minutes")
+        case .long: String(localized: "Lang (>5 min)", comment: "Duration filter: long videos over 5 minutes")
         }
     }
 

@@ -10,25 +10,25 @@ struct VideoContextMenuModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content.contextMenu {
-            Button(repository.isWatched(item.id) ? "Markeer als onbekeken" : "Markeer als bekeken") {
+            Button(repository.isWatched(item.id) ? String(localized: "Markeer als onbekeken", comment: "Context menu: mark as unwatched") : String(localized: "Markeer als bekeken", comment: "Context menu: mark as watched")) {
                 let wasWatched = repository.isWatched(item.id)
                 repository.toggleWatched(videoId: item.id)
                 toastMessage = wasWatched
-                    ? String(localized: "Gemarkeerd als onbekeken")
-                    : String(localized: "Gemarkeerd als bekeken")
+                    ? String(localized: "Gemarkeerd als onbekeken", comment: "Toast: video marked as unwatched")
+                    : String(localized: "Gemarkeerd als bekeken", comment: "Toast: video marked as watched")
             }
 
             if let currentCategory, !currentCategory.usesLatestEndpoint {
-                Button("Verwijder uit \(currentCategory.displayName)") {
+                Button(String(localized: "Verwijder uit \(currentCategory.displayName)", comment: "Context menu: remove from category")) {
                     repository.removeFromCategory(videoId: item.id, category: currentCategory)
-                    toastMessage = String(localized: "Verwijderd uit \(currentCategory.displayName)")
+                    toastMessage = String(localized: "Verwijderd uit \(currentCategory.displayName)", comment: "Toast: removed from category")
                 }
             }
 
             ForEach(VideoCategory.allCases.filter { $0 != currentCategory && !$0.usesLatestEndpoint }) { category in
-                Button("Voeg toe aan \(category.displayName)") {
+                Button(String(localized: "Voeg toe aan \(category.displayName)", comment: "Context menu: add to category")) {
                     repository.addToCategory(videoId: item.id, category: category)
-                    toastMessage = String(localized: "Toegevoegd aan \(category.displayName)")
+                    toastMessage = String(localized: "Toegevoegd aan \(category.displayName)", comment: "Toast: added to category")
                 }
             }
         }
