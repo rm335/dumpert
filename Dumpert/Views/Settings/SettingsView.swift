@@ -187,7 +187,7 @@ struct SettingsView: View {
                                 .foregroundStyle(.dumpiGreen)
                                 .transition(.scale.combined(with: .opacity))
                         } else if let lastRefresh = repository.lastRefreshDate {
-                            Text("Laatst: \(lastRefresh, style: .relative)")
+                            Text("Laatst: \(lastRefresh, style: .relative)", comment: "Last refresh time indicator")
                                 .foregroundStyle(.tertiary)
                                 .font(.caption)
                         }
@@ -220,17 +220,17 @@ struct SettingsView: View {
                         }
                     }
                 }
-                .confirmationDialog("Cache wissen", isPresented: $showClearCacheConfirmation) {
-                    Button("Cache wissen", role: .destructive) {
+                .confirmationDialog(Text("Cache wissen", comment: "Cache clear confirmation title"), isPresented: $showClearCacheConfirmation) {
+                    Button(String(localized: "Cache wissen", comment: "Cache clear confirmation title"), role: .destructive) {
                         Task {
                             await repository.clearAllCaches()
                             showCacheClearedFeedback = true
                             cacheSize = nil
                         }
                     }
-                    Button("Annuleer", role: .cancel) {}
+                    Button(String(localized: "Annuleer", comment: "Cancel button"), role: .cancel) {}
                 } message: {
-                    Text("Alle opgeslagen afbeeldingen en API-responses worden verwijderd.")
+                    Text("Alle opgeslagen afbeeldingen en API-responses worden verwijderd.", comment: "Cache clear confirmation message")
                 }
 
                 Button {
@@ -250,16 +250,16 @@ struct SettingsView: View {
                         }
                     }
                 }
-                .confirmationDialog("Kijkgeschiedenis wissen", isPresented: $showClearHistoryConfirmation) {
-                    Button("Wis geschiedenis", role: .destructive) {
+                .confirmationDialog(Text("Kijkgeschiedenis wissen", comment: "Watch history clear confirmation title"), isPresented: $showClearHistoryConfirmation) {
+                    Button(String(localized: "Wis geschiedenis", comment: "Watch history clear button"), role: .destructive) {
                         Task {
                             await repository.clearWatchHistory()
                             showHistoryClearedFeedback = true
                         }
                     }
-                    Button("Annuleer", role: .cancel) {}
+                    Button(String(localized: "Annuleer", comment: "Cancel button"), role: .cancel) {}
                 } message: {
-                    Text("Alle bekeken video's worden weer als onbekeken getoond.")
+                    Text("Alle bekeken video's worden weer als onbekeken getoond.", comment: "Watch history clear confirmation message")
                 }
                 Button {
                     showClearSearchHistoryConfirmation = true
@@ -278,14 +278,14 @@ struct SettingsView: View {
                         }
                     }
                 }
-                .confirmationDialog("Zoekgeschiedenis wissen", isPresented: $showClearSearchHistoryConfirmation) {
-                    Button("Wis zoekgeschiedenis", role: .destructive) {
+                .confirmationDialog(Text("Zoekgeschiedenis wissen", comment: "Search history clear confirmation title"), isPresented: $showClearSearchHistoryConfirmation) {
+                    Button(String(localized: "Wis zoekgeschiedenis", comment: "Search history clear button"), role: .destructive) {
                         repository.clearSearchHistory()
                         showSearchHistoryClearedFeedback = true
                     }
-                    Button("Annuleer", role: .cancel) {}
+                    Button(String(localized: "Annuleer", comment: "Cancel button"), role: .cancel) {}
                 } message: {
-                    Text("Alle opgeslagen zoekopdrachten worden verwijderd.")
+                    Text("Alle opgeslagen zoekopdrachten worden verwijderd.", comment: "Search history clear confirmation message")
                 }
             } header: {
                 sectionHeader("Data & opslag")
@@ -321,8 +321,8 @@ struct SettingsView: View {
                         description: "Zet alle instellingen terug naar fabrieksinstellingen"
                     )
                 }
-                .confirmationDialog("Standaardwaarden herstellen", isPresented: $showResetConfirmation) {
-                    Button("Herstel standaardwaarden", role: .destructive) {
+                .confirmationDialog(Text("Standaardwaarden herstellen", comment: "Reset defaults confirmation title"), isPresented: $showResetConfirmation) {
+                    Button(String(localized: "Herstel standaardwaarden", comment: "Reset defaults button"), role: .destructive) {
                         withAnimation(.smooth) {
                             settings.minimumKudos = 0
                             settings.autoplayEnabled = true
@@ -342,9 +342,9 @@ struct SettingsView: View {
                         }
                         showResetFeedback = true
                     }
-                    Button("Annuleer", role: .cancel) {}
+                    Button(String(localized: "Annuleer", comment: "Cancel button"), role: .cancel) {}
                 } message: {
-                    Text("Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt.")
+                    Text("Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt.", comment: "Reset defaults confirmation message")
                 }
             } header: {
                 sectionHeader("Over")

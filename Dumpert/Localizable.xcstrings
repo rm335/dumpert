@@ -122,8 +122,25 @@
         }
       }
     },
+    "%lld kijkers" : {
+      "comment" : "SharePlay participant count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld viewers"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld kijkers"
+          }
+        }
+      }
+    },
     "%lld seconden" : {
-      "comment" : "Format string showing number of seconds",
+      "comment" : "Up next setting: countdown seconds value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -463,12 +480,12 @@
       }
     },
     "Aantal kolommen in de video-overzichten" : {
-      "comment" : "Description for card size setting",
+      "comment" : "Settings: tile size description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Number of columns in video lists"
+            "value" : "Number of columns in video overviews"
           }
         },
         "nl" : {
@@ -480,7 +497,7 @@
       }
     },
     "Aantal seconden voordat de volgende video start" : {
-      "comment" : "Description for countdown seconds setting",
+      "comment" : "Up next setting: countdown description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -497,7 +514,7 @@
       }
     },
     "Actief" : {
-      "comment" : "iCloud sync status - active",
+      "comment" : "Accessibility: filter is active",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -514,7 +531,7 @@
       }
     },
     "Afspelen" : {
-      "comment" : "Section header for playback settings; also button label to play next video",
+      "comment" : "Settings section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -531,7 +548,7 @@
       }
     },
     "Aftelling" : {
-      "comment" : "Navigation title and label for countdown timer setting",
+      "comment" : "Up next setting: countdown label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -548,7 +565,7 @@
       }
     },
     "Aftelling: %lld seconden" : {
-      "comment" : "Accessibility label for up-next countdown timer",
+      "comment" : "Accessibility: countdown timer seconds remaining",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -565,7 +582,7 @@
       }
     },
     "Alle bekeken video's worden weer als onbekeken getoond." : {
-      "comment" : "Confirmation message when clearing watch history",
+      "comment" : "Watch history clear confirmation message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -582,12 +599,12 @@
       }
     },
     "Alle duur" : {
-      "comment" : "Duration filter option - show all durations",
+      "comment" : "Filter option: all durations",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Any duration"
+            "value" : "All durations"
           }
         },
         "nl" : {
@@ -599,7 +616,7 @@
       }
     },
     "Alle instellingen worden teruggezet. Dit kan niet ongedaan worden gemaakt." : {
-      "comment" : "Confirmation message when resetting all settings",
+      "comment" : "Reset defaults confirmation message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -616,12 +633,12 @@
       }
     },
     "Alle kudos" : {
-      "comment" : "Kudos filter option - show all kudos levels",
+      "comment" : "Filter option: all kudos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Any kudos"
+            "value" : "All kudos"
           }
         },
         "nl" : {
@@ -633,7 +650,7 @@
       }
     },
     "Alle opgeslagen afbeeldingen en API-responses worden verwijderd." : {
-      "comment" : "Confirmation message when clearing cache",
+      "comment" : "Cache clear confirmation message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -650,7 +667,7 @@
       }
     },
     "Alle opgeslagen zoekopdrachten worden verwijderd." : {
-      "comment" : "Confirmation dialog message for clearing search history",
+      "comment" : "Search history clear confirmation message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -684,12 +701,12 @@
       }
     },
     "Alle recente zoekopdrachten worden verwijderd" : {
-      "comment" : "Description for clear search history button",
+      "comment" : "Settings: clear search history description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All recent searches will be deleted"
+            "value" : "All recent search queries will be deleted"
           }
         },
         "nl" : {
@@ -701,12 +718,12 @@
       }
     },
     "Alle video's worden weer als onbekeken getoond" : {
-      "comment" : "Description for clear watch history button",
+      "comment" : "Settings: clear history description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All videos will be shown as unwatched"
+            "value" : "All videos will be shown as unwatched again"
           }
         },
         "nl" : {
@@ -723,7 +740,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Only the top comment"
+            "value" : "Top comment only"
           }
         },
         "nl" : {
@@ -735,7 +752,7 @@
       }
     },
     "Alleen in de Reeten-tab: verberg korte video's" : {
-      "comment" : "Description for minimum reeten duration setting",
+      "comment" : "Settings: reeten minimum description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -752,7 +769,7 @@
       }
     },
     "Alles" : {
-      "comment" : "Filter option - show all",
+      "comment" : "Filter option: all media types",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -769,7 +786,7 @@
       }
     },
     "Alles tonen" : {
-      "comment" : "Kudos filter option - show all videos regardless of kudos",
+      "comment" : "Settings option: show all",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -786,12 +803,12 @@
       }
     },
     "Altijd" : {
-      "comment" : "Period filter option - all time",
+      "comment" : "Filter option: all periods",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Always"
+            "value" : "All time"
           }
         },
         "nl" : {
@@ -803,7 +820,7 @@
       }
     },
     "Annuleer" : {
-      "comment" : "Cancel button in confirmation dialogs",
+      "comment" : "Cancel button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -820,7 +837,7 @@
       }
     },
     "Annuleer volgende video" : {
-      "comment" : "Accessibility label for cancel up-next button",
+      "comment" : "Accessibility: cancel up next",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -837,7 +854,7 @@
       }
     },
     "Annuleren" : {
-      "comment" : "Cancel button in up-next overlay",
+      "comment" : "Cancel button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -854,12 +871,12 @@
       }
     },
     "Automatisch verversen" : {
-      "comment" : "Info row label for auto-refresh interval",
+      "comment" : "Settings: auto refresh label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Auto-refresh"
+            "value" : "Auto refresh"
           }
         },
         "nl" : {
@@ -871,7 +888,7 @@
       }
     },
     "Autoplay" : {
-      "comment" : "Toggle for automatic video playback",
+      "comment" : "Settings: autoplay toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -905,7 +922,7 @@
       }
     },
     "Bekeken verbergen" : {
-      "comment" : "Toggle to hide already watched videos",
+      "comment" : "Settings: hide watched toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -922,7 +939,7 @@
       }
     },
     "Cache wissen" : {
-      "comment" : "Destructive button to clear cached data",
+      "comment" : "Cache clear confirmation title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -939,7 +956,7 @@
       }
     },
     "Categorieën" : {
-      "comment" : "Search suggestions section header",
+      "comment" : "Categories section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -956,7 +973,7 @@
       }
     },
     "Classics" : {
-      "comment" : "Tab label and section title for classic videos",
+      "comment" : "Tab label for classic videos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1007,7 +1024,7 @@
       }
     },
     "Data & opslag" : {
-      "comment" : "Settings section header for data and storage options",
+      "comment" : "Settings section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1041,12 +1058,12 @@
       }
     },
     "De volgende video start direct zonder aftelling." : {
-      "comment" : "Footer text when up-next overlay is disabled",
+      "comment" : "Up next setting: overlay disabled explanation",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The next video will start immediately without a countdown."
+            "value" : "The next video will start immediately without countdown."
           }
         },
         "nl" : {
@@ -1058,7 +1075,7 @@
       }
     },
     "Deze maand" : {
-      "comment" : "Period filter option",
+      "comment" : "Filter option: this month",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1075,7 +1092,7 @@
       }
     },
     "Deze week" : {
-      "comment" : "Period filter option",
+      "comment" : "Filter option: this week",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1143,7 +1160,7 @@
       }
     },
     "Elke 15 minuten" : {
-      "comment" : "Description of auto-refresh interval",
+      "comment" : "Settings: auto refresh value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1160,7 +1177,7 @@
       }
     },
     "Er ging iets mis" : {
-      "comment" : "Error title when something went wrong",
+      "comment" : "Error state title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1211,7 +1228,7 @@
       }
     },
     "Filter: %@" : {
-      "comment" : "Accessibility label for active search filter",
+      "comment" : "Accessibility: filter button label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1245,7 +1262,7 @@
       }
     },
     "Geen classics gevonden" : {
-      "comment" : "Description when no classic videos are available",
+      "comment" : "Empty state description for classics",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1296,7 +1313,7 @@
       }
     },
     "Geen minimum" : {
-      "comment" : "Duration filter option - no minimum duration",
+      "comment" : "Settings option: no minimum",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1313,7 +1330,7 @@
       }
     },
     "Geen reaguursels" : {
-      "comment" : "Shown when no comments are available for a video/photo",
+      "comment" : "No comments available",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1330,7 +1347,7 @@
       }
     },
     "Geen resultaten" : {
-      "comment" : "Title shown when search returns no results",
+      "comment" : "Empty search results title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1347,7 +1364,7 @@
       }
     },
     "Geen resultaten met deze filters" : {
-      "comment" : "Empty state title when filters exclude all results",
+      "comment" : "Empty filtered results title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1364,7 +1381,7 @@
       }
     },
     "Geen resultaten voor \"%@\"" : {
-      "comment" : "Description when search returns no results for a query",
+      "comment" : "Empty search results description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1381,7 +1398,7 @@
       }
     },
     "Geen video's" : {
-      "comment" : "Title shown when no videos are available",
+      "comment" : "Empty state title when no videos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1398,7 +1415,7 @@
       }
     },
     "Geen video's gevonden voor %@" : {
-      "comment" : "Description when no videos found for a category",
+      "comment" : "Empty state description for category",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1415,7 +1432,7 @@
       }
     },
     "Gemarkeerd als bekeken" : {
-      "comment" : "Toast message when marking video as watched",
+      "comment" : "Toast: marked as watched",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1432,7 +1449,7 @@
       }
     },
     "Gemarkeerd als onbekeken" : {
-      "comment" : "Toast message when marking video as unwatched",
+      "comment" : "Toast: marked as unwatched",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1466,7 +1483,7 @@
       }
     },
     "Haal de nieuwste content op" : {
-      "comment" : "Description for refresh now button",
+      "comment" : "Settings: refresh now description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1483,7 +1500,7 @@
       }
     },
     "Herstel standaardwaarden" : {
-      "comment" : "Destructive button to restore default settings",
+      "comment" : "Reset defaults button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1500,12 +1517,12 @@
       }
     },
     "Hervat op %@" : {
-      "comment" : "Resume overlay showing the timestamp where playback resumes",
+      "comment" : "Accessibility: resume at timestamp\nResume overlay showing timestamp",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resumed at %@"
+            "value" : "Resume at %@"
           }
         },
         "nl" : {
@@ -1517,7 +1534,7 @@
       }
     },
     "Hervat-melding" : {
-      "comment" : "Settings toggle title for showing resume overlay",
+      "comment" : "Settings: resume overlay toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1534,7 +1551,7 @@
       }
     },
     "Hoe lang reaguursels in beeld blijven" : {
-      "comment" : "Description for reading speed setting",
+      "comment" : "Settings: reading speed description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1551,7 +1568,7 @@
       }
     },
     "iCloud sync" : {
-      "comment" : "Label for iCloud sync status",
+      "comment" : "Settings: iCloud sync label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1568,7 +1585,7 @@
       }
     },
     "Inactief" : {
-      "comment" : "iCloud sync status - inactive",
+      "comment" : "Accessibility: filter is inactive",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1585,7 +1602,7 @@
       }
     },
     "Instellingen" : {
-      "comment" : "Tab label and navigation title for settings screen",
+      "comment" : "Tab label for settings",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1602,7 +1619,7 @@
       }
     },
     "Inzoomen" : {
-      "comment" : "Accessibility label for zoom in button",
+      "comment" : "Accessibility: zoom in button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1619,7 +1636,7 @@
       }
     },
     "Kaartgrootte" : {
-      "comment" : "Settings label for card size picker",
+      "comment" : "Settings: tile size label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1653,7 +1670,7 @@
       }
     },
     "Kijkgeschiedenis wissen" : {
-      "comment" : "Destructive button to clear watch history",
+      "comment" : "Watch history clear confirmation title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1687,7 +1704,7 @@
       }
     },
     "Kon afbeelding niet laden" : {
-      "comment" : "Error message when an image fails to load",
+      "comment" : "Error when image fails to load",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1721,7 +1738,7 @@
       }
     },
     "Kort (<1 min)" : {
-      "comment" : "Duration filter option - short videos",
+      "comment" : "Filter option: short duration",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1738,7 +1755,7 @@
       }
     },
     "Laad meer" : {
-      "comment" : "Button to load more content in a list",
+      "comment" : "Load more button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1755,7 +1772,7 @@
       }
     },
     "Laad meer classics" : {
-      "comment" : "Accessibility label for load more classics button",
+      "comment" : "Accessibility: load more classics",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1772,7 +1789,7 @@
       }
     },
     "Laad meer video's in %@" : {
-      "comment" : "Accessibility hint for load more button in category",
+      "comment" : "Accessibility: load more videos in category",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1789,7 +1806,7 @@
       }
     },
     "Laatst: %@" : {
-      "comment" : "Label showing relative time since last refresh",
+      "comment" : "Last refresh time indicator",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1806,7 +1823,7 @@
       }
     },
     "Laden..." : {
-      "comment" : "Loading indicator text",
+      "comment" : "Loading indicator",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1823,7 +1840,7 @@
       }
     },
     "Lang (>5 min)" : {
-      "comment" : "Duration filter option - long videos",
+      "comment" : "Filter option: long duration",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1857,7 +1874,7 @@
       }
     },
     "Leessnelheid" : {
-      "comment" : "Settings label for comment reading speed",
+      "comment" : "Settings: reading speed label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1874,7 +1891,7 @@
       }
     },
     "Markeer als bekeken" : {
-      "comment" : "Context menu button to mark video as watched",
+      "comment" : "Context menu: mark as watched",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1891,7 +1908,7 @@
       }
     },
     "Markeer als onbekeken" : {
-      "comment" : "Context menu button to mark video as unwatched",
+      "comment" : "Context menu: mark as unwatched",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1908,7 +1925,7 @@
       }
     },
     "Medium (1-5 min)" : {
-      "comment" : "Duration filter option - medium videos",
+      "comment" : "Filter option: medium duration",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1925,7 +1942,7 @@
       }
     },
     "Meer classics laden" : {
-      "comment" : "Progress label when loading more classics",
+      "comment" : "Accessibility: loading more classics",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1942,7 +1959,7 @@
       }
     },
     "Meer laden..." : {
-      "comment" : "Loading indicator when fetching more content",
+      "comment" : "Loading more results indicator",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1959,7 +1976,7 @@
       }
     },
     "Meer video's laden" : {
-      "comment" : "Progress label when loading more videos",
+      "comment" : "Accessibility: loading more videos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2010,7 +2027,7 @@
       }
     },
     "Minimale kudos" : {
-      "comment" : "Label for minimum kudos filter setting",
+      "comment" : "Settings: minimum kudos label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2027,7 +2044,7 @@
       }
     },
     "Minimale reeten-duur" : {
-      "comment" : "Label for minimum reeten video duration filter",
+      "comment" : "Settings: reeten minimum duration label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2044,7 +2061,7 @@
       }
     },
     "Minimale videolengte" : {
-      "comment" : "Label for minimum video length setting in up-next settings",
+      "comment" : "Up next setting: minimum video length label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2095,7 +2112,7 @@
       }
     },
     "Naar boven" : {
-      "comment" : "Button label to scroll back to top of list",
+      "comment" : "Scroll to top button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2112,7 +2129,7 @@
       }
     },
     "Negatieve kudos tonen" : {
-      "comment" : "Toggle to show or hide videos with negative kudos",
+      "comment" : "Settings: negative kudos toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2231,7 +2248,7 @@
       }
     },
     "NSFW-content tonen" : {
-      "comment" : "Toggle to show or hide NSFW content",
+      "comment" : "Settings: NSFW toggle label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2248,10 +2265,24 @@
       }
     },
     "Nu speelt: %@" : {
-
+      "comment" : "Accessibility: now playing title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now playing: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu speelt: %@"
+          }
+        }
+      }
     },
     "Nu verversen" : {
-      "comment" : "Button to manually refresh all content",
+      "comment" : "Settings: refresh now label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2285,7 +2316,7 @@
       }
     },
     "Opnieuw proberen" : {
-      "comment" : "Button to retry a failed operation",
+      "comment" : "Retry button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2319,7 +2350,7 @@
       }
     },
     "Over" : {
-      "comment" : "Settings section header for about information",
+      "comment" : "Settings section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2336,7 +2367,7 @@
       }
     },
     "Overlay tonen" : {
-      "comment" : "Toggle label for showing the up-next overlay",
+      "comment" : "Up next setting: show overlay toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2353,12 +2384,12 @@
       }
     },
     "Overlay, aftelling en minimale videolengte" : {
-      "comment" : "Description for up-next settings navigation link",
+      "comment" : "Settings: up next description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Overlay, countdown and minimum video length"
+            "value" : "Overlay, countdown, and minimum video length"
           }
         },
         "nl" : {
@@ -2370,7 +2401,7 @@
       }
     },
     "Pas je filters aan om meer resultaten te zien" : {
-      "comment" : "Empty state description when filters exclude all results",
+      "comment" : "Empty filtered results description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2404,7 +2435,7 @@
       }
     },
     "Populair" : {
-      "comment" : "Search suggestions section header for popular tags",
+      "comment" : "Popular tags section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2426,7 +2457,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lightning fast (6 words/sec)"
+            "value" : "Ultra fast (6 words/sec)"
           }
         },
         "nl" : {
@@ -2438,7 +2469,7 @@
       }
     },
     "Reaguursels" : {
-      "comment" : "Settings picker title for top comment overlay mode",
+      "comment" : "Settings: top comment mode label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2455,7 +2486,7 @@
       }
     },
     "Recent gezocht" : {
-      "comment" : "Search suggestions section header for recent searches",
+      "comment" : "Recently searched section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2472,7 +2503,7 @@
       }
     },
     "Reeten" : {
-      "comment" : "Tab label for hall of fame section",
+      "comment" : "Tab label for hall of fame videos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2489,7 +2520,7 @@
       }
     },
     "Reset" : {
-      "comment" : "Button label to reset search filters",
+      "comment" : "Reset filters button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2523,7 +2554,7 @@
       }
     },
     "Scroll naar boven" : {
-      "comment" : "Accessibility label for scroll to top button",
+      "comment" : "Accessibility: scroll to top",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2556,8 +2587,25 @@
         }
       }
     },
+    "SharePlay actief met %lld kijkers" : {
+      "comment" : "Accessibility: SharePlay active with participant count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SharePlay active with %lld viewers"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SharePlay actief met %lld kijkers"
+          }
+        }
+      }
+    },
     "Slimme thumbnails" : {
-      "comment" : "Settings toggle title for smart thumbnail feature",
+      "comment" : "Settings: smart thumbnails toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2591,6 +2639,7 @@
       }
     },
     "Sortering: %@" : {
+      "comment" : "Accessibility: current sort order",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2607,12 +2656,12 @@
       }
     },
     "Speel automatisch de volgende video af" : {
-      "comment" : "Description for autoplay toggle",
+      "comment" : "Settings: autoplay description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically play next video"
+            "value" : "Automatically play the next video"
           }
         },
         "nl" : {
@@ -2624,12 +2673,12 @@
       }
     },
     "Speel een preview bij focus op een video" : {
-      "comment" : "Description for video preview toggle",
+      "comment" : "Settings: thumbnail preview description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play preview when focusing on a video"
+            "value" : "Play a preview when focusing on a video"
           }
         },
         "nl" : {
@@ -2641,12 +2690,12 @@
       }
     },
     "Speel nu af: %@" : {
-      "comment" : "Accessibility label for up-next play button",
+      "comment" : "Accessibility: play next video now",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Now playing: %@"
+            "value" : "Play now: %@"
           }
         },
         "nl" : {
@@ -2658,12 +2707,12 @@
       }
     },
     "Speel vanaf begin" : {
-      "comment" : "Button label to play video from the beginning instead of resuming",
+      "comment" : "Button to play video from start",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play from beginning"
+            "value" : "Play from start"
           }
         },
         "nl" : {
@@ -2675,7 +2724,7 @@
       }
     },
     "Speel video vanaf het begin" : {
-      "comment" : "Accessibility label for play from beginning button",
+      "comment" : "Accessibility: play from beginning",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2692,7 +2741,7 @@
       }
     },
     "Standaardwaarden herstellen" : {
-      "comment" : "Confirmation dialog title for resetting settings",
+      "comment" : "Reset defaults confirmation title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2709,7 +2758,7 @@
       }
     },
     "Toegevoegd aan %@" : {
-      "comment" : "Toast message when adding video to a category",
+      "comment" : "Toast: added to category",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2726,7 +2775,7 @@
       }
     },
     "Toon content die als niet-veilig-voor-werk is gemarkeerd" : {
-      "comment" : "Description for NSFW content toggle",
+      "comment" : "Settings: NSFW toggle description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2743,7 +2792,7 @@
       }
     },
     "Toon de overlay alleen bij langere video's" : {
-      "comment" : "Description for minimum video length setting",
+      "comment" : "Up next setting: minimum video length description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2760,7 +2809,7 @@
       }
     },
     "Toon een aftelling met de volgende video" : {
-      "comment" : "Description for show overlay toggle",
+      "comment" : "Up next setting: show overlay description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2777,12 +2826,12 @@
       }
     },
     "Toon een melding wanneer een video wordt hervat" : {
-      "comment" : "Settings description for resume overlay feature",
+      "comment" : "Settings: resume overlay description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show a notification when resuming a video"
+            "value" : "Show a notification when a video is resumed"
           }
         },
         "nl" : {
@@ -2794,7 +2843,7 @@
       }
     },
     "Toon populaire reacties als overlay tijdens afspelen" : {
-      "comment" : "Settings description for top comment overlay mode picker",
+      "comment" : "Settings: top comment mode description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2811,7 +2860,7 @@
       }
     },
     "Toon video's met meer downvotes dan upvotes" : {
-      "comment" : "Description for show negative kudos toggle",
+      "comment" : "Settings: negative kudos description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2862,7 +2911,7 @@
       }
     },
     "Top reaguursel van %@: %@" : {
-      "comment" : "Accessibility label for top comment overlay with author and content",
+      "comment" : "Accessibility: top comment by author",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2879,12 +2928,12 @@
       }
     },
     "Toppers" : {
-      "comment" : "Tab label for trending/top videos section",
+      "comment" : "Tab label for hot videos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Top Videos"
+            "value" : "Toppers"
           }
         },
         "nl" : {
@@ -2930,7 +2979,7 @@
       }
     },
     "Uitzoomen" : {
-      "comment" : "Accessibility label for zoom out button",
+      "comment" : "Accessibility: zoom out button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2947,7 +2996,7 @@
       }
     },
     "Vandaag" : {
-      "comment" : "Period filter option",
+      "comment" : "Filter option: today",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2964,12 +3013,12 @@
       }
     },
     "Verberg video's die je al hebt gezien" : {
-      "comment" : "Description for hide watched videos toggle",
+      "comment" : "Settings: hide watched description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide videos you've already seen"
+            "value" : "Hide videos you've already watched"
           }
         },
         "nl" : {
@@ -2981,24 +3030,24 @@
       }
     },
     "Verberg video's onder dit aantal" : {
-      "comment" : "Description for minimum kudos filter",
+      "comment" : "Settings: minimum kudos description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide videos below this number of kudos"
+            "value" : "Hide videos below this count"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verberg video's onder dit aantal kudos"
+            "value" : "Verberg video's onder dit aantal"
           }
         }
       }
     },
     "Verbeter thumbnails automatisch met een beter videoframe" : {
-      "comment" : "Settings description for smart thumbnail feature",
+      "comment" : "Settings: smart thumbnails description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3015,7 +3064,7 @@
       }
     },
     "Versie" : {
-      "comment" : "Label for app version number",
+      "comment" : "Settings: version label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3032,7 +3081,7 @@
       }
     },
     "Verwijder" : {
-      "comment" : "Button label to delete a search suggestion",
+      "comment" : "Delete context menu action",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3049,7 +3098,7 @@
       }
     },
     "Verwijder opgeslagen afbeeldingen en API-data" : {
-      "comment" : "Description for clear cache button",
+      "comment" : "Settings: clear cache description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3066,7 +3115,7 @@
       }
     },
     "Verwijder uit %@" : {
-      "comment" : "Context menu button to remove video from a category",
+      "comment" : "Context menu: remove from category",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3083,7 +3132,7 @@
       }
     },
     "Verwijderd uit %@" : {
-      "comment" : "Toast message when removing video from a category",
+      "comment" : "Toast: removed from category",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3117,7 +3166,7 @@
       }
     },
     "Video voorvertoning" : {
-      "comment" : "Toggle for thumbnail video preview on focus",
+      "comment" : "Settings: thumbnail preview toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3134,7 +3183,7 @@
       }
     },
     "Voeg toe aan %@" : {
-      "comment" : "Context menu button to add video to a category",
+      "comment" : "Context menu: add to category",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3168,7 +3217,7 @@
       }
     },
     "Volgende video" : {
-      "comment" : "Label in up-next overlay for the next video",
+      "comment" : "Up next overlay header\nUp next settings screen title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3185,7 +3234,7 @@
       }
     },
     "Voorbeeld: %lld kolommen" : {
-      "comment" : "Accessibility label for card size preview",
+      "comment" : "Accessibility: tile preview with column count",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3236,7 +3285,7 @@
       }
     },
     "Weergave & content" : {
-      "comment" : "Settings section header for display and content options",
+      "comment" : "Settings section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3253,11 +3302,12 @@
       }
     },
     "Wijzig de sorteervolgorde" : {
+      "comment" : "Accessibility: change sort order hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Change the sort order"
+            "value" : "Change sort order"
           }
         },
         "nl" : {
@@ -3269,7 +3319,7 @@
       }
     },
     "Wis alle recente zoekopdrachten" : {
-      "comment" : "Accessibility label for clear all searches button",
+      "comment" : "Accessibility: clear all recent searches",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3286,7 +3336,7 @@
       }
     },
     "Wis alles" : {
-      "comment" : "Button label to clear all recent searches",
+      "comment" : "Clear all recent searches button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3303,7 +3353,7 @@
       }
     },
     "Wis geschiedenis" : {
-      "comment" : "Destructive button to clear watch history in confirmation dialog",
+      "comment" : "Watch history clear button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3320,7 +3370,7 @@
       }
     },
     "Wis zoekgeschiedenis" : {
-      "comment" : "Confirmation dialog button for clearing search history",
+      "comment" : "Search history clear button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3354,7 +3404,7 @@
       }
     },
     "Zet alle instellingen terug naar fabrieksinstellingen" : {
-      "comment" : "Description for restore defaults button",
+      "comment" : "Settings: restore defaults description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3371,7 +3421,7 @@
       }
     },
     "Zoek op Dumpert" : {
-      "comment" : "Search field placeholder text",
+      "comment" : "Search bar placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3388,7 +3438,7 @@
       }
     },
     "Zoeken" : {
-      "comment" : "Tab label and navigation title for search screen",
+      "comment" : "Tab label for search",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3405,7 +3455,7 @@
       }
     },
     "Zoekgeschiedenis wissen" : {
-      "comment" : "Confirmation dialog title for clearing search history",
+      "comment" : "Search history clear confirmation title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3422,7 +3472,7 @@
       }
     },
     "Zoom resetten" : {
-      "comment" : "Accessibility label for reset zoom button",
+      "comment" : "Accessibility: reset zoom to default",
       "localizations" : {
         "en" : {
           "stringUnit" : {

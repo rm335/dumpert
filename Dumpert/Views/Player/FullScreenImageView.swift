@@ -33,13 +33,13 @@ struct FullScreenImageView: View {
             Color.black.ignoresSafeArea()
 
             if isLoading {
-                ProgressView("Laden...")
+                ProgressView(String(localized: "Laden...", comment: "Loading indicator"))
             } else if loadFailed {
                 VStack(spacing: 16) {
                     Image(systemName: "photo.badge.exclamationmark")
                         .font(.largeTitle)
                         .foregroundStyle(.secondary)
-                    Text("Kon afbeelding niet laden")
+                    Text("Kon afbeelding niet laden", comment: "Error when image fails to load")
                         .foregroundStyle(.secondary)
                 }
             } else if let image {

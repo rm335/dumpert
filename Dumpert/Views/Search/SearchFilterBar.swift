@@ -76,7 +76,7 @@ extension SearchView {
                 .background(isActive ? Color.dumpiGreen : Color.white.opacity(0.15), in: Capsule())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Filter: \(title)")
-        .accessibilityValue(isActive ? "Actief" : "Inactief")
+        .accessibilityLabel(Text("Filter: \(title)", comment: "Accessibility: filter button label"))
+        .accessibilityValue(Text(isActive ? String(localized: "Actief", comment: "Accessibility: filter is active") : String(localized: "Inactief", comment: "Accessibility: filter is inactive")))
     }
 }

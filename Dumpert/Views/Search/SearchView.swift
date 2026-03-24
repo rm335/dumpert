@@ -64,7 +64,7 @@ struct SearchView: View {
                     get: { viewModel.searchQuery },
                     set: { viewModel.searchQuery = $0 }
                 ),
-                prompt: "Zoek op Dumpert"
+                prompt: Text("Zoek op Dumpert", comment: "Search bar placeholder")
             )
             .searchSuggestions {
                 if !viewModel.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -142,13 +142,13 @@ struct SearchView: View {
             Image(systemName: "exclamationmark.triangle")
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
-            Text("Er ging iets mis")
+            Text("Er ging iets mis", comment: "Error state title")
                 .font(.title3)
                 .fontWeight(.semibold)
             Text(error)
                 .font(.body)
                 .foregroundStyle(.secondary)
-            Button("Opnieuw proberen") {
+            Button(String(localized: "Opnieuw proberen", comment: "Retry button")) {
                 Task { await viewModel.search() }
             }
         }
@@ -195,7 +195,7 @@ struct SearchView: View {
             .padding(.horizontal, 50)
 
             if viewModel.isLoadingMore {
-                ProgressView("Meer laden...")
+                ProgressView(String(localized: "Meer laden...", comment: "Loading more results indicator"))
                     .frame(maxWidth: .infinity)
                     .padding()
             }

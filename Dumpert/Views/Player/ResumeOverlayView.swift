@@ -13,18 +13,18 @@ struct ResumeOverlayView: View {
                         .font(.title3)
                         .foregroundStyle(.white.opacity(0.7))
 
-                    Text("Hervat op \(formattedTime)")
+                    Text("Hervat op \(formattedTime)", comment: "Resume overlay showing timestamp")
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundStyle(.white)
 
                     Button(action: onPlayFromBeginning) {
-                        Text("Speel vanaf begin")
+                        Text("Speel vanaf begin", comment: "Button to play video from start")
                             .font(.caption)
                             .fontWeight(.semibold)
                     }
                     .buttonStyle(ResumeButtonStyle())
-                    .accessibilityLabel("Speel video vanaf het begin")
+                    .accessibilityLabel(Text("Speel video vanaf het begin", comment: "Accessibility: play from beginning"))
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
@@ -40,7 +40,7 @@ struct ResumeOverlayView: View {
                 .padding(.leading, 20)
                 .transition(.move(edge: .top).combined(with: .opacity))
                 .accessibilityElement(children: .contain)
-                .accessibilityLabel("Hervat op \(formattedTime)")
+                .accessibilityLabel(Text("Hervat op \(formattedTime)", comment: "Accessibility: resume at timestamp"))
             }
 
             Spacer()

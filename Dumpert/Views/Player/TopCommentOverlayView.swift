@@ -69,13 +69,13 @@ struct TopCommentOverlayView: View {
             )
             .id(comment.id)
             .transition(.opacity)
-            .accessibilityLabel("Top reaguursel van \(comment.authorUsername): \(comment.displayContent)")
+            .accessibilityLabel(Text("Top reaguursel van \(comment.authorUsername): \(comment.displayContent)", comment: "Accessibility: top comment by author"))
         } else {
             HStack(spacing: 12) {
                 Image(systemName: "text.bubble")
                     .font(.callout)
                     .foregroundStyle(.white.opacity(0.5))
-                Text("Geen reaguursels")
+                Text("Geen reaguursels", comment: "No comments available")
                     .font(.callout)
                     .foregroundStyle(.white.opacity(0.6))
             }
@@ -85,7 +85,7 @@ struct TopCommentOverlayView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(.black.opacity(0.6))
             )
-            .accessibilityLabel("Geen reaguursels")
+            .accessibilityLabel(Text("Geen reaguursels", comment: "No comments available"))
         }
     }
 }

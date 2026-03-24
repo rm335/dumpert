@@ -38,16 +38,16 @@ extension SearchView {
     func recentSearchesSection(_ viewModel: SearchViewModel) -> some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Text("Recent gezocht")
+                Text("Recent gezocht", comment: "Recently searched section header")
                     .font(.title3)
                     .fontWeight(.bold)
                 Spacer()
-                Button("Wis alles") {
+                Button(String(localized: "Wis alles", comment: "Clear all recent searches button")) {
                     repository.clearSearchHistory()
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
-                .accessibilityLabel("Wis alle recente zoekopdrachten")
+                .accessibilityLabel(Text("Wis alle recente zoekopdrachten", comment: "Accessibility: clear all recent searches"))
             }
             .padding(.horizontal, 50)
 
@@ -69,7 +69,7 @@ extension SearchView {
                         }
                         .buttonStyle(.card)
                         .contextMenu {
-                            Button("Verwijder", role: .destructive) {
+                            Button(String(localized: "Verwijder", comment: "Delete context menu action"), role: .destructive) {
                                 repository.deleteSearchEntry(entry)
                             }
                         }
@@ -84,7 +84,7 @@ extension SearchView {
 
     func popularTagsSection(_ tags: [String], viewModel: SearchViewModel) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Populair")
+            Text("Populair", comment: "Popular tags section header")
                 .font(.title3)
                 .fontWeight(.bold)
                 .padding(.horizontal, 50)
@@ -117,7 +117,7 @@ extension SearchView {
 
     func categoriesSection(_ viewModel: SearchViewModel) -> some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Categorieën")
+            Text("Categorieën", comment: "Categories section header")
                 .font(.title3)
                 .fontWeight(.bold)
                 .padding(.horizontal, 50)

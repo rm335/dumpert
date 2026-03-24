@@ -11,8 +11,8 @@ struct UpNextSettingsView: View {
                 Toggle(isOn: $settings.upNextOverlayEnabled) {
                     Label {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text("Overlay tonen")
-                            Text("Toon een aftelling met de volgende video")
+                            Text("Overlay tonen", comment: "Up next setting: show overlay toggle")
+                            Text("Toon een aftelling met de volgende video", comment: "Up next setting: show overlay description")
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                         }
@@ -25,7 +25,7 @@ struct UpNextSettingsView: View {
                 }
             } footer: {
                 if !settings.upNextOverlayEnabled {
-                    Text("De volgende video start direct zonder aftelling.")
+                    Text("De volgende video start direct zonder aftelling.", comment: "Up next setting: overlay disabled explanation")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -47,8 +47,8 @@ struct UpNextSettingsView: View {
                         HStack {
                             Label {
                                 VStack(alignment: .leading, spacing: 6) {
-                                    Text("Aftelling")
-                                    Text("Aantal seconden voordat de volgende video start")
+                                    Text("Aftelling", comment: "Up next setting: countdown label")
+                                    Text("Aantal seconden voordat de volgende video start", comment: "Up next setting: countdown description")
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
                                 }
@@ -57,7 +57,7 @@ struct UpNextSettingsView: View {
                                 Image(systemName: "timer")
                             }
                             Spacer()
-                            Text("\(settings.upNextCountdownSeconds) seconden")
+                            Text("\(settings.upNextCountdownSeconds) seconden", comment: "Up next setting: countdown seconds value")
                                 .foregroundStyle(.secondary)
                                 .font(.callout)
                         }
@@ -79,8 +79,8 @@ struct UpNextSettingsView: View {
                         HStack {
                             Label {
                                 VStack(alignment: .leading, spacing: 6) {
-                                    Text("Minimale videolengte")
-                                    Text("Toon de overlay alleen bij langere video's")
+                                    Text("Minimale videolengte", comment: "Up next setting: minimum video length label")
+                                    Text("Toon de overlay alleen bij langere video's", comment: "Up next setting: minimum video length description")
                                         .font(.footnote)
                                         .foregroundStyle(.secondary)
                                 }
@@ -97,7 +97,7 @@ struct UpNextSettingsView: View {
                 }
             }
         }
-        .navigationTitle("Volgende video")
+        .navigationTitle(Text("Volgende video", comment: "Up next settings screen title"))
         .animation(.smooth, value: settings.upNextOverlayEnabled)
     }
 

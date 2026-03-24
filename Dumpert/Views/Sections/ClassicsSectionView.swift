@@ -102,17 +102,17 @@ struct ClassicsSectionView: View {
                             .padding(.horizontal, 50)
 
                             if repository.isClassicsLoadingMore {
-                                ProgressView("Meer laden...")
+                                ProgressView(String(localized: "Meer laden...", comment: "Loading more results indicator"))
                                     .frame(maxWidth: .infinity)
                                     .padding()
-                                    .accessibilityLabel("Meer classics laden")
+                                    .accessibilityLabel(Text("Meer classics laden", comment: "Accessibility: loading more classics"))
                             } else if repository.classicsHasMore && !items.isEmpty {
-                                Button("Laad meer") {
+                                Button(String(localized: "Laad meer", comment: "Load more button")) {
                                     Task { await repository.loadMoreClassics() }
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .accessibilityHint("Laad meer classics")
+                                .accessibilityHint(Text("Laad meer classics", comment: "Accessibility: load more classics"))
                             }
 
                             // Scroll to top button
@@ -127,7 +127,7 @@ struct ClassicsSectionView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding(.bottom, 20)
-                                .accessibilityLabel("Scroll naar boven")
+                                .accessibilityLabel(Text("Scroll naar boven", comment: "Accessibility: scroll to top"))
                             }
                         }
                         .padding(.vertical, 30)

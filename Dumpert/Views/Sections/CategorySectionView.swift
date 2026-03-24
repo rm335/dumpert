@@ -115,17 +115,17 @@ var body: some View {
 
                             // Load more indicator
                             if isLoadingMore {
-                                ProgressView("Meer laden...")
+                                ProgressView(String(localized: "Meer laden...", comment: "Loading more results indicator"))
                                     .frame(maxWidth: .infinity)
                                     .padding()
-                                    .accessibilityLabel("Meer video's laden")
+                                    .accessibilityLabel(Text("Meer video's laden", comment: "Accessibility: loading more videos"))
                             } else if hasMore && !items.isEmpty {
-                                Button("Laad meer") {
+                                Button(String(localized: "Laad meer", comment: "Load more button")) {
                                     Task { await repository.loadMoreForCategory(category) }
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .accessibilityHint("Laad meer video's in \(category.displayName)")
+                                .accessibilityHint(Text("Laad meer video's in \(category.displayName)", comment: "Accessibility: load more videos in category"))
                             }
 
                             // Scroll to top button
@@ -140,7 +140,7 @@ var body: some View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding(.bottom, 20)
-                                .accessibilityLabel("Scroll naar boven")
+                                .accessibilityLabel(Text("Scroll naar boven", comment: "Accessibility: scroll to top"))
                             }
                         }
                         .padding(.vertical, 30)
@@ -192,7 +192,7 @@ var body: some View {
                 .background(Color.dumpiGreen, in: Capsule())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("Sortering: \(sortOrder.displayName)")
-        .accessibilityHint("Wijzig de sorteervolgorde")
+        .accessibilityLabel(Text("Sortering: \(sortOrder.displayName)", comment: "Accessibility: current sort order"))
+        .accessibilityHint(Text("Wijzig de sorteervolgorde", comment: "Accessibility: change sort order hint"))
     }
 }

@@ -105,7 +105,7 @@ extension SettingsView {
         .padding(.vertical, 12)
         .animation(.smooth(duration: 0.3), value: tileSize)
         .listRowBackground(Color.clear)
-        .accessibilityLabel("Voorbeeld: \(columnCount) kolommen")
+        .accessibilityLabel(Text("Voorbeeld: \(columnCount) kolommen", comment: "Accessibility: tile preview with column count"))
     }
 
     static let appVersion: String = {

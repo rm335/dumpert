@@ -16,7 +16,7 @@ extension FullScreenImageView {
                             .font(.title3)
                             .frame(width: 50, height: 50)
                     }
-                    .accessibilityLabel("Inzoomen")
+                    .accessibilityLabel(Text("Inzoomen", comment: "Accessibility: zoom in button"))
 
                     if currentScale > minScale {
                         Text("\(Int(currentScale * 100))%")
@@ -39,7 +39,7 @@ extension FullScreenImageView {
                             .font(.title3)
                             .frame(width: 50, height: 50)
                     }
-                    .accessibilityLabel("Uitzoomen")
+                    .accessibilityLabel(Text("Uitzoomen", comment: "Accessibility: zoom out button"))
                     .disabled(currentScale <= minScale)
 
                     if currentScale > minScale {
@@ -52,7 +52,7 @@ extension FullScreenImageView {
                                 .font(.title3)
                                 .frame(width: 50, height: 50)
                         }
-                        .accessibilityLabel("Zoom resetten")
+                        .accessibilityLabel(Text("Zoom resetten", comment: "Accessibility: reset zoom to default"))
                     }
                 }
                 .buttonStyle(.plain)

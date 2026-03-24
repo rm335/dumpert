@@ -35,7 +35,7 @@ struct UpNextOverlayView: View {
                         total: totalCountdown
                     )
 
-                    Text("Volgende video")
+                    Text("Volgende video", comment: "Up next overlay header")
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundStyle(.white.opacity(0.7))
@@ -65,15 +65,15 @@ struct UpNextOverlayView: View {
                     }
                     .focused($focusedButton, equals: .playNow)
                     .buttonStyle(UpNextButtonStyle(isPrimary: true))
-                    .accessibilityLabel("Speel nu af: \(nextVideo.title)")
+                    .accessibilityLabel(Text("Speel nu af: \(nextVideo.title)", comment: "Accessibility: play next video now"))
 
                     Button(action: onCancel) {
-                        Text("Annuleren")
+                        Text("Annuleren", comment: "Cancel button")
                             .font(.callout)
                     }
                     .focused($focusedButton, equals: .cancel)
                     .buttonStyle(UpNextButtonStyle(isPrimary: false))
-                    .accessibilityLabel("Annuleer volgende video")
+                    .accessibilityLabel(Text("Annuleer volgende video", comment: "Accessibility: cancel up next"))
                 }
             }
         }
@@ -118,7 +118,7 @@ private struct CountdownRingView: View {
                 .foregroundStyle(.white)
         }
         .frame(width: 32, height: 32)
-        .accessibilityLabel("Aftelling: \(countdown) seconden")
+        .accessibilityLabel(Text("Aftelling: \(countdown) seconden", comment: "Accessibility: countdown timer seconds remaining"))
     }
 }
 

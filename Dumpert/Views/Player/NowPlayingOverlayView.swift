@@ -25,7 +25,7 @@ struct NowPlayingOverlayView: View {
                     )
                     .padding(.top, 20)
                     .transition(.move(edge: .top).combined(with: .opacity))
-                    .accessibilityLabel("Nu speelt: \(title)")
+                    .accessibilityLabel(Text("Nu speelt: \(title)", comment: "Accessibility: now playing title"))
             }
 
             Spacer()
