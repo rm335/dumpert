@@ -14,7 +14,9 @@ final class NowPlayingService {
         onPause: @escaping @MainActor () -> Void,
         onSkipForward: @escaping @MainActor () -> Void,
         onSkipBackward: @escaping @MainActor () -> Void,
-        onSeek: @escaping @MainActor (TimeInterval) -> Void
+        onSeek: @escaping @MainActor (TimeInterval) -> Void,
+        onNextTrack: (@MainActor () -> Void)? = nil,
+        onPreviousTrack: (@MainActor () -> Void)? = nil
     ) {
         let center = MPNowPlayingInfoCenter.default()
         center.nowPlayingInfo = [
@@ -29,7 +31,9 @@ final class NowPlayingService {
             onPause: onPause,
             onSkipForward: onSkipForward,
             onSkipBackward: onSkipBackward,
-            onSeek: onSeek
+            onSeek: onSeek,
+            onNextTrack: onNextTrack,
+            onPreviousTrack: onPreviousTrack
         )
 
         if let thumbnailURL {
@@ -54,6 +58,8 @@ final class NowPlayingService {
             commandCenter.skipForwardCommand.removeTarget(target)
             commandCenter.skipBackwardCommand.removeTarget(target)
             commandCenter.changePlaybackPositionCommand.removeTarget(target)
+            commandCenter.nextTrackCommand.removeTarget(target)
+            commandCenter.previousTrackCommand.removeTarget(target)
         }
         commandTargets.removeAll()
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
@@ -66,7 +72,9 @@ final class NowPlayingService {
         onPause: @escaping @MainActor () -> Void,
         onSkipForward: @escaping @MainActor () -> Void,
         onSkipBackward: @escaping @MainActor () -> Void,
-        onSeek: @escaping @MainActor (TimeInterval) -> Void
+        onSeek: @escaping @MainActor (TimeInterval) -> Void,
+        onNextTrack: (@MainActor () -> Void)?,
+        onPreviousTrack: (@MainActor () -> Void)?
     ) {
         // Remove previous targets
         cleanup()
@@ -113,9 +121,28 @@ final class NowPlayingService {
         }
         commandTargets.append(seekTarget)
 
-        // Disable unsupported commands
-        commandCenter.nextTrackCommand.isEnabled = false
-        commandCenter.previousTrackCommand.isEnabled = false
+        // Next/previous track commands (enabled when playlist has adjacent videos)
+        if let onNextTrack {
+            commandCenter.nextTrackCommand.isEnabled = true
+            let nextTarget = commandCenter.nextTrackCommand.addTarget { _ in
+                Task { @MainActor in onNextTrack() }
+                return .success
+            }
+            commandTargets.append(nextTarget)
+        } else {
+            commandCenter.nextTrackCommand.isEnabled = false
+        }
+
+        if let onPreviousTrack {
+            commandCenter.previousTrackCommand.isEnabled = true
+            let prevTarget = commandCenter.previousTrackCommand.addTarget { _ in
+                Task { @MainActor in onPreviousTrack() }
+                return .success
+            }
+            commandTargets.append(prevTarget)
+        } else {
+            commandCenter.previousTrackCommand.isEnabled = false
+        }
     }
 
     private func loadArtwork(from url: URL) {

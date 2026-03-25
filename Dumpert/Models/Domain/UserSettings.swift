@@ -69,6 +69,17 @@ enum TileSize: String, Codable, Sendable, CaseIterable {
     }
 }
 
+enum RemoteSkipMode: String, Codable, Sendable, CaseIterable {
+    case off, swipe
+
+    var displayName: String {
+        switch self {
+        case .off: String(localized: "Uit", comment: "Remote skip mode - off")
+        case .swipe: String(localized: "Swipe", comment: "Remote skip mode - swipe on touchpad")
+        }
+    }
+}
+
 @Observable
 @MainActor
 final class UserSettings {
@@ -86,10 +97,11 @@ final class UserSettings {
     var upNextMinimumVideoSeconds: Int
     var topCommentMode: TopCommentMode
     var readingSpeed: ReadingSpeed
+    var remoteSkipMode: RemoteSkipMode
     var showResumeOverlay: Bool
     var lastModified: Date
 
-    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, showResumeOverlay: Bool = true) {
+    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, remoteSkipMode: RemoteSkipMode = .swipe, showResumeOverlay: Bool = true) {
         self.minimumKudos = minimumKudos
         self.autoplayEnabled = autoplayEnabled
         self.hideWatched = hideWatched
@@ -104,6 +116,7 @@ final class UserSettings {
         self.upNextMinimumVideoSeconds = upNextMinimumVideoSeconds
         self.topCommentMode = topCommentMode
         self.readingSpeed = readingSpeed
+        self.remoteSkipMode = remoteSkipMode
         self.showResumeOverlay = showResumeOverlay
         self.lastModified = Date()
     }
@@ -124,6 +137,7 @@ final class UserSettings {
             upNextMinimumVideoSeconds: upNextMinimumVideoSeconds,
             topCommentMode: topCommentMode,
             readingSpeed: readingSpeed,
+            remoteSkipMode: remoteSkipMode,
             showResumeOverlay: showResumeOverlay,
             lastModified: lastModified
         )
@@ -144,6 +158,7 @@ final class UserSettings {
         upNextMinimumVideoSeconds = snapshot.upNextMinimumVideoSeconds
         topCommentMode = snapshot.topCommentMode
         readingSpeed = snapshot.readingSpeed
+        remoteSkipMode = snapshot.remoteSkipMode
         showResumeOverlay = snapshot.showResumeOverlay
         lastModified = snapshot.lastModified
     }
@@ -164,10 +179,11 @@ struct UserSettingsSnapshot: Codable, Sendable {
     var upNextMinimumVideoSeconds: Int
     var topCommentMode: TopCommentMode
     var readingSpeed: ReadingSpeed
+    var remoteSkipMode: RemoteSkipMode
     var showResumeOverlay: Bool
     var lastModified: Date
 
-    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, showResumeOverlay: Bool = true, lastModified: Date = Date()) {
+    init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, remoteSkipMode: RemoteSkipMode = .swipe, showResumeOverlay: Bool = true, lastModified: Date = Date()) {
         self.minimumKudos = minimumKudos
         self.autoplayEnabled = autoplayEnabled
         self.hideWatched = hideWatched
@@ -182,6 +198,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
         self.upNextMinimumVideoSeconds = upNextMinimumVideoSeconds
         self.topCommentMode = topCommentMode
         self.readingSpeed = readingSpeed
+        self.remoteSkipMode = remoteSkipMode
         self.showResumeOverlay = showResumeOverlay
         self.lastModified = lastModified
     }
@@ -216,6 +233,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
             topCommentMode = .all
         }
         readingSpeed = try container.decodeIfPresent(ReadingSpeed.self, forKey: .readingSpeed) ?? .normal
+        remoteSkipMode = try container.decodeIfPresent(RemoteSkipMode.self, forKey: .remoteSkipMode) ?? .swipe
         showResumeOverlay = try container.decodeIfPresent(Bool.self, forKey: .showResumeOverlay) ?? true
         lastModified = try container.decode(Date.self, forKey: .lastModified)
     }
@@ -227,6 +245,7 @@ struct UserSettingsSnapshot: Codable, Sendable {
         case upNextOverlayEnabled, upNextCountdownSeconds, upNextMinimumVideoSeconds
         case topCommentMode = "showTopComment"
         case readingSpeed
+        case remoteSkipMode
         case showResumeOverlay
         case lastModified
     }

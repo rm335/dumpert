@@ -64,6 +64,19 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
         selectTap.delegate = context.coordinator
         controller.view.addGestureRecognizer(selectTap)
 
+        // Swipe gestures for next/previous video
+        let swipeRight = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleSwipeRight))
+        swipeRight.direction = .right
+        swipeRight.delegate = context.coordinator
+        controller.view.addGestureRecognizer(swipeRight)
+        context.coordinator.swipeRightGesture = swipeRight
+
+        let swipeLeft = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleSwipeLeft))
+        swipeLeft.direction = .left
+        swipeLeft.delegate = context.coordinator
+        controller.view.addGestureRecognizer(swipeLeft)
+        context.coordinator.swipeLeftGesture = swipeLeft
+
         viewModel.configureTransportBar()
         viewModel.play()
         return controller
@@ -86,6 +99,8 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
     class Coordinator: NSObject, @preconcurrency AVPlayerViewControllerDelegate, UIGestureRecognizerDelegate {
         private let viewModel: VideoPlayerViewModel
         var playPauseGesture: UITapGestureRecognizer?
+        var swipeLeftGesture: UISwipeGestureRecognizer?
+        var swipeRightGesture: UISwipeGestureRecognizer?
 
         init(viewModel: VideoPlayerViewModel) {
             self.viewModel = viewModel
@@ -119,8 +134,16 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
         /// Play/pause is always handled by us (no delegate check needed —
         /// that gesture has no delegate set). Select is only intercepted
         /// while controls are hidden; once visible, native handling takes over.
+        /// Swipe gestures also require controls hidden + no interactive overlay + setting enabled.
         func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-            viewModel.playerViewController?.showsPlaybackControls == false
+            // Swipe gestures: always allowed (independent of transport bar state)
+            if gestureRecognizer === swipeLeftGesture || gestureRecognizer === swipeRightGesture {
+                let noOverlay = !viewModel.showUpNext && !viewModel.showResumeOverlay
+                return noOverlay && viewModel.isSwipeSkipEnabled
+            }
+
+            // Select gesture: only when controls hidden (to reveal them)
+            return viewModel.playerViewController?.showsPlaybackControls == false
         }
 
         @objc func handlePlayPause() {
@@ -130,12 +153,21 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
             } else {
                 player.play()
             }
-            // Show controls on any play/pause interaction
             viewModel.playerViewController?.showsPlaybackControls = true
         }
 
         @objc func handleSelect() {
             viewModel.playerViewController?.showsPlaybackControls = true
+        }
+
+        // MARK: - Swipe Skip Gestures
+
+        @objc func handleSwipeRight() {
+            viewModel.skipToNext()
+        }
+
+        @objc func handleSwipeLeft() {
+            viewModel.playPrevious()
         }
     }
 }

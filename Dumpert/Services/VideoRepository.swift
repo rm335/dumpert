@@ -426,6 +426,24 @@ final class VideoRepository {
         watchProgress[videoId]?.progress ?? 0
     }
 
+    func markAsWatched(videoId: String) {
+        guard !isWatched(videoId) else { return }
+        var progress = watchProgress[videoId] ?? WatchProgress(videoId: videoId)
+        progress.isCompleted = true
+        progress.lastWatchedDate = Date()
+        watchProgress[videoId] = progress
+
+        Task {
+            await cacheService.saveWatchProgress(watchProgress)
+            guard cloudKitAvailable else { return }
+            do {
+                try await cloudKitService.saveWatchProgress(progress)
+            } catch {
+                Logger.cloudKit.warning("Failed to save watch mark: \(error.localizedDescription)")
+            }
+        }
+    }
+
     func toggleWatched(videoId: String) {
         var progress = watchProgress[videoId] ?? WatchProgress(videoId: videoId)
         progress.isCompleted = !progress.isCompleted

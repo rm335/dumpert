@@ -138,6 +138,16 @@ struct SettingsView: View {
                 )
 
                 settingsToggle(
+                    "Swipe om over te slaan",
+                    icon: "appletvremote.gen4",
+                    description: "Swipe links/rechts op het touchpad voor vorige/volgende video",
+                    isOn: Binding(
+                        get: { settings.remoteSkipMode == .swipe },
+                        set: { settings.remoteSkipMode = $0 ? .swipe : .off }
+                    )
+                )
+
+                settingsToggle(
                     "Hervat-melding",
                     icon: "arrow.uturn.backward.circle",
                     description: "Toon een melding wanneer een video wordt hervat",
@@ -338,6 +348,7 @@ struct SettingsView: View {
                             settings.upNextMinimumVideoSeconds = 60
                             settings.topCommentMode = .all
                             settings.readingSpeed = .normal
+                            settings.remoteSkipMode = .swipe
                             settings.showResumeOverlay = true
                         }
                         showResetFeedback = true

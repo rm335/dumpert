@@ -78,6 +78,17 @@ final class VideoPlayerViewModel {
 
     var hasNextVideo: Bool { nextVideo != nil }
 
+    var previousVideo: Video? {
+        guard currentIndex > 0 else { return nil }
+        return playlist[currentIndex - 1]
+    }
+
+    var hasPreviousVideo: Bool { previousVideo != nil }
+
+    var isSwipeSkipEnabled: Bool {
+        repository.settings.remoteSkipMode == .swipe
+    }
+
     init(video: Video, playlist: [Video] = [], repository: VideoRepository) {
         self.video = video
         self.playlist = playlist
@@ -303,6 +314,7 @@ final class VideoPlayerViewModel {
         // video's completion state onto the new video's ID — marking it
         // as watched immediately.
         saveProgress(force: true)
+        repository.markAsWatched(videoId: currentVideo.id)
         currentTime = 0
         duration = 0
 
@@ -339,6 +351,49 @@ final class VideoPlayerViewModel {
         addTimeObserver()
         addEndObserver()
         player?.play()
+        // AVPlayerViewController may reset showsPlaybackControls after
+        // replaceCurrentItem/play — force it hidden again.
+        playerViewController?.showsPlaybackControls = false
+        showNowPlayingBriefly(video.title)
+        configureNowPlaying(for: video)
+    }
+
+    func playPrevious() {
+        guard currentIndex > 0 else { return }
+
+        saveProgress(force: true)
+        repository.markAsWatched(videoId: currentVideo.id)
+        currentTime = 0
+        duration = 0
+
+        currentIndex -= 1
+        let video = playlist[currentIndex]
+
+        guard let url = video.streamURL else { return }
+
+        upNextCancelled = false
+        showUpNext = false
+        preloadedItem = nil
+        resetResume()
+        resetTopComment()
+        fetchTopCommentsIfNeeded(for: video.id)
+
+        playerViewController?.showsPlaybackControls = false
+
+        removeTimeObserver()
+        removeEndObserver()
+        let item = AVPlayerItem(url: url)
+        setMetadata(for: video, on: item)
+        player?.replaceCurrentItem(with: item)
+
+        resumeIfNeeded(for: video)
+
+        addTimeObserver()
+        addEndObserver()
+        player?.play()
+        // AVPlayerViewController may reset showsPlaybackControls after
+        // replaceCurrentItem/play — force it hidden again.
+        playerViewController?.showsPlaybackControls = false
         showNowPlayingBriefly(video.title)
         configureNowPlaying(for: video)
     }
@@ -496,6 +551,16 @@ final class VideoPlayerViewModel {
     // MARK: - Player Metadata
 
     private func configureNowPlaying(for video: Video) {
+        var nextHandler: (@MainActor @Sendable () -> Void)?
+        if hasNextVideo {
+            nextHandler = { [weak self] in self?.playNext() }
+        }
+
+        var prevHandler: (@MainActor @Sendable () -> Void)?
+        if hasPreviousVideo {
+            prevHandler = { [weak self] in self?.playPrevious() }
+        }
+
         nowPlayingService.configure(
             title: video.title,
             thumbnailURL: video.thumbnailURL,
@@ -515,7 +580,9 @@ final class VideoPlayerViewModel {
             onSeek: { [weak self] (position: TimeInterval) in
                 let target = CMTime(seconds: position, preferredTimescale: 600)
                 self?.player?.seek(to: target)
-            }
+            },
+            onNextTrack: nextHandler,
+            onPreviousTrack: prevHandler
         )
     }
 
