@@ -28,8 +28,11 @@ struct EmptyStateView: View {
             }
 
             if let retryAction {
-                Button("Opnieuw proberen", action: retryAction)
-                    .padding(.top, 4)
+                Button(action: retryAction) {
+                    Text("Opnieuw proberen")
+                        .foregroundStyle(.white)
+                }
+                .padding(.top, 4)
             }
         }
         .frame(maxWidth: .infinity)

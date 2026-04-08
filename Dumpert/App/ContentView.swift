@@ -65,17 +65,23 @@ struct ContentView: View {
                         }
                         .tag(5)
 
+                    WatchedSectionView()
+                        .tabItem {
+                            Label(String(localized: "Gekeken", comment: "Watched tab title"), systemImage: "eye.fill")
+                        }
+                        .tag(6)
+
                     SearchView()
                         .tabItem {
                             Label("Zoeken", systemImage: "magnifyingglass")
                         }
-                        .tag(6)
+                        .tag(7)
 
                     SettingsView()
                         .tabItem {
                             Label("Instellingen", systemImage: "gearshape.fill")
                         }
-                        .tag(7)
+                        .tag(8)
                 }
             }
         }

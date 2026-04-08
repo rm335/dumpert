@@ -45,36 +45,63 @@ extension View {
 
 /// Matches the exact layout of VideoCardView: 16:9 thumbnail + title (2 lines) + kudos/date row.
 private struct SkeletonCardView: View {
+    /// Stable index to vary the second title line width without re-randomizing on each render.
+    var index: Int = 0
+
+    /// Varied widths for the second title line, keyed by index.
+    private var secondLineWidth: CGFloat {
+        let widths: [CGFloat] = [100, 75, 120, 60, 90, 110, 80, 95]
+        return widths[abs(index) % widths.count]
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            // Thumbnail — same as FaceCenteredThumbnailView (16:9, white.opacity(0.05) bg)
-            Color.white.opacity(0.05)
-                .aspectRatio(16 / 9, contentMode: .fit)
-                .clipped()
-                .shimmering()
+            // Thumbnail — same as FaceCenteredThumbnailView (16:9)
+            ZStack {
+                Color.white.opacity(0.05)
+                    .aspectRatio(16 / 9, contentMode: .fit)
+                    .shimmering()
+
+                // Duration pill placeholder — bottom trailing, matches VideoCardView
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(.white.opacity(0.06))
+                    .frame(width: 42, height: 16)
+                    .shimmering()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .padding(6)
+            }
+            .clipped()
 
             // Info — matches VideoCardView info section
             VStack(alignment: .leading, spacing: 4) {
-                // Title: .caption, 2 lines with reservesSpace
+                // Title line 1: .caption, full width
                 RoundedRectangle(cornerRadius: 3)
                     .fill(.white.opacity(0.08))
                     .frame(height: 12)
                     .shimmering()
 
+                // Title line 2: .caption, varied width per card
                 RoundedRectangle(cornerRadius: 3)
                     .fill(.white.opacity(0.05))
-                    .frame(width: .random(in: 60...120), height: 12)
+                    .frame(width: secondLineWidth, height: 12)
 
-                // Kudos + date row: .caption2
+                // Kudos icon + count + bullet + date row: .caption2
                 HStack(spacing: 6) {
+                    // Thumbs-up icon placeholder
                     RoundedRectangle(cornerRadius: 2)
                         .fill(.white.opacity(0.06))
-                        .frame(width: 45, height: 9)
+                        .frame(width: 9, height: 9)
+
+                    // Kudos count
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(.white.opacity(0.06))
+                        .frame(width: 32, height: 9)
 
                     Circle()
                         .fill(.white.opacity(0.04))
                         .frame(width: 3, height: 3)
 
+                    // Relative date
                     RoundedRectangle(cornerRadius: 2)
                         .fill(.white.opacity(0.06))
                         .frame(width: 55, height: 9)
@@ -84,6 +111,7 @@ private struct SkeletonCardView: View {
             .padding(.top, 8)
             .padding(.bottom, 10)
         }
+        .cornerRadius(12)
     }
 }
 
@@ -98,8 +126,8 @@ struct SkeletonGridView: View {
             columns: Array(repeating: GridItem(.flexible(), spacing: 30), count: columnCount),
             spacing: 35
         ) {
-            ForEach(0..<columnCount * 2, id: \.self) { _ in
-                SkeletonCardView()
+            ForEach(0..<columnCount * 2, id: \.self) { index in
+                SkeletonCardView(index: index)
             }
         }
         .padding(.horizontal, 50)
@@ -122,8 +150,8 @@ struct SkeletonRowView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 30) {
-                    ForEach(0..<5, id: \.self) { _ in
-                        SkeletonCardView()
+                    ForEach(0..<5, id: \.self) { index in
+                        SkeletonCardView(index: index)
                             .frame(width: cardWidth)
                     }
                 }

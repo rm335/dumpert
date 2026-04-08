@@ -1431,6 +1431,23 @@
         }
       }
     },
+    "Gekeken" : {
+      "comment" : "Watched tab title\nWatched tab: section title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watched"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gekeken"
+          }
+        }
+      }
+    },
     "Gemarkeerd als bekeken" : {
       "comment" : "Toast: video marked as watched",
       "localizations" : {
@@ -2192,6 +2209,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nieuwste"
+          }
+        }
+      }
+    },
+    "Nog niets bekeken" : {
+      "comment" : "Watched tab: empty state title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing watched yet"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nog niets bekeken"
           }
         }
       }
@@ -3187,6 +3221,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Video voorvertoning"
+          }
+        }
+      }
+    },
+    "Video's die je bekijkt verschijnen hier" : {
+      "comment" : "Watched tab: empty state description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Videos you watch will appear here"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video's die je bekijkt verschijnen hier"
           }
         }
       }

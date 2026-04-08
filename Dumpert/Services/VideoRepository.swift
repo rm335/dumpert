@@ -13,6 +13,8 @@ final class VideoRepository {
     private(set) var watchProgress: [String: WatchProgress] = [:]
     private(set) var curationEntries: [CurationEntry] = []
     private(set) var classics: [MediaItem] = []
+    private(set) var watchedVideos: [MediaItem] = []
+    private(set) var isLoadingWatched = false
     private(set) var searchHistory: [SearchHistoryEntry] = []
 
     // Sort order
@@ -463,7 +465,54 @@ final class VideoRepository {
 
     func clearWatchHistory() async {
         watchProgress = [:]
+        watchedVideos = []
         await cacheService.saveWatchProgress(watchProgress)
+    }
+
+    // MARK: - Watched Videos
+
+    func fetchWatchedVideos() async {
+        isLoadingWatched = true
+
+        let sorted = watchProgress.values
+            .sorted { $0.lastWatchedDate > $1.lastWatchedDate }
+            .prefix(100)
+
+        // Build lookup from all locally available items
+        let allLocalItems = hotshiz + topWeek + topMonth + classics
+            + VideoCategory.allCases.flatMap { categoryVideos[$0] ?? [] }
+        let localLookup = Dictionary(allLocalItems.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+
+        // Split into local hits and API misses
+        var results: [(Int, MediaItem)] = []
+        var missingIndices: [(Int, String)] = []
+        for (index, progress) in sorted.enumerated() {
+            if let local = localLookup[progress.videoId] {
+                results.append((index, local))
+            } else {
+                missingIndices.append((index, progress.videoId))
+            }
+        }
+
+        // Fetch missing items from API in batches of 5
+        for batch in stride(from: 0, to: missingIndices.count, by: 5) {
+            let end = min(batch + 5, missingIndices.count)
+            let slice = missingIndices[batch..<end]
+            await withTaskGroup(of: (Int, MediaItem?).self) { group in
+                for (index, videoId) in slice {
+                    group.addTask {
+                        let item = try? await self.apiClient.fetchItem(id: videoId)
+                        return (index, item)
+                    }
+                }
+                for await (index, item) in group {
+                    if let item { results.append((index, item)) }
+                }
+            }
+        }
+
+        watchedVideos = results.sorted { $0.0 < $1.0 }.map(\.1)
+        isLoadingWatched = false
     }
 
     // MARK: - Curation
