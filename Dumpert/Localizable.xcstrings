@@ -2792,13 +2792,55 @@
       }
     },
     "Swipe" : {
-      "comment" : "Remote skip mode - swipe on touchpad"
+      "comment" : "Remote skip mode - swipe on touchpad",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe"
+          }
+        }
+      }
     },
     "Swipe links/rechts op het touchpad voor vorige/volgende video" : {
-
+      "comment" : "Settings: swipe skip description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe left/right on the touchpad for previous/next video"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe links/rechts op het touchpad voor vorige/volgende video"
+          }
+        }
+      }
     },
     "Swipe om over te slaan" : {
-
+      "comment" : "Settings: swipe to skip toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe to skip"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe om over te slaan"
+          }
+        }
+      }
     },
     "Toegevoegd aan %@" : {
       "comment" : "Toast: added to category",
