@@ -49,11 +49,15 @@ The easiest way to install DumpertTV on your Apple TV:
 ## Features
 
 ### Content Browsing
-- **8 tabs**: Toppers, Nieuw, Reeten, VrijMiCo, Dashcam, Classics, Zoeken, Instellingen
+- **9 tabs**: Toppers, Nieuw, Reeten, VrijMiCo, Dashcam, Classics, Gekeken, Zoeken, Instellingen
 - **Hero banner** with horizontally scrolling carousel and face-centered thumbnails
 - **Infinite scroll pagination** on category and classics views
 - **Skeleton loading** with shimmer animation while content loads
 - **Top Shelf extension** showing trending content directly on the Apple TV home screen
+- **Immersive background** with dynamic blurred imagery
+- **Loading screen** with logo animation and random sound effect
+- **Sort order** support for category tabs and search results
+- **Context menu** on video cards (long press)
 
 ### Video Player
 - Full-screen video playback via `AVPlayerViewController`
@@ -61,7 +65,20 @@ The easiest way to install DumpertTV on your Apple TV:
 - **Next video preloading** for seamless playback
 - **Playback speed** control (0.5x, 0.75x, 1x, 1.25x, 1.5x, 2x)
 - **Watch progress tracking** with throttled saves (5-second intervals)
+- **Resume overlay** when returning to a previously watched video
+- **Top comment overlay** showing popular comments during playback
+- **Now Playing** info on the Lock Screen and Control Center
+- **Swipe gestures** on the Siri Remote to skip to previous/next video
 - Watched badge indicator on already-viewed content
+
+### Watched Items
+- Dedicated **Gekeken** tab showing previously watched videos
+- Track and manage watch history
+
+### SharePlay
+- **Watch Together** via SharePlay (GroupActivities)
+- Synchronized playback across multiple Apple TVs
+- Participant count indicator
 
 ### Photo Viewer
 - Full-screen photo display with zoom controls
@@ -70,6 +87,7 @@ The easiest way to install DumpertTV on your Apple TV:
 ### Search
 - Full-text search with the Dumpert API
 - **Filters**: media type, time period, minimum kudos, duration
+- **Sort order**: relevance, date, kudos
 - **Popular tags** and recent search suggestions
 - **In-memory result caching** (5-minute TTL)
 - Search history persistence
@@ -80,6 +98,10 @@ The easiest way to install DumpertTV on your Apple TV:
 - **Offline support** with network monitoring banner
 - **ETag-based HTTP caching** (304 Not Modified) for API responses
 - **Retry logic** with exponential backoff (3 attempts, 2^n second delays) on 5xx and network errors
+
+### Localization
+- Dutch (nl) and English (en) via String Catalogs
+- All user-facing strings use `String(localized:comment:)` for translator context
 
 ### Accessibility
 - **VoiceOver** labels throughout all views
@@ -176,40 +198,38 @@ Build and run on an Apple TV or the tvOS Simulator.
 ### Overview
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    DumpertApp                       │
-│               (SwiftUI @main entry)                 │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐   │
-│  │              ContentView                      │   │
-│  │        TabView with 8 tabs                    │   │
-│  │                                               │   │
-│  │  Toppers │ Nieuw │ Reeten │ VrijMiCo │ ...    │   │
-│  └────────────────────┬─────────────────────────┘   │
-│                       │                             │
-│               @Environment                          │
-│                       │                             │
-│  ┌────────────────────▼─────────────────────────┐   │
-│  │          VideoRepository                      │   │
-│  │    @Observable @MainActor                     │   │
-│  │    Single source of truth                     │   │
-│  └──────┬──────────┬──────────┬────────────────┘   │
-│         │          │          │                     │
-│  ┌──────▼───┐ ┌────▼────┐ ┌──▼──────────┐          │
-│  │ API      │ │ Cache   │ │ CloudKit    │          │
-│  │ Client   │ │ Service │ │ Service     │          │
-│  │ (actor)  │ │ (actor) │ │ (actor)     │          │
-│  └──────────┘ └─────────┘ └─────────────┘          │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                        DumpertApp                            │
+│                   (SwiftUI @main entry)                      │
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │  LoadingScreenView → ContentView (TabView, 9 tabs)     │  │
+│  │  Toppers │ Nieuw │ Reeten │ VrijMiCo │ Dashcam │ ...   │  │
+│  └──────────────────────┬─────────────────────────────────┘  │
+│                         │                                    │
+│                 @Environment                                 │
+│                         │                                    │
+│  ┌──────────────────────▼─────────────────────────────────┐  │
+│  │            VideoRepository                              │  │
+│  │      @Observable @MainActor                             │  │
+│  │      Single source of truth                             │  │
+│  └───┬──────────┬──────────┬──────────┬───────────────────┘  │
+│      │          │          │          │                       │
+│  ┌───▼───┐ ┌───▼────┐ ┌───▼───────┐ ┌▼──────────────┐       │
+│  │ API   │ │ Cache  │ │ CloudKit  │ │ NowPlaying /  │       │
+│  │ Client│ │ Service│ │ Service   │ │ SharePlay     │       │
+│  │(actor)│ │(actor) │ │ (actor)   │ │ (@Observable) │       │
+│  └───────┘ └────────┘ └───────────┘ └───────────────┘       │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Key Patterns
 
 | Pattern | Usage |
 |---|---|
-| `@Observable` + `@MainActor` | `VideoRepository`, `NetworkMonitor`, `UserSettings` — reactive state on main thread |
+| `@Observable` + `@MainActor` | `VideoRepository`, `NetworkMonitor`, `UserSettings`, `SharePlayService`, `ImmersiveBackgroundState` — reactive state on main thread |
 | Actor isolation | `DumpertAPIClient`, `CacheService`, `CloudKitService`, `ImageCacheService` — thread-safe services |
-| Environment injection | `VideoRepository` and `NetworkMonitor` injected via `.environment()` |
+| Environment injection | `VideoRepository`, `NetworkMonitor`, `ImmersiveBackgroundState`, `LoadingSoundPlayer` injected via `.environment()` |
 | Protocol-based DI | `APIClientProtocol`, `CacheServiceProtocol` for testability |
 | Swift 6 strict concurrency | `SWIFT_STRICT_CONCURRENCY: complete` across all targets |
 
@@ -233,13 +253,14 @@ dumpert/
 ├── Dumpert/                        # Main app target
 │   ├── App/
 │   │   ├── DumpertApp.swift        # @main entry, environment setup, deep linking
-│   │   └── ContentView.swift       # Root TabView with 8 tabs + offline banner
+│   │   └── ContentView.swift       # Root TabView with 9 tabs + offline banner
 │   ├── Models/
 │   │   ├── API/                    # Codable API response models
 │   │   │   ├── DumpertAPIResponse.swift
 │   │   │   ├── DumpertItem.swift
 │   │   │   ├── DumpertMedia.swift
-│   │   │   └── DumpertStats.swift
+│   │   │   ├── DumpertStats.swift
+│   │   │   └── DumpertComment.swift
 │   │   └── Domain/                 # App domain models
 │   │       ├── Video.swift
 │   │       ├── Photo.swift
@@ -248,8 +269,10 @@ dumpert/
 │   │       ├── UserSettings.swift
 │   │       ├── WatchProgress.swift
 │   │       ├── SearchFilter.swift
+│   │       ├── SortOrder.swift
 │   │       ├── CurationEntry.swift
-│   │       └── SearchHistoryEntry.swift
+│   │       ├── SearchHistoryEntry.swift
+│   │       └── WatchTogetherActivity.swift  # GroupActivities for SharePlay
 │   ├── Networking/
 │   │   ├── DumpertAPIClient.swift  # Actor with ETag + retry
 │   │   ├── APIClientProtocol.swift # Protocol for mocking
@@ -265,7 +288,13 @@ dumpert/
 │   │   ├── ImagePrefetchService.swift
 │   │   ├── NetworkMonitor.swift    # NWPathMonitor connectivity
 │   │   ├── FaceDetectionService.swift
-│   │   └── RefreshScheduler.swift
+│   │   ├── RefreshScheduler.swift
+│   │   ├── SharePlayService.swift  # GroupActivities coordination
+│   │   ├── NowPlayingService.swift # MPNowPlayingInfoCenter + remote commands
+│   │   ├── LoadingSoundPlayer.swift
+│   │   ├── ImmersiveBackgroundState.swift
+│   │   ├── ThumbnailUpgradeService.swift
+│   │   └── ThumbnailUpgradeDiskCache.swift
 │   ├── ViewModels/
 │   │   ├── VideoPlayerViewModel.swift
 │   │   └── SearchViewModel.swift
@@ -273,15 +302,25 @@ dumpert/
 │   │   ├── Components/             # Reusable UI components
 │   │   │   ├── VideoCardView.swift
 │   │   │   ├── VideoPreviewView.swift
+│   │   │   ├── VideoContextMenu.swift
 │   │   │   ├── FaceCenteredThumbnailView.swift
+│   │   │   ├── ImmersiveBackgroundView.swift
+│   │   │   ├── SectionTitleView.swift
 │   │   │   ├── KudosBadgeView.swift
 │   │   │   ├── WatchedBadgeView.swift
 │   │   │   ├── EmptyStateView.swift
 │   │   │   ├── SkeletonView.swift
-│   │   │   └── ToastView.swift
+│   │   │   ├── ToastView.swift
+│   │   │   └── AutoDismissModifier.swift
+│   │   ├── LoadingScreen/
+│   │   │   └── LoadingScreenView.swift  # Netflix-style loading with logo animation
 │   │   ├── Player/
 │   │   │   ├── VideoPlayerView.swift
 │   │   │   ├── UpNextOverlayView.swift
+│   │   │   ├── ResumeOverlayView.swift
+│   │   │   ├── TopCommentOverlayView.swift
+│   │   │   ├── NowPlayingOverlayView.swift
+│   │   │   ├── SharePlayIndicatorView.swift
 │   │   │   ├── FullScreenImageView.swift
 │   │   │   ├── FullScreenImageOverlay.swift
 │   │   │   └── ZoomControlsView.swift
@@ -292,7 +331,8 @@ dumpert/
 │   │   ├── Sections/
 │   │   │   ├── ToppersSectionView.swift
 │   │   │   ├── CategorySectionView.swift
-│   │   │   └── ClassicsSectionView.swift
+│   │   │   ├── ClassicsSectionView.swift
+│   │   │   └── WatchedSectionView.swift
 │   │   └── Settings/
 │   │       ├── SettingsView.swift
 │   │       ├── SettingsComponents.swift
@@ -317,13 +357,14 @@ dumpert/
 │   ├── TopShelfItem.swift
 │   ├── TopShelfDataStore.swift     # App Group UserDefaults
 │   └── TopShelfFetcher.swift
-├── DumpertTests/                   # Unit tests (41 tests, 6 suites)
+├── DumpertTests/                   # Unit tests (55 tests, 7 suites)
 │   ├── ModelTests.swift
 │   ├── APIDecodingTests.swift
 │   ├── DurationFormatterTests.swift
 │   ├── SearchFilterTests.swift
 │   ├── CacheServiceTests.swift
 │   ├── ErrorCaseTests.swift
+│   ├── AutoNextPlayTests.swift
 │   └── Fixtures/                   # JSON test fixtures
 │       ├── hotshiz.json
 │       ├── latest.json
@@ -344,11 +385,12 @@ The app uses the public Dumpert mobile API.
 | `GET /top5/week/{date}` | Top items of the week |
 | `GET /top5/maand/{date}` | Top items of the month |
 | `GET /latest/{page}` | Latest items (paginated) |
-| `GET /search/{query}/{page}` | Search results (paginated) |
+| `GET /search/{query}/{page}?order=` | Search results (paginated, optional sort order) |
 | `GET /info/{id}` | Single item details |
 | `GET /classics/{page}` | Classic items (paginated) |
+| `GET /related/{id}` | Related items for a given video |
 
-Base URL: `https://api.dumpert.nl/mobile_api/json`
+Base URL: `https://post.dumpert.nl/api/v1.0`
 
 ---
 
@@ -360,22 +402,23 @@ The project has 3 targets, defined in `project.yml`:
 |---|---|---|---|
 | **Dumpert** | tvOS Application | `nl.dumpert.tvos` | Main app |
 | **DumpertTopShelf** | App Extension | `nl.dumpert.tvos.topshelf` | Top Shelf content provider |
-| **DumpertTests** | Unit Test Bundle | `nl.dumpert.tvos.tests` | 41 tests across 6 suites |
+| **DumpertTests** | Unit Test Bundle | `nl.dumpert.tvos.tests` | 55 tests across 7 suites |
 
 ---
 
 ## Tests
 
-41 tests across 6 suites, using Swift Testing framework:
+55 tests across 7 suites, using Swift Testing framework:
 
 | Suite | Tests | What it covers |
 |---|---|---|
-| **ModelTests** | 8 | WatchProgress, CurationEntry, UserSettings, VideoCategory, HTML stripping |
-| **APIDecodingTests** | 7 | API response decoding, Video conversion, HLS preference, tags parsing |
-| **DurationFormatterTests** | 3 | Time formatting (MM:SS, edge cases) |
+| **ModelTests** | 9 | WatchProgress, CurationEntry, UserSettings, VideoCategory, HTML stripping |
+| **APIDecodingTests** | 12 | API response decoding, Video conversion, HLS preference, tags parsing |
+| **DurationFormatterTests** | 6 | Time formatting (MM:SS, edge cases) |
 | **SearchFilterTests** | 5 | Filter activation for media type, period, kudos, duration |
-| **CacheServiceTests** | 5 | Persistence of watch progress, settings, curation, search history, disk limits |
+| **CacheServiceTests** | 4 | Persistence of watch progress, settings, curation, search history |
 | **ErrorCaseTests** | 5 | API error descriptions, network/decoding/HTTP error handling, 5xx retry |
+| **AutoNextPlayTests** | 14 | Playlist navigation, autoplay state, skip/previous, up-next overlay |
 
 ### Running Tests
 
@@ -396,10 +439,13 @@ xcodegen generate && xcodebuild test \
 | **Swift 6.0** | Strict concurrency (`complete` mode) |
 | **SwiftUI** | All UI, tvOS-native |
 | **AVKit** | Video playback via `AVPlayerViewController` |
+| **GroupActivities** | SharePlay / Watch Together |
+| **MediaPlayer** | Now Playing info + remote command handling |
 | **CloudKit** | Cross-device sync (private database, custom zone) |
 | **Network.framework** | `NWPathMonitor` for connectivity |
 | **Vision.framework** | Face detection for thumbnail centering |
 | **os.log** | Structured logging (`.cloudKit`, `.cache`, `.network`) |
+| **String Catalogs** | Localization (Dutch + English) |
 | **XcodeGen** | Project generation from `project.yml` |
 | **Swift Testing** | Unit test framework |
 
@@ -411,11 +457,27 @@ xcodegen generate && xcodebuild test \
 
 The Settings tab allows users to configure:
 
-- Tile size (small, medium, large)
-- Autoplay on/off
+**Weergave & content:**
+- Minimum kudos filter (0–500+)
+- NSFW content toggle
+- Negative kudos toggle
 - Hide watched content
-- Up-next overlay behavior
-- Playback speed default
+- Smart thumbnails (automatic thumbnail upgrade)
+- Tile size (small, normal, large)
+
+**Afspelen:**
+- Autoplay on/off
+- Video preview on focus
+- Up-next overlay, countdown, and minimum video length
+- Top comment overlay mode (off, single, all) with reading speed
+- Swipe-to-skip on Siri Remote
+- Resume overlay
+- Minimum Reeten duration filter
+
+**Data & opslag:**
+- Manual refresh
+- Clear cache, watch history, search history
+- Reset to defaults
 
 Settings are persisted locally and synced via CloudKit.
 
