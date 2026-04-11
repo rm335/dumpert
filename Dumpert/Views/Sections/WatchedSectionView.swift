@@ -110,7 +110,8 @@ struct WatchedSectionView: View {
             VideoPlayerView(viewModel: VideoPlayerViewModel(
                 video: video,
                 playlist: videoPlaylist,
-                repository: repository
+                repository: repository,
+                startFromBeginning: true
             ))
         }
         .fullScreenCover(item: $selectedPhoto) { photo in

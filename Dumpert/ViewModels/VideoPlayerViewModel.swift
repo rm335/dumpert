@@ -90,11 +90,14 @@ final class VideoPlayerViewModel {
         repository.settings.remoteSkipMode == .swipe
     }
 
-    init(video: Video, playlist: [Video] = [], repository: VideoRepository) {
+    let startFromBeginning: Bool
+
+    init(video: Video, playlist: [Video] = [], repository: VideoRepository, startFromBeginning: Bool = false) {
         self.video = video
         self.playlist = playlist
         self.repository = repository
         self.currentIndex = playlist.firstIndex(of: video) ?? 0
+        self.startFromBeginning = startFromBeginning
     }
 
     func setupPlayer() {
@@ -113,7 +116,9 @@ final class VideoPlayerViewModel {
         player = AVPlayer(playerItem: playerItem)
         observePlaybackStatus()
 
-        resumeIfNeeded(for: currentVideo)
+        if !startFromBeginning {
+            resumeIfNeeded(for: currentVideo)
+        }
 
         addTimeObserver()
         addEndObserver()
@@ -385,7 +390,9 @@ final class VideoPlayerViewModel {
         preloadedItem = nil
         player?.replaceCurrentItem(with: item)
 
-        resumeIfNeeded(for: video)
+        if !startFromBeginning {
+            resumeIfNeeded(for: video)
+        }
 
         addTimeObserver()
         addEndObserver()
@@ -426,7 +433,9 @@ final class VideoPlayerViewModel {
         setMetadata(for: video, on: item)
         player?.replaceCurrentItem(with: item)
 
-        resumeIfNeeded(for: video)
+        if !startFromBeginning {
+            resumeIfNeeded(for: video)
+        }
 
         addTimeObserver()
         addEndObserver()
