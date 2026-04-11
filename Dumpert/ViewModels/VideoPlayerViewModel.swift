@@ -255,11 +255,14 @@ final class VideoPlayerViewModel {
         statusObservation = player?.observe(\.timeControlStatus, options: [.old, .new]) { [weak self] player, change in
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                if player.timeControlStatus == .playing {
+                switch player.timeControlStatus {
+                case .playing, .waitingToPlayAtSpecifiedRate:
                     self.isPlaying = true
-                } else if change.oldValue == .playing && player.timeControlStatus == .paused {
+                case .paused:
                     self.isPlaying = false
                     self.saveProgress(force: true)
+                @unknown default:
+                    break
                 }
             }
         }

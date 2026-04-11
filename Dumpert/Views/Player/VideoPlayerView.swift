@@ -153,10 +153,10 @@ private struct PlayerRepresentable: UIViewControllerRepresentable {
 
         @objc func handlePlayPause() {
             guard let player = viewModel.player else { return }
-            if player.timeControlStatus == .playing {
-                player.pause()
-            } else {
+            if player.timeControlStatus == .paused {
                 player.play()
+            } else {
+                player.pause()
             }
             viewModel.playerViewController?.showsPlaybackControls = true
         }
