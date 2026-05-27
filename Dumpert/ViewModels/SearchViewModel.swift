@@ -20,7 +20,7 @@ final class SearchViewModel {
     private(set) var isLoadingMore = false
     private(set) var hasSearched = false
 
-    private let apiClient: DumpertAPIClient
+    private let apiClient: any APIClientProtocol
     private let repository: VideoRepository
     private var searchTask: Task<Void, Never>?
 
@@ -32,7 +32,7 @@ final class SearchViewModel {
     }
     private var searchCache: [String: CachedResult] = [:]
 
-    init(apiClient: DumpertAPIClient, repository: VideoRepository) {
+    init(apiClient: any APIClientProtocol, repository: VideoRepository) {
         self.apiClient = apiClient
         self.repository = repository
     }
@@ -46,6 +46,7 @@ final class SearchViewModel {
             filteredResults = []
             error = nil
             hasSearched = false
+            isSearching = false
             return
         }
 
@@ -68,12 +69,14 @@ final class SearchViewModel {
             filteredResults = filter.apply(to: results)
             hasMore = !cached.items.isEmpty
             hasSearched = true
+            isSearching = false
             return
         }
 
         isSearching = true
         error = nil
         currentPage = 0
+        defer { isSearching = false }
 
         do {
             let items = try await apiClient.fetchSearch(query: query, page: 0, order: .dateNewest)
@@ -93,8 +96,6 @@ final class SearchViewModel {
             filteredResults = []
             hasSearched = true
         }
-
-        isSearching = false
     }
 
     func loadMore() async {

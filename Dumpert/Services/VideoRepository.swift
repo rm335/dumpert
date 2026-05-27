@@ -184,22 +184,11 @@ final class VideoRepository {
                     }
                 }
             case "UserSettings":
-                let remoteSettings = UserSettingsSnapshot(
-                    minimumKudos: record["minimumKudos"] as? Int ?? 0,
-                    autoplayEnabled: (record["autoplayEnabled"] as? Int ?? 1) == 1,
-                    hideWatched: (record["hideWatched"] as? Int ?? 0) == 1,
-                    showNegativeKudos: (record["showNegativeKudos"] as? Int ?? 0) == 1,
-                    nsfwEnabled: (record["nsfwEnabled"] as? Int ?? 1) == 1,
-                    thumbnailPreviewEnabled: (record["thumbnailPreviewEnabled"] as? Int ?? 1) == 1,
-                    tileSize: TileSize(rawValue: record["tileSize"] as? String ?? "") ?? .normal,
-                    upNextOverlayEnabled: (record["upNextOverlayEnabled"] as? Int ?? 1) == 1,
-                    upNextCountdownSeconds: record["upNextCountdownSeconds"] as? Int ?? 5,
-                    upNextMinimumVideoSeconds: record["upNextMinimumVideoSeconds"] as? Int ?? 60,
-                    topCommentMode: TopCommentMode(rawValue: record["topCommentMode"] as? String ?? "") ?? .all,
-                    readingSpeed: ReadingSpeed(rawValue: record["readingSpeed"] as? Int ?? 3) ?? .normal,
-                    showResumeOverlay: (record["showResumeOverlay"] as? Int ?? 1) == 1,
-                    lastModified: record["lastModified"] as? Date ?? Date.distantPast
-                )
+                // Use the current local snapshot as fallback so unknown CloudKit
+                // fields don't clobber valid local settings during merge.
+                var fallback = settings.snapshot
+                fallback.lastModified = .distantPast
+                let remoteSettings = CloudKitService.makeSettings(from: record, fallback: fallback)
                 if remoteSettings.lastModified > settings.lastModified {
                     settings.apply(remoteSettings)
                 }

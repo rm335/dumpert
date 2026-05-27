@@ -82,17 +82,7 @@ actor CloudKitService {
         try guardAvailable()
         let recordID = CKRecord.ID(recordName: "global_settings", zoneID: zoneID)
         let record = CKRecord(recordType: "UserSettings", recordID: recordID)
-        record["minimumKudos"] = settings.minimumKudos as CKRecordValue
-        record["autoplayEnabled"] = (settings.autoplayEnabled ? 1 : 0) as CKRecordValue
-        record["hideWatched"] = (settings.hideWatched ? 1 : 0) as CKRecordValue
-        record["showNegativeKudos"] = (settings.showNegativeKudos ? 1 : 0) as CKRecordValue
-        record["thumbnailPreviewEnabled"] = (settings.thumbnailPreviewEnabled ? 1 : 0) as CKRecordValue
-        record["upNextOverlayEnabled"] = (settings.upNextOverlayEnabled ? 1 : 0) as CKRecordValue
-        record["upNextCountdownSeconds"] = settings.upNextCountdownSeconds as CKRecordValue
-        record["upNextMinimumVideoSeconds"] = settings.upNextMinimumVideoSeconds as CKRecordValue
-        record["topCommentMode"] = settings.topCommentMode.rawValue as CKRecordValue
-        record["readingSpeed"] = settings.readingSpeed.rawValue as CKRecordValue
-        record["lastModified"] = settings.lastModified as CKRecordValue
+        Self.populate(record: record, with: settings)
 
         _ = try await privateDB.modifyRecords(saving: [record], deleting: [], savePolicy: .changedKeys)
     }
@@ -102,28 +92,65 @@ actor CloudKitService {
         let recordID = CKRecord.ID(recordName: "global_settings", zoneID: zoneID)
         do {
             let record = try await privateDB.record(for: recordID)
-            return UserSettingsSnapshot(
-                minimumKudos: record["minimumKudos"] as? Int ?? 0,
-                autoplayEnabled: (record["autoplayEnabled"] as? Int ?? 1) == 1,
-                hideWatched: (record["hideWatched"] as? Int ?? 0) == 1,
-                showNegativeKudos: (record["showNegativeKudos"] as? Int ?? 0) == 1,
-                thumbnailPreviewEnabled: (record["thumbnailPreviewEnabled"] as? Int ?? 1) == 1,
-                upNextOverlayEnabled: (record["upNextOverlayEnabled"] as? Int ?? 1) == 1,
-                upNextCountdownSeconds: record["upNextCountdownSeconds"] as? Int ?? 5,
-                upNextMinimumVideoSeconds: record["upNextMinimumVideoSeconds"] as? Int ?? 60,
-                topCommentMode: (record["topCommentMode"] as? String).flatMap(TopCommentMode.init(rawValue:)) ?? {
-                    // Migration: old CloudKit records stored Bool as Int
-                    if let oldValue = record["showTopComment"] as? Int {
-                        return oldValue == 1 ? .all : .off
-                    }
-                    return .all
-                }(),
-                readingSpeed: (record["readingSpeed"] as? Int).flatMap(ReadingSpeed.init(rawValue:)) ?? .normal,
-                lastModified: record["lastModified"] as? Date ?? Date()
-            )
+            return Self.makeSettings(from: record, fallback: UserSettingsSnapshot())
         } catch let error as CKError where error.code == .unknownItem {
             return nil
         }
+    }
+
+    /// Writes every UserSettingsSnapshot field onto the CKRecord. Keeping save and
+    /// read symmetric in one place prevents the bug where a field is saved but
+    /// never read (or vice versa) and the user's value gets reset during sync.
+    static func populate(record: CKRecord, with settings: UserSettingsSnapshot) {
+        record["minimumKudos"] = settings.minimumKudos as CKRecordValue
+        record["autoplayEnabled"] = (settings.autoplayEnabled ? 1 : 0) as CKRecordValue
+        record["hideWatched"] = (settings.hideWatched ? 1 : 0) as CKRecordValue
+        record["reetenMinimumMinutes"] = settings.reetenMinimumMinutes as CKRecordValue
+        record["showNegativeKudos"] = (settings.showNegativeKudos ? 1 : 0) as CKRecordValue
+        record["nsfwEnabled"] = (settings.nsfwEnabled ? 1 : 0) as CKRecordValue
+        record["thumbnailPreviewEnabled"] = (settings.thumbnailPreviewEnabled ? 1 : 0) as CKRecordValue
+        record["smartThumbnailsEnabled"] = (settings.smartThumbnailsEnabled ? 1 : 0) as CKRecordValue
+        record["tileSize"] = settings.tileSize.rawValue as CKRecordValue
+        record["upNextOverlayEnabled"] = (settings.upNextOverlayEnabled ? 1 : 0) as CKRecordValue
+        record["upNextCountdownSeconds"] = settings.upNextCountdownSeconds as CKRecordValue
+        record["upNextMinimumVideoSeconds"] = settings.upNextMinimumVideoSeconds as CKRecordValue
+        record["topCommentMode"] = settings.topCommentMode.rawValue as CKRecordValue
+        record["readingSpeed"] = settings.readingSpeed.rawValue as CKRecordValue
+        record["remoteSkipMode"] = settings.remoteSkipMode.rawValue as CKRecordValue
+        record["showResumeOverlay"] = (settings.showResumeOverlay ? 1 : 0) as CKRecordValue
+        record["lastModified"] = settings.lastModified as CKRecordValue
+    }
+
+    /// Reads every UserSettingsSnapshot field off a CKRecord. Any field that's
+    /// absent from the record falls back to the supplied snapshot's value — this
+    /// preserves the local value when older clients (or future clients) omit a
+    /// key, instead of silently overwriting it with a hard-coded default.
+    static func makeSettings(from record: CKRecord, fallback: UserSettingsSnapshot) -> UserSettingsSnapshot {
+        // Migration: old CloudKit records stored Bool topComment as Int "showTopComment"
+        let topCommentMode: TopCommentMode = (record["topCommentMode"] as? String)
+            .flatMap(TopCommentMode.init(rawValue:))
+            ?? (record["showTopComment"] as? Int).map { $0 == 1 ? .all : .off }
+            ?? fallback.topCommentMode
+
+        return UserSettingsSnapshot(
+            minimumKudos: record["minimumKudos"] as? Int ?? fallback.minimumKudos,
+            autoplayEnabled: (record["autoplayEnabled"] as? Int).map { $0 == 1 } ?? fallback.autoplayEnabled,
+            hideWatched: (record["hideWatched"] as? Int).map { $0 == 1 } ?? fallback.hideWatched,
+            reetenMinimumMinutes: record["reetenMinimumMinutes"] as? Int ?? fallback.reetenMinimumMinutes,
+            showNegativeKudos: (record["showNegativeKudos"] as? Int).map { $0 == 1 } ?? fallback.showNegativeKudos,
+            nsfwEnabled: (record["nsfwEnabled"] as? Int).map { $0 == 1 } ?? fallback.nsfwEnabled,
+            thumbnailPreviewEnabled: (record["thumbnailPreviewEnabled"] as? Int).map { $0 == 1 } ?? fallback.thumbnailPreviewEnabled,
+            smartThumbnailsEnabled: (record["smartThumbnailsEnabled"] as? Int).map { $0 == 1 } ?? fallback.smartThumbnailsEnabled,
+            tileSize: (record["tileSize"] as? String).flatMap(TileSize.init(rawValue:)) ?? fallback.tileSize,
+            upNextOverlayEnabled: (record["upNextOverlayEnabled"] as? Int).map { $0 == 1 } ?? fallback.upNextOverlayEnabled,
+            upNextCountdownSeconds: record["upNextCountdownSeconds"] as? Int ?? fallback.upNextCountdownSeconds,
+            upNextMinimumVideoSeconds: record["upNextMinimumVideoSeconds"] as? Int ?? fallback.upNextMinimumVideoSeconds,
+            topCommentMode: topCommentMode,
+            readingSpeed: (record["readingSpeed"] as? Int).flatMap(ReadingSpeed.init(rawValue:)) ?? fallback.readingSpeed,
+            remoteSkipMode: (record["remoteSkipMode"] as? String).flatMap(RemoteSkipMode.init(rawValue:)) ?? fallback.remoteSkipMode,
+            showResumeOverlay: (record["showResumeOverlay"] as? Int).map { $0 == 1 } ?? fallback.showResumeOverlay,
+            lastModified: record["lastModified"] as? Date ?? fallback.lastModified
+        )
     }
 
     // MARK: - Curation Entries
