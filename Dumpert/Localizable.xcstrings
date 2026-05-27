@@ -956,7 +956,7 @@
       }
     },
     "Categorieën" : {
-      "comment" : "Categories section header",
+      "comment" : "Categories section header\nCategories tab title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -973,7 +973,7 @@
       }
     },
     "Classics" : {
-      "comment" : "Tab label for classic videos",
+      "comment" : "Accessibility: Classics sub-tab",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1007,7 +1007,7 @@
       }
     },
     "Dashcam" : {
-      "comment" : "Category name for dashcam videos",
+      "comment" : "Accessibility: Dashcam sub-tab\nCategory name for dashcam videos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1432,7 +1432,7 @@
       }
     },
     "Gekeken" : {
-      "comment" : "Watched tab title\nWatched tab: section title",
+      "comment" : "Accessibility: Gekeken sub-tab\nWatched tab: section title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2537,7 +2537,7 @@
       }
     },
     "Reeten" : {
-      "comment" : "Tab label for hall of fame videos",
+      "comment" : "Accessibility: Reeten sub-tab",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3353,7 +3353,7 @@
       }
     },
     "VrijMiCo" : {
-      "comment" : "Category name for Friday/Saturday/Sunday content",
+      "comment" : "Accessibility: VrijMiCo sub-tab\nCategory name for Friday/Saturday/Sunday content",
       "localizations" : {
         "en" : {
           "stringUnit" : {

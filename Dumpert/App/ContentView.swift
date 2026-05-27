@@ -41,47 +41,23 @@ struct ContentView: View {
                         }
                         .tag(1)
 
-                    CategorySectionView(category: .reeten)
+                    CategoriesSectionView()
                         .tabItem {
-                            Label("Reeten", systemImage: "trophy")
+                            Label(String(localized: "Categorieën", comment: "Categories tab title"), systemImage: "square.grid.2x2.fill")
                         }
                         .tag(2)
-
-                    CategorySectionView(category: .vrijmico)
-                        .tabItem {
-                            Label("VrijMiCo", systemImage: "party.popper.fill")
-                        }
-                        .tag(3)
-
-                    CategorySectionView(category: .dashcam)
-                        .tabItem {
-                            Label("Dashcam", systemImage: "car.fill")
-                        }
-                        .tag(4)
-
-                    ClassicsSectionView()
-                        .tabItem {
-                            Label("Classics", systemImage: "clock.arrow.circlepath")
-                        }
-                        .tag(5)
-
-                    WatchedSectionView()
-                        .tabItem {
-                            Label(String(localized: "Gekeken", comment: "Watched tab title"), systemImage: "eye.fill")
-                        }
-                        .tag(6)
 
                     SearchView()
                         .tabItem {
                             Label("Zoeken", systemImage: "magnifyingglass")
                         }
-                        .tag(7)
+                        .tag(3)
 
                     SettingsView()
                         .tabItem {
                             Label("Instellingen", systemImage: "gearshape.fill")
                         }
-                        .tag(8)
+                        .tag(4)
                 }
             }
         }
