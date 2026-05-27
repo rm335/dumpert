@@ -105,6 +105,7 @@ final class SearchViewModel {
         guard !query.isEmpty else { return }
 
         isLoadingMore = true
+        defer { isLoadingMore = false }
         let nextPage = currentPage + 1
 
         do {
@@ -125,8 +126,6 @@ final class SearchViewModel {
             guard !Task.isCancelled else { return }
             self.error = error.localizedDescription
         }
-
-        isLoadingMore = false
     }
 
     private func applyFilter() {

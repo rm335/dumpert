@@ -67,6 +67,10 @@ struct FullScreenImageView: View {
             markAsWatched()
             await fetchAndShowTopComments()
         }
+        .onDisappear {
+            topCommentCarouselTask?.cancel()
+            topCommentCarouselTask = nil
+        }
         .onExitCommand {
             if currentScale > minScale {
                 withAnimation(.spring(duration: 0.3)) {

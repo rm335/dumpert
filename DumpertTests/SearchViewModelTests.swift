@@ -139,6 +139,93 @@ struct SearchViewModelTests {
         #expect(vm.isSearching == false)
     }
 
+    // MARK: - isLoadingMore lifecycle (loadMore pagination)
+
+    @Test("isLoadingMore is reset to false after a successful loadMore")
+    func isLoadingMoreResetAfterSuccess() async {
+        let mock = MockAPIClient()
+        mock.searchResponse = .items([videoItem("v1")])
+        let vm = makeViewModel(mock: mock)
+        vm.searchQuery = "test"
+        await vm.search()
+        #expect(vm.hasMore == true)
+
+        mock.searchResponse = .items([videoItem("v2")])
+        await vm.loadMore()
+
+        #expect(vm.isLoadingMore == false)
+        #expect(vm.results.count == 2)
+    }
+
+    @Test("isLoadingMore is reset to false when CancellationError is thrown during loadMore")
+    func isLoadingMoreResetAfterSwiftCancellation() async {
+        // Regression: loadMore() used to `return` on CancellationError without
+        // resetting isLoadingMore, which permanently disabled pagination
+        // because the guard `guard !isLoadingMore` at the top blocked all
+        // subsequent calls.
+        let mock = MockAPIClient()
+        mock.searchResponse = .items([videoItem("v1")])
+        let vm = makeViewModel(mock: mock)
+        vm.searchQuery = "test"
+        await vm.search()
+
+        mock.searchResponse = .swiftCancellation
+        await vm.loadMore()
+
+        #expect(vm.isLoadingMore == false)
+    }
+
+    @Test("isLoadingMore is reset to false when URLError(.cancelled) is thrown during loadMore")
+    func isLoadingMoreResetAfterURLCancellation() async {
+        let mock = MockAPIClient()
+        mock.searchResponse = .items([videoItem("v1")])
+        let vm = makeViewModel(mock: mock)
+        vm.searchQuery = "test"
+        await vm.search()
+
+        mock.searchResponse = .cancellation
+        await vm.loadMore()
+
+        #expect(vm.isLoadingMore == false)
+    }
+
+    @Test("loadMore can be invoked again after a cancelled loadMore")
+    func loadMoreReusableAfterCancellation() async {
+        // The real-world impact of the bug: after a single cancelled loadMore,
+        // the user could never load any more pages because isLoadingMore
+        // stayed true forever.
+        let mock = MockAPIClient()
+        mock.searchResponse = .items([videoItem("v1")])
+        let vm = makeViewModel(mock: mock)
+        vm.searchQuery = "test"
+        await vm.search()
+
+        mock.searchResponse = .swiftCancellation
+        await vm.loadMore()
+        #expect(vm.results.count == 1)
+
+        mock.searchResponse = .items([videoItem("v2")])
+        await vm.loadMore()
+        #expect(vm.isLoadingMore == false)
+        #expect(vm.results.count == 2)
+    }
+
+    @Test("isLoadingMore is reset to false when network errors out during loadMore")
+    func isLoadingMoreResetAfterError() async {
+        struct TestError: Error {}
+        let mock = MockAPIClient()
+        mock.searchResponse = .items([videoItem("v1")])
+        let vm = makeViewModel(mock: mock)
+        vm.searchQuery = "test"
+        await vm.search()
+
+        mock.searchResponse = .error(TestError())
+        await vm.loadMore()
+
+        #expect(vm.isLoadingMore == false)
+        #expect(vm.error != nil)
+    }
+
     @Test("Cache hit returns without leaving isSearching stuck")
     func cacheHitResetsIsSearching() async {
         let mock = MockAPIClient()
