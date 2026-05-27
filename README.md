@@ -49,7 +49,8 @@ The easiest way to install DumpertTV on your Apple TV:
 ## Features
 
 ### Content Browsing
-- **9 tabs**: Toppers, Nieuw, Reeten, VrijMiCo, Dashcam, Classics, Gekeken, Zoeken, Instellingen
+- **5 top-level tabs** (Dutch UI labels): Toppers (Top), Nieuw (New), Categorieën (Categories), Zoeken (Search), Instellingen (Settings)
+- The **Categories** tab consolidates Reeten, VrijMiCo, Dashcam, Classics and Gekeken (Watched) behind an in-view pill filter (selection persists via `@SceneStorage`)
 - **Hero banner** with horizontally scrolling carousel and face-centered thumbnails
 - **Infinite scroll pagination** on category and classics views
 - **Skeleton loading** with shimmer animation while content loads
@@ -72,7 +73,7 @@ The easiest way to install DumpertTV on your Apple TV:
 - Watched badge indicator on already-viewed content
 
 ### Watched Items
-- Dedicated **Gekeken** tab showing previously watched videos
+- **Gekeken** (Watched) sub-tab under Categories, showing previously watched videos
 - Track and manage watch history
 
 ### SharePlay
@@ -203,8 +204,8 @@ Build and run on an Apple TV or the tvOS Simulator.
 │                   (SwiftUI @main entry)                      │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐  │
-│  │  LoadingScreenView → ContentView (TabView, 9 tabs)     │  │
-│  │  Toppers │ Nieuw │ Reeten │ VrijMiCo │ Dashcam │ ...   │  │
+│  │  LoadingScreenView → ContentView (TabView, 5 tabs)     │  │
+│  │  Toppers │ Nieuw │ Categorieën │ Zoeken │ Instellingen │  │
 │  └──────────────────────┬─────────────────────────────────┘  │
 │                         │                                    │
 │                 @Environment                                 │
@@ -253,7 +254,7 @@ dumpert/
 ├── Dumpert/                        # Main app target
 │   ├── App/
 │   │   ├── DumpertApp.swift        # @main entry, environment setup, deep linking
-│   │   └── ContentView.swift       # Root TabView with 9 tabs + offline banner
+│   │   └── ContentView.swift       # Root TabView with 5 tabs + offline banner
 │   ├── Models/
 │   │   ├── API/                    # Codable API response models
 │   │   │   ├── DumpertAPIResponse.swift
@@ -304,6 +305,7 @@ dumpert/
 │   │   │   ├── VideoPreviewView.swift
 │   │   │   ├── VideoContextMenu.swift
 │   │   │   ├── FaceCenteredThumbnailView.swift
+│   │   │   ├── FocusableCapsuleButtonStyle.swift
 │   │   │   ├── ImmersiveBackgroundView.swift
 │   │   │   ├── SectionTitleView.swift
 │   │   │   ├── KudosBadgeView.swift
@@ -330,6 +332,7 @@ dumpert/
 │   │   │   └── SearchFilterBar.swift
 │   │   ├── Sections/
 │   │   │   ├── ToppersSectionView.swift
+│   │   │   ├── CategoriesSectionView.swift  # Pill-bar container for Reeten/VrijMiCo/Dashcam/Classics/Gekeken
 │   │   │   ├── CategorySectionView.swift
 │   │   │   ├── ClassicsSectionView.swift
 │   │   │   └── WatchedSectionView.swift
@@ -357,12 +360,16 @@ dumpert/
 │   ├── TopShelfItem.swift
 │   ├── TopShelfDataStore.swift     # App Group UserDefaults
 │   └── TopShelfFetcher.swift
-├── DumpertTests/                   # Unit tests (55 tests, 7 suites)
+├── DumpertTests/                   # Unit tests (82 tests, 11 suites)
 │   ├── ModelTests.swift
 │   ├── APIDecodingTests.swift
 │   ├── DurationFormatterTests.swift
 │   ├── SearchFilterTests.swift
+│   ├── SearchViewModelTests.swift
 │   ├── CacheServiceTests.swift
+│   ├── CloudKitMergeTests.swift
+│   ├── CloudKitSettingsSyncTests.swift
+│   ├── UserSettingsPersistenceTests.swift
 │   ├── ErrorCaseTests.swift
 │   ├── AutoNextPlayTests.swift
 │   └── Fixtures/                   # JSON test fixtures
@@ -402,13 +409,13 @@ The project has 3 targets, defined in `project.yml`:
 |---|---|---|---|
 | **Dumpert** | tvOS Application | `nl.dumpert.tvos` | Main app |
 | **DumpertTopShelf** | App Extension | `nl.dumpert.tvos.topshelf` | Top Shelf content provider |
-| **DumpertTests** | Unit Test Bundle | `nl.dumpert.tvos.tests` | 55 tests across 7 suites |
+| **DumpertTests** | Unit Test Bundle | `nl.dumpert.tvos.tests` | 82 tests across 11 suites |
 
 ---
 
 ## Tests
 
-55 tests across 7 suites, using Swift Testing framework:
+82 tests across 11 suites, using Swift Testing framework:
 
 | Suite | Tests | What it covers |
 |---|---|---|
@@ -416,9 +423,13 @@ The project has 3 targets, defined in `project.yml`:
 | **APIDecodingTests** | 12 | API response decoding, Video conversion, HLS preference, tags parsing |
 | **DurationFormatterTests** | 6 | Time formatting (MM:SS, edge cases) |
 | **SearchFilterTests** | 5 | Filter activation for media type, period, kudos, duration |
+| **SearchViewModelTests** | 12 | Search state, debouncing, pagination, cancellation, history persistence |
 | **CacheServiceTests** | 4 | Persistence of watch progress, settings, curation, search history |
+| **CloudKitMergeTests** | 4 | Remote/local merge logic, deletion handling, change-token persistence |
+| **CloudKitSettingsSyncTests** | 5 | Settings sync without overwriting local values |
+| **UserSettingsPersistenceTests** | 4 | Settings round-trip, defaults, migration |
 | **ErrorCaseTests** | 5 | API error descriptions, network/decoding/HTTP error handling, 5xx retry |
-| **AutoNextPlayTests** | 14 | Playlist navigation, autoplay state, skip/previous, up-next overlay |
+| **AutoNextPlayTests** | 16 | Playlist navigation, autoplay state, skip/previous, up-next overlay |
 
 ### Running Tests
 
@@ -457,7 +468,7 @@ xcodegen generate && xcodebuild test \
 
 The Settings tab allows users to configure:
 
-**Weergave & content:**
+**Display & Content:**
 - Minimum kudos filter (0–500+)
 - NSFW content toggle
 - Negative kudos toggle
@@ -465,7 +476,7 @@ The Settings tab allows users to configure:
 - Smart thumbnails (automatic thumbnail upgrade)
 - Tile size (small, normal, large)
 
-**Afspelen:**
+**Playback:**
 - Autoplay on/off
 - Video preview on focus
 - Up-next overlay, countdown, and minimum video length
@@ -474,7 +485,7 @@ The Settings tab allows users to configure:
 - Resume overlay
 - Minimum Reeten duration filter
 
-**Data & opslag:**
+**Data & Storage:**
 - Manual refresh
 - Clear cache, watch history, search history
 - Reset to defaults
