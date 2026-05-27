@@ -150,7 +150,14 @@ final class VideoRepository {
         }
     }
 
-    private func applyCloudKitChanges(_ changes: CloudKitChanges) {
+    // Internal (not private) so tests can drive merge behavior with synthetic CKRecords
+    // without spinning up an actual CloudKit container.
+    func applyCloudKitChanges(_ changes: CloudKitChanges) {
+        var watchProgressDirty = false
+        var curationDirty = false
+        var searchHistoryDirty = false
+        var settingsDirty = false
+
         for record in changes.changedRecords {
             switch record.recordType {
             case "WatchProgress":
@@ -160,16 +167,17 @@ final class VideoRepository {
                         watchedSeconds: record["watchedSeconds"] as? Double ?? 0,
                         totalSeconds: record["totalSeconds"] as? Double ?? 0
                     )
-                    // Preserve the remote date
                     if let remoteDate = record["lastWatchedDate"] as? Date {
                         remote.lastWatchedDate = remoteDate
                     }
                     if let local = watchProgress[videoId] {
                         if remote.lastWatchedDate > local.lastWatchedDate {
                             watchProgress[videoId] = remote
+                            watchProgressDirty = true
                         }
                     } else {
                         watchProgress[videoId] = remote
+                        watchProgressDirty = true
                     }
                 }
             case "CurationEntry":
@@ -181,6 +189,7 @@ final class VideoRepository {
                     let entry = CurationEntry(videoId: videoId, category: category, action: action)
                     if !curationEntries.contains(where: { $0.videoId == videoId && $0.category == category && $0.action == action }) {
                         curationEntries.append(entry)
+                        curationDirty = true
                     }
                 }
             case "UserSettings":
@@ -191,6 +200,7 @@ final class VideoRepository {
                 let remoteSettings = CloudKitService.makeSettings(from: record, fallback: fallback)
                 if remoteSettings.lastModified > settings.lastModified {
                     settings.apply(remoteSettings)
+                    settingsDirty = true
                 }
             case "SearchHistory":
                 if let query = record["query"] as? String {
@@ -200,11 +210,67 @@ final class VideoRepository {
                         let entry = SearchHistoryEntry(id: uuid, query: query, timestamp: timestamp)
                         if !searchHistory.contains(where: { $0.id == entry.id }) {
                             searchHistory.append(entry)
+                            searchHistoryDirty = true
                         }
                     }
                 }
             default:
                 break
+            }
+        }
+
+        // Process deletions from other devices. Records are deleted via prefixed
+        // recordName (e.g., "watch_<videoId>", "search_<uuid>") or the bare UUID
+        // for curation entries.
+        for recordID in changes.deletedRecordIDs {
+            let name = recordID.recordName
+            if name.hasPrefix("watch_") {
+                let videoId = String(name.dropFirst("watch_".count))
+                if watchProgress.removeValue(forKey: videoId) != nil {
+                    watchProgressDirty = true
+                }
+            } else if name.hasPrefix("search_") {
+                let idString = String(name.dropFirst("search_".count))
+                if let uuid = UUID(uuidString: idString),
+                   let index = searchHistory.firstIndex(where: { $0.id == uuid }) {
+                    searchHistory.remove(at: index)
+                    searchHistoryDirty = true
+                }
+            } else if let uuid = UUID(uuidString: name),
+                      let index = curationEntries.firstIndex(where: { $0.id == uuid }) {
+                curationEntries.remove(at: index)
+                curationDirty = true
+            }
+        }
+
+        if searchHistoryDirty {
+            // Preserve newest-first order and the 20-entry cap maintained by
+            // recordSearch — otherwise merging cloud entries would leave the
+            // list unsorted and unbounded.
+            searchHistory.sort { $0.timestamp > $1.timestamp }
+            if searchHistory.count > 20 {
+                searchHistory = Array(searchHistory.prefix(20))
+            }
+        }
+
+        // Persist merged state to the local cache so it survives a launch
+        // where CloudKit happens to be unavailable.
+        let progressSnapshot = watchProgress
+        let curationSnapshot = curationEntries
+        let searchSnapshot = searchHistory
+        let settingsSnapshot = settings.snapshot
+        Task {
+            if watchProgressDirty {
+                await cacheService.saveWatchProgress(progressSnapshot)
+            }
+            if curationDirty {
+                await cacheService.saveCurationEntries(curationSnapshot)
+            }
+            if searchHistoryDirty {
+                await cacheService.saveSearchHistory(searchSnapshot)
+            }
+            if settingsDirty {
+                await cacheService.saveSettings(settingsSnapshot)
             }
         }
     }

@@ -5,9 +5,17 @@ import Foundation
 @Suite("Cache Service Tests")
 struct CacheServiceTests {
 
+    /// Returns a fresh, isolated cache so parallel suites can't race on the
+    /// shared Caches/DumpertCache directory used in production.
+    private func makeIsolatedCache() -> CacheService {
+        let dir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("DumpertTests-\(UUID().uuidString)", isDirectory: true)
+        return CacheService(cacheDirectory: dir)
+    }
+
     @Test("Watch progress round-trip")
     func watchProgressRoundTrip() async {
-        let cache = CacheService()
+        let cache = makeIsolatedCache()
         let progress: [String: WatchProgress] = [
             "v1": WatchProgress(videoId: "v1", watchedSeconds: 30, totalSeconds: 100),
             "v2": WatchProgress(videoId: "v2", watchedSeconds: 90, totalSeconds: 100),
@@ -23,7 +31,7 @@ struct CacheServiceTests {
 
     @Test("Settings round-trip")
     func settingsRoundTrip() async {
-        let cache = CacheService()
+        let cache = makeIsolatedCache()
         let settings = UserSettingsSnapshot(
             minimumKudos: 50,
             autoplayEnabled: false,
@@ -40,7 +48,7 @@ struct CacheServiceTests {
 
     @Test("Curation entries round-trip")
     func curationRoundTrip() async {
-        let cache = CacheService()
+        let cache = makeIsolatedCache()
         let entries = [
             CurationEntry(videoId: "v1", category: .reeten, action: .add),
             CurationEntry(videoId: "v2", category: .dashcam, action: .remove),
@@ -56,7 +64,7 @@ struct CacheServiceTests {
 
     @Test("Search history round-trip")
     func searchHistoryRoundTrip() async {
-        let cache = CacheService()
+        let cache = makeIsolatedCache()
         let entries = [
             SearchHistoryEntry(query: "dashcam"),
             SearchHistoryEntry(query: "fail"),

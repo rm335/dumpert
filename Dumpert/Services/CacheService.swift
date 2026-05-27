@@ -6,9 +6,17 @@ actor CacheService {
     private let maxCacheSize: Int = 50 * 1024 * 1024 // 50MB
     private var cachedDiskSize: Int?
 
+    /// Production initializer — caches go into the standard Caches directory.
     init() {
         let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        self.cacheDirectory = caches.appendingPathComponent("DumpertCache", isDirectory: true)
+        self.init(cacheDirectory: caches.appendingPathComponent("DumpertCache", isDirectory: true))
+    }
+
+    /// Test-friendly initializer that lets each test use its own isolated
+    /// directory. Avoids parallel-test pollution where another suite's
+    /// markAsWatched write would overwrite this suite's seeded data.
+    init(cacheDirectory: URL) {
+        self.cacheDirectory = cacheDirectory
         try? FileManager.default.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
     }
 
