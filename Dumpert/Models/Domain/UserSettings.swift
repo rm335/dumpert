@@ -83,23 +83,40 @@ enum RemoteSkipMode: String, Codable, Sendable, CaseIterable {
 @Observable
 @MainActor
 final class UserSettings {
-    var minimumKudos: Int
-    var autoplayEnabled: Bool
-    var hideWatched: Bool
-    var reetenMinimumMinutes: Int
-    var showNegativeKudos: Bool
-    var nsfwEnabled: Bool
-    var thumbnailPreviewEnabled: Bool
-    var smartThumbnailsEnabled: Bool
-    var tileSize: TileSize
-    var upNextOverlayEnabled: Bool
-    var upNextCountdownSeconds: Int
-    var upNextMinimumVideoSeconds: Int
-    var topCommentMode: TopCommentMode
-    var readingSpeed: ReadingSpeed
-    var remoteSkipMode: RemoteSkipMode
-    var showResumeOverlay: Bool
+    var minimumKudos: Int { didSet { notifyChange() } }
+    var autoplayEnabled: Bool { didSet { notifyChange() } }
+    var hideWatched: Bool { didSet { notifyChange() } }
+    var reetenMinimumMinutes: Int { didSet { notifyChange() } }
+    var showNegativeKudos: Bool { didSet { notifyChange() } }
+    var nsfwEnabled: Bool { didSet { notifyChange() } }
+    var thumbnailPreviewEnabled: Bool { didSet { notifyChange() } }
+    var smartThumbnailsEnabled: Bool { didSet { notifyChange() } }
+    var tileSize: TileSize { didSet { notifyChange() } }
+    var upNextOverlayEnabled: Bool { didSet { notifyChange() } }
+    var upNextCountdownSeconds: Int { didSet { notifyChange() } }
+    var upNextMinimumVideoSeconds: Int { didSet { notifyChange() } }
+    var topCommentMode: TopCommentMode { didSet { notifyChange() } }
+    var readingSpeed: ReadingSpeed { didSet { notifyChange() } }
+    var remoteSkipMode: RemoteSkipMode { didSet { notifyChange() } }
+    var showResumeOverlay: Bool { didSet { notifyChange() } }
     var lastModified: Date
+
+    /// Invoked whenever any user-facing setting changes. Set by the owner
+    /// (typically VideoRepository) to persist the snapshot. The class itself
+    /// holds no persistence knowledge — it just signals that a save is needed.
+    @ObservationIgnored
+    var onChange: (@MainActor () -> Void)?
+
+    /// When true, per-property `didSet` notifications do not propagate to
+    /// `onChange`. Used by `apply(_:)` so bulk restoration of a remote/cached
+    /// snapshot doesn't echo back through the save handler.
+    @ObservationIgnored
+    private var suppressNotifications = false
+
+    private func notifyChange() {
+        guard !suppressNotifications else { return }
+        onChange?()
+    }
 
     init(minimumKudos: Int = 0, autoplayEnabled: Bool = true, hideWatched: Bool = true, reetenMinimumMinutes: Int = 10, showNegativeKudos: Bool = false, nsfwEnabled: Bool = true, thumbnailPreviewEnabled: Bool = true, smartThumbnailsEnabled: Bool = true, tileSize: TileSize = .normal, upNextOverlayEnabled: Bool = true, upNextCountdownSeconds: Int = 5, upNextMinimumVideoSeconds: Int = 60, topCommentMode: TopCommentMode = .all, readingSpeed: ReadingSpeed = .normal, remoteSkipMode: RemoteSkipMode = .swipe, showResumeOverlay: Bool = true) {
         self.minimumKudos = minimumKudos
@@ -144,6 +161,8 @@ final class UserSettings {
     }
 
     func apply(_ snapshot: UserSettingsSnapshot) {
+        suppressNotifications = true
+        defer { suppressNotifications = false }
         minimumKudos = snapshot.minimumKudos
         autoplayEnabled = snapshot.autoplayEnabled
         hideWatched = snapshot.hideWatched

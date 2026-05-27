@@ -205,4 +205,66 @@ struct AutoNextPlayTests {
 
         #expect(vm.currentVideo.id == "v2")
     }
+
+    // MARK: - Related-video handoff
+
+    @Test("playNext switches currentVideo to the related video once the playlist is exhausted")
+    func playNextAdoptsRelatedVideoAsCurrent() {
+        // Regression: when autoplay transitioned from the last playlist item
+        // into a related-video tail, `currentIndex` was deliberately left at
+        // the last playlist position (only `relatedVideos.removeFirst()` ran).
+        // Because `currentVideo` was derived from `playlist[currentIndex]`,
+        // every subsequent `saveProgress()` tick attributed the related
+        // video's playback time to the *previous* playlist video's id —
+        // which then flipped `isCompleted` back to false because
+        // `WatchProgress.update` rederives completion from raw progress.
+        let last = makeVideo(id: "v_last")
+        let related = makeVideo(id: "v_related")
+        let vm = makeViewModel(video: last, playlist: [last])
+
+        // Simulate the async fetch having already returned a related video.
+        vm.relatedVideos = [related]
+        #expect(vm.currentVideo.id == "v_last")
+        #expect(vm.hasNextVideo)
+
+        vm.playNext()
+
+        #expect(vm.currentVideo.id == "v_related")
+        // Related queue consumed its head, currentIndex unchanged.
+        #expect(vm.currentIndex == 0)
+        #expect(vm.relatedVideos.isEmpty)
+    }
+
+    @Test("Related-video autoplay does not wipe the previous video's watched mark")
+    func relatedAutoplayPreservesPreviousWatchedMark() {
+        // End-to-end consequence of the bug above: while the related video
+        // was playing, time-observer-driven `saveProgress()` calls wrote the
+        // related video's small currentTime/large duration under the old
+        // video's id. `WatchProgress.update` recomputed isCompleted from
+        // those values (<0.9) and demoted the previous video from watched
+        // back to in-progress, making it reappear in lists that filter on
+        // `hideWatched`.
+        let repo = VideoRepository()
+        let last = makeVideo(id: "v_last")
+        let related = makeVideo(id: "v_related")
+
+        repo.markAsWatched(videoId: last.id)
+        #expect(repo.isWatched(last.id))
+
+        let vm = VideoPlayerViewModel(video: last, playlist: [last], repository: repo)
+        vm.relatedVideos = [related]
+        vm.playNext()
+
+        // Simulate the time-observer firing for the related video's playback.
+        // After the fix this updates progress for "v_related"; before the fix
+        // it would have updated "v_last" and flipped isCompleted to false.
+        repo.updateWatchProgress(
+            videoId: vm.currentVideo.id,
+            watchedSeconds: 5,
+            totalSeconds: 120
+        )
+
+        #expect(repo.isWatched(last.id), "Previous video must remain marked as watched")
+        #expect(repo.progressFor(related.id) > 0, "Related video should have its own progress recorded")
+    }
 }

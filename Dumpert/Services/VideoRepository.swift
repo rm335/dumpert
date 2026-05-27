@@ -42,11 +42,13 @@ final class VideoRepository {
     var networkMonitor: NetworkMonitor?
     private var cloudKitAvailable = false
 
-    var settings: UserSettings {
-        didSet {
-            Task { await saveSettings() }
-        }
-    }
+    // NOTE: A `didSet` here would only fire on whole-object reassignment, not
+    // on inner property mutation of the @Observable UserSettings instance.
+    // Persistence is wired through `settings.onChange` instead (see init).
+    var settings: UserSettings
+
+    @ObservationIgnored
+    private var settingsSaveTask: Task<Void, Never>?
 
     init(
         apiClient: DumpertAPIClient = DumpertAPIClient(),
@@ -67,11 +69,26 @@ final class VideoRepository {
         refreshScheduler.onRefresh = { [weak self] in
             await self?.refreshAll()
         }
+        // Persist on any UI-driven settings change. Debounced so bulk updates
+        // (e.g. the "Restore defaults" action that mutates ~17 properties in
+        // one tick) collapse into a single save round-trip.
+        settings.onChange = { [weak self] in
+            self?.scheduleSettingsSave()
+        }
         Task {
             await loadFromCache()
             await setupCloudKit()
             await refreshAll()
             refreshScheduler.start()
+        }
+    }
+
+    private func scheduleSettingsSave() {
+        settingsSaveTask?.cancel()
+        settingsSaveTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .milliseconds(150))
+            guard !Task.isCancelled else { return }
+            await self?.saveSettings()
         }
     }
 

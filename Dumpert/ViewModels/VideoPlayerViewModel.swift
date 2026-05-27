@@ -17,6 +17,13 @@ final class VideoPlayerViewModel {
     let video: Video
     let playlist: [Video]
     private(set) var currentIndex: Int
+    /// The video that is actively playing right now. Stored explicitly because
+    /// related-video autoplay does NOT advance `currentIndex` (it consumes the
+    /// head of `relatedVideos` instead), so deriving the current video from
+    /// `playlist[currentIndex]` would keep returning the last playlist video
+    /// while a related video is on screen — corrupting `saveProgress` and
+    /// `markAsWatched` calls.
+    private(set) var currentVideo: Video
 
     var player: AVPlayer?
     weak var playerViewController: AVPlayerViewController?
@@ -32,7 +39,11 @@ final class VideoPlayerViewModel {
     private var upNextCancelled = false
     private var lastSaveTime: Date = .distantPast
     private var preloadedItem: AVPlayerItem?
-    private(set) var relatedVideos: [Video] = []
+    /// Populated asynchronously by `checkUpNext` when the user nears the end
+    /// of the playlist. `internal` (not `private(set)`) so unit tests can
+    /// exercise the related-video autoplay path without spinning up the real
+    /// repository or network stack.
+    var relatedVideos: [Video] = []
     private var isFetchingRelated = false
 
     // MARK: - Resume State
@@ -66,10 +77,6 @@ final class VideoPlayerViewModel {
     var upNextCountdownSeconds: Int { repository.settings.upNextCountdownSeconds }
     private var upNextMinimumVideoSeconds: Int { repository.settings.upNextMinimumVideoSeconds }
 
-    var currentVideo: Video {
-        playlist.isEmpty ? video : playlist[currentIndex]
-    }
-
     var nextVideo: Video? {
         if currentIndex + 1 < playlist.count {
             return playlist[currentIndex + 1]
@@ -96,7 +103,9 @@ final class VideoPlayerViewModel {
         self.video = video
         self.playlist = playlist
         self.repository = repository
-        self.currentIndex = playlist.firstIndex(of: video) ?? 0
+        let startIndex = playlist.firstIndex(of: video) ?? 0
+        self.currentIndex = startIndex
+        self.currentVideo = playlist.isEmpty ? video : playlist[startIndex]
         self.startFromBeginning = startFromBeginning
     }
 
@@ -377,6 +386,10 @@ final class VideoPlayerViewModel {
         } else {
             relatedVideos.removeFirst()
         }
+        // Adopt the new video as the current one BEFORE the time observer is
+        // re-added — otherwise the first saveProgress() tick would attribute
+        // the new video's playback time to the previous video's id.
+        currentVideo = video
 
         upNextCancelled = false
         showUpNext = false
@@ -420,6 +433,7 @@ final class VideoPlayerViewModel {
         duration = 0
 
         currentIndex = newIndex
+        currentVideo = video
 
         upNextCancelled = false
         showUpNext = false

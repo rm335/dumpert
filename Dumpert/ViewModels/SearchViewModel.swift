@@ -65,6 +65,11 @@ final class SearchViewModel {
 
         // Check cache first
         if let cached = searchCache[cacheKey], !cached.isExpired {
+            // Reset currentPage to 0 so subsequent loadMore() fetches page 1
+            // rather than picking up where a previous (different or extended)
+            // session left off — otherwise pages between 0 and the stale
+            // currentPage are skipped entirely.
+            currentPage = 0
             results = repository.filteredItems(cached.items)
             filteredResults = filter.apply(to: results)
             hasMore = !cached.items.isEmpty

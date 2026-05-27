@@ -245,4 +245,38 @@ struct SearchViewModelTests {
         #expect(vm.results.count == 1)  // cache hit, not an error
         #expect(vm.error == nil)
     }
+
+    @Test("Cache hit resets currentPage so loadMore restarts pagination at page 1")
+    func cacheHitResetsPaginationCursor() async {
+        // Regression: cache-hit path used to leave `currentPage` at whatever
+        // value the previous session reached. After re-issuing a cached query,
+        // the next loadMore() would skip every page between 0 and the stale
+        // cursor — leaving visible gaps in the results.
+        let mock = MockAPIClient()
+        mock.searchResponse = .items([videoItem("v1")])
+        let vm = makeViewModel(mock: mock)
+        vm.searchQuery = "test"
+
+        await vm.search()
+        #expect(vm.currentPage == 0)
+
+        // Walk pagination forward two pages to push currentPage to 2.
+        mock.searchResponse = .items([videoItem("v2")])
+        await vm.loadMore()
+        mock.searchResponse = .items([videoItem("v3")])
+        await vm.loadMore()
+        #expect(vm.currentPage == 2)
+
+        // Re-issue the same query. Cache hit must reset currentPage to 0 so
+        // the next loadMore() asks the API for page 1, not page 3.
+        mock.searchResponse = .error(URLError(.notConnectedToInternet))
+        await vm.search()
+        #expect(vm.currentPage == 0)
+        #expect(vm.results.count == 1) // page 0 from cache only
+
+        // Confirm the cursor advanced from 0 → 1 on the next loadMore.
+        mock.searchResponse = .items([videoItem("v_page1")])
+        await vm.loadMore()
+        #expect(vm.currentPage == 1)
+    }
 }
